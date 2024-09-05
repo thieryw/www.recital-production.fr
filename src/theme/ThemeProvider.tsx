@@ -1,5 +1,5 @@
 import /*React,*/ { type ReactNode } from "react";
-import { createTheme as createMuiTheme, ThemeProvider as MuiThemeProvider, Palette } from "@mui/material/styles";
+import { createTheme as createMuiTheme, ThemeProvider as MuiThemeProvider/*, Palette */} from "@mui/material/styles";
 //import type { TypographyOptions } from "@mui/material/styles/createTypography";
 
 
