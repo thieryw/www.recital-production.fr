@@ -21,7 +21,8 @@
     "react-youtube": "^10.1.0",
     "tsafe": "^1.7.2",
     "tss-react": "^4.9.13",
-    "type-route": "^1.1.0"
+    "type-route": "^1.1.0",
+    "react-svg": "^16.1.34"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

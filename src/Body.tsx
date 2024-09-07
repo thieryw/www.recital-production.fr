@@ -1,12 +1,18 @@
 import Typography from "@mui/material/Typography";
+import { Header } from "Header"
 
 
 export function Body() {
 
 
 
+
     return (
         <div>
+            <Header
+
+            />
+
             <Typography variant="h1" >
                 Example Title 1
             </Typography>
