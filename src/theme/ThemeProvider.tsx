@@ -74,7 +74,8 @@ const typo: (palette: Palette) => TypographyOptions = (palette) => {
             "fontSize": "clamp(0.9rem, 0.886vw, 1.063rem)",
             "color": palette.body.main,
             "lineHeight": "1em",
-            "letterSpacing": "0.5em"
+            "letterSpacing": "0.05em",
+            "fontWeight": "bold"
 
         }
     })
