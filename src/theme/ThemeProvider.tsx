@@ -31,7 +31,7 @@ const typo: (palette: Palette) => TypographyOptions = (palette) => {
         },
         "h2": {
             "fontFamily": '"orpheuspro", serif',
-            "fontSize": "clamp(2.5rem, 3.333vw, 4rem)",
+            "fontSize": "clamp(3rem, 3.333vw, 4rem)",
             "color": palette.headings.main,
             "lineHeight": "1em",
             "letterSpacing": "-0.01em"
