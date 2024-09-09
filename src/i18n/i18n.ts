@@ -1,7 +1,10 @@
 import { createI18nApi, declareComponentKeys } from "i18nifty";
 import type { ComponentKeyHeader} from "./types";
 import {translation as headerFr} from "./resources/fr/header";
-import {translation as headerEn} from "./resources/en/header";
+import { translation as headerEn } from "./resources/en/header";
+import type { ComponentKeyFooter } from "./types";
+import { translation as footerFr } from "./resources/fr/footer";
+import { translation as footerEn } from "./resources/en/footer";
 export { declareComponentKeys };
 
 
@@ -25,7 +28,8 @@ export const {
 	/** For use outside of React */
 	getTranslation
 } = createI18nApi<
-    ComponentKeyHeader
+	ComponentKeyHeader |
+	ComponentKeyFooter
 
 >()(
 	{
@@ -35,13 +39,15 @@ export const {
 	{
 		/* spell-checker: disable */
 		"fr": {
-            "Header": headerFr.Header
+			"Header": headerFr.Header,
+			"Footer": footerFr.Footer
 
 		},
-        "en": {
-            "Header": headerEn.Header
+		"en": {
+			"Header": headerEn.Header,
+			"Footer": footerEn.Footer
 
-        }
+		}
 		/* spell-checker: enable */
 	}
 );

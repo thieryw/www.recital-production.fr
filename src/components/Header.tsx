@@ -1,4 +1,4 @@
-import { memo, useState, type ReactNode } from "react";
+import { memo, useState, type ReactNode, useEffect, useRef } from "react";
 import { tss } from "tss";
 import { type Link } from "tools/link";
 import Typo from "@mui/material/Typography";
@@ -6,6 +6,7 @@ import { SquareButton } from "./SquareButton";
 import { useLang } from "i18n";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { ReactSVG } from "react-svg";
+import { getScrollableParent } from "powerhooks/getScrollableParent";
 
 
 export type HeaderProps = {
@@ -30,6 +31,7 @@ export const Header = memo((props: HeaderProps) => {
     const { links, logo, mobile, className, isDark, activeLinkLabel } = props;
     const { lang, setLang } = useLang();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const ref = useRef(null);
     const { windowInnerWidth, theme, cx, classes } = useStyles({
         isMobileMenuOpen
 
@@ -52,8 +54,40 @@ export const Header = memo((props: HeaderProps) => {
         setIsMobileMenuOpen(false);
     });
 
+    useEffect(() => {
+        if(ref.current === null){
+            return;
+        }
+
+        const { style } = getScrollableParent({
+            "doReturnElementIfScrollable": true,
+            "element": ref.current
+        })
+
+        if(!isMobileMenuOpen){
+            style.height = "unset";
+            style.overflow = "unset";
+            return;
+        }
+        style.height = "0px";
+        style.overflowY = "hidden"
+
+    }, [isMobileMenuOpen])
+
+    useEffect(()=>{
+        if(windowInnerWidth < theme.breakpoints.values.sm){
+            return;
+        }
+        if(!isMobileMenuOpen){
+            return;
+        }
+
+        setIsMobileMenuOpen(false);
+
+    }, [windowInnerWidth])
+
     return (
-        <header className={cx(classes.root, className)}>
+        <header ref={ref} className={cx(classes.root, className)}>
             {
                 (() => {
                     if (windowInnerWidth >= theme.breakpoints.values.sm) {
@@ -61,7 +95,7 @@ export const Header = memo((props: HeaderProps) => {
                             {logo}
                             <div className={classes.linkWrapper}>
                                 {
-                                    links.map(({ label, href, onClick }) => <Link
+                                    links.map(({ label, href, onClick }) => <RouteLink
                                         variant="desktop"
                                         key={label}
                                         isActive={label === activeLinkLabel}
@@ -106,7 +140,7 @@ export const Header = memo((props: HeaderProps) => {
                                 <div className={classes.content}>
                                     <div className={classes.mobileLinks}>
                                         {
-                                            links.map(({ label, href, onClick }) => <div onClick={handleClick} key={label}><Link
+                                            links.map(({ label, href, onClick }) => <div onClick={handleClick} key={label}><RouteLink
                                                 variant="mobile"
                                                 isActive={label === activeLinkLabel}
                                                 isDark={isDark ?? false}
@@ -122,7 +156,7 @@ export const Header = memo((props: HeaderProps) => {
                                     <div className={classes.social}>
                                         {
                                             mobile.socialLinks !== undefined &&
-                                            mobile.socialLinks.map(({ href, iconUrl }) => <a key={iconUrl} href={href}>
+                                            mobile.socialLinks.map(({ href, iconUrl }) => <a target="_blank" key={iconUrl} href={href}>
                                                 <ReactSVG className={classes.socialIcon} src={iconUrl} />
                                             </a>)
                                         }
@@ -265,9 +299,18 @@ const useStyles = tss
         })
     })
 
-const { Link } = (() => {
-    const Link = memo((props: Omit<Link, "target"> & { isActive: boolean; isDark: boolean; className?: string; variant: "desktop" | "mobile" }) => {
-        const { href, label, onClick, isActive, className, isDark, variant } = props;
+export const { RouteLink } = (() => {
+    const RouteLink = memo((props: Omit<Link, "target"> &
+    {
+        isActive: boolean;
+        isDark: boolean;
+        className?: string;
+        variant: "desktop" | "mobile";
+        typo?: "h2" | "h4"
+
+    }) => {
+        const { href, label, onClick, isActive, className, isDark, variant, typo } = props;
+
         const { classes, cx } = useStyles({
             isActive,
             isDark,
@@ -275,7 +318,7 @@ const { Link } = (() => {
         });
         return (
             <div className={cx(classes.root, className)}>
-                <a className={classes.link} onClick={onClick} href={href}><Typo className={classes.linkText} variant={variant === "desktop" ? "button" : "h2"}>{label}</Typo></a>
+                <a className={classes.link} onClick={onClick} href={href}><Typo className={classes.linkText} variant={variant === "desktop" ? "button" : typo ?? "h2"}>{label}</Typo></a>
                 {
                     variant === "desktop" &&
                     <div className={classes.underline}>
@@ -312,15 +355,15 @@ const { Link } = (() => {
                 },
                 "linkText": {
                     //"color": isActive ? theme.palette.gold1.main : isDark || variant === "mobile" ? "white" : undefined,
-                    "color": (()=>{
-                        if(isActive){
-                            switch(variant){
+                    "color": (() => {
+                        if (isActive) {
+                            switch (variant) {
                                 case "desktop": return isDark ? theme.palette.gold2.main : theme.palette.gold1.main
                                 case "mobile": return theme.palette.gold2.main
                             }
                         }
 
-                        if(variant !== "mobile"){
+                        if (variant !== "mobile") {
                             return undefined;
                         }
                         return "white"
@@ -335,8 +378,10 @@ const { Link } = (() => {
             })
         })
 
-    return { Link }
+    return { RouteLink }
 })()
+
+
 
 
 const { ToggleMenuButton } = (() => {
