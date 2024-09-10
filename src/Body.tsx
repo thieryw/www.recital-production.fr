@@ -1,13 +1,14 @@
 import { Footer } from "Footer";
 import { Header } from "Header"
 import { tss } from "tss";
+import { Home } from "pages/home";
 
 export const bodyId = "bodyId";
 
 export function Body() {
 
 
-    const {classes} = useStyles();
+    const { classes } = useStyles();
 
 
     return (
@@ -15,6 +16,10 @@ export function Body() {
             <Header
 
             />
+            <div>
+                <Home />
+
+            </div>
             <Footer />
 
 
@@ -32,6 +37,7 @@ const useStyles = tss.create(() => {
             "boxSizing": "border-box",
             "display": "flex",
             "flexDirection": "column",
+
         }
     })
 })

@@ -8,6 +8,8 @@ export type ComponentKeyHeader =
 export type ComponentKeyFooter =
     | import("Footer").I18n
 
+export type ComponentKeyHome =
+    | import("pages/home/Home").I18n
 
 export type TranslationHeader<L extends Language> = GenericTranslations<
     ComponentKeyHeader,
@@ -18,6 +20,13 @@ export type TranslationHeader<L extends Language> = GenericTranslations<
 
 export type TranslationFooter<L extends Language> = GenericTranslations<
     ComponentKeyFooter,
+    Language,
+    typeof fallbackLanguage,
+    L
+>
+
+export type TranslationHome<L extends Language> = GenericTranslations<
+    ComponentKeyHome,
     Language,
     typeof fallbackLanguage,
     L

@@ -14,6 +14,7 @@ export function App() {
           "html, body": {
             "margin": "0",
             "padding": "0",
+            "overflowX": "hidden"
           },
           "html": {
             "colorScheme": "light",

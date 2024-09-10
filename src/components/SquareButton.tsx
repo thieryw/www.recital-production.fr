@@ -62,6 +62,7 @@ const useStyles = tss
                 "display": "flex",
                 "justifyContent": "center",
                 "alignItems": "center",
+                "background": "none",
                 ...(() => {
                     const topBottom = 22;
                     const leftRight = 35;

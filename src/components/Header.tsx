@@ -192,7 +192,10 @@ const useStyles = tss
                 "paddingTop": theme.spacing(5),
                 [theme.breakpoints.down("sm")]: {
                     "paddingTop": 0
-                }
+                },
+                "position": "absolute",
+                "zIndex": 2
+
 
             },
             "desktopWrapper": {
@@ -364,7 +367,7 @@ export const { RouteLink } = (() => {
                         }
 
                         if (variant !== "mobile") {
-                            return undefined;
+                            return isDark ? theme.palette.white.main : undefined;
                         }
                         return "white"
                     })(),

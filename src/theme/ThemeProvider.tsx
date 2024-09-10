@@ -135,6 +135,9 @@ const muiTheme = createMuiTheme({
         },
         "heroVideoFilter": {
             "main": "rgba(56,49,30,0.7)"
+        },
+        "white": {
+            "main": "#fffffe"
         }
     }
 
@@ -169,6 +172,7 @@ declare module "@mui/material/styles" {
         headings: Palette['primary'];
         heroVideoFilter: Palette['primary'];
         body: Palette['primary'];
+        white: Palette['primary'];
 
         
 
@@ -187,6 +191,7 @@ declare module "@mui/material/styles" {
         headings: PaletteOptions['primary'];
         heroVideoFilter: PaletteOptions['primary'];
         body: PaletteOptions['primary'];
+        white: PaletteOptions['primary'];
     }
 
 }

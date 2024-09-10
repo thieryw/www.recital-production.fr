@@ -5,6 +5,9 @@ import { translation as headerEn } from "./resources/en/header";
 import type { ComponentKeyFooter } from "./types";
 import { translation as footerFr } from "./resources/fr/footer";
 import { translation as footerEn } from "./resources/en/footer";
+import type { ComponentKeyHome } from "./types";
+import { translation as homeEn } from "./resources/en/home";
+import { translation as homeFr } from "./resources/fr/home";
 export { declareComponentKeys };
 
 
@@ -29,7 +32,8 @@ export const {
 	getTranslation
 } = createI18nApi<
 	ComponentKeyHeader |
-	ComponentKeyFooter
+	ComponentKeyFooter |
+	ComponentKeyHome
 
 >()(
 	{
@@ -40,12 +44,14 @@ export const {
 		/* spell-checker: disable */
 		"fr": {
 			"Header": headerFr.Header,
-			"Footer": footerFr.Footer
+			"Footer": footerFr.Footer,
+			"Home": homeFr.Home
 
 		},
 		"en": {
 			"Header": headerEn.Header,
-			"Footer": footerEn.Footer
+			"Footer": footerEn.Footer,
+			"Home": homeEn.Home
 
 		}
 		/* spell-checker: enable */
