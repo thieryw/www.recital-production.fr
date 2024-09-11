@@ -1,6 +1,8 @@
 import /*React,*/ { type ReactNode } from "react";
 import { createTheme as createMuiTheme, ThemeProvider as MuiThemeProvider, Palette } from "@mui/material/styles";
 import type { TypographyOptions } from "@mui/material/styles/createTypography";
+import defaultShadows from "@mui/material/styles/shadows";
+
 
 function setSpacing(factor: number) {
     const width = window.innerWidth;
@@ -139,7 +141,8 @@ const muiTheme = createMuiTheme({
         "white": {
             "main": "#fffffe"
         }
-    }
+    },
+    "shadows": ["none", "0px 18px 29.8px 0px rgba(36, 37, 45, 0.08)", ...defaultShadows.splice(2)] as typeof defaultShadows
 
 });
 

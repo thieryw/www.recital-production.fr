@@ -2,6 +2,8 @@ import { Footer } from "Footer";
 import { Header } from "Header"
 import { tss } from "tss";
 import { Home } from "pages/home";
+import { useRoute } from "router";
+import { Services } from "pages/services";
 
 export const bodyId = "bodyId";
 
@@ -9,6 +11,7 @@ export function Body() {
 
 
     const { classes } = useStyles();
+    const route = useRoute();
 
 
     return (
@@ -17,8 +20,8 @@ export function Body() {
 
             />
             <div>
-                <Home />
-
+                {route.name === "home" && <Home />}
+                {route.name === "services" && <Services />}
             </div>
             <Footer />
 

@@ -8,6 +8,9 @@ import { translation as footerEn } from "./resources/en/footer";
 import type { ComponentKeyHome } from "./types";
 import { translation as homeEn } from "./resources/en/home";
 import { translation as homeFr } from "./resources/fr/home";
+import type { ComponentKeyServices } from "./types"
+import { translation as servicesEn } from "./resources/en/services";
+import { translation as servicesFr } from "./resources/fr/services";
 export { declareComponentKeys };
 
 
@@ -33,7 +36,8 @@ export const {
 } = createI18nApi<
 	ComponentKeyHeader |
 	ComponentKeyFooter |
-	ComponentKeyHome
+	ComponentKeyHome |
+	ComponentKeyServices
 
 >()(
 	{
@@ -41,19 +45,19 @@ export const {
 		fallbackLanguage
 	},
 	{
-		/* spell-checker: disable */
 		"fr": {
 			"Header": headerFr.Header,
 			"Footer": footerFr.Footer,
-			"Home": homeFr.Home
+			"Home": homeFr.Home,
+			"Services": servicesFr.Services
 
 		},
 		"en": {
 			"Header": headerEn.Header,
 			"Footer": footerEn.Footer,
-			"Home": homeEn.Home
+			"Home": homeEn.Home,
+			"Services": servicesEn.Services
 
 		}
-		/* spell-checker: enable */
 	}
 );
