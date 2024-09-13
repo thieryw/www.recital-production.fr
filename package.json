@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "format-images -a src/assets/jpg -o src/assets/webp -f webp --ov true"
   },
   "dependencies": {
     "@emotion/react": "11.13.3",
@@ -37,6 +38,7 @@
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
     "vite-tsconfig-paths": "5.0.1",
-    "github-pages-plugin-for-type-route": "^2.0.4"
+    "github-pages-plugin-for-type-route": "^2.0.4",
+    "dir-image-converter": "^0.0.17"
   }
 }
