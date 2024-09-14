@@ -7,6 +7,7 @@ import { useLang } from "i18n";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { ReactSVG } from "react-svg";
 import { getScrollableParent } from "powerhooks/getScrollableParent";
+import backgroundSvg from "assets/svg/marble-mobile.svg"
 
 
 export type HeaderProps = {
@@ -38,6 +39,7 @@ export const Header = memo((props: HeaderProps) => {
     });
 
     const toggleLang = useConstCallback(() => {
+        console.log("ok");
         if (lang === "en") {
             setLang("fr");
             return;
@@ -69,7 +71,7 @@ export const Header = memo((props: HeaderProps) => {
             style.overflowY = "unset";
             return;
         }
-        style.height = "0px";
+        style.height = "100vh";
         style.overflowY = "hidden"
 
     }, [isMobileMenuOpen])
@@ -124,12 +126,8 @@ export const Header = memo((props: HeaderProps) => {
                             <div className={classes.mobileTop}>
                                 <div className={classes.mobileLogoWrapper}>
                                     {
-                                        (() => {
-                                            if (isMobileMenuOpen) {
-                                                return mobile.logoOpen;
-                                            }
-                                            return mobile.logoClosed;
-                                        })()
+                                        !isMobileMenuOpen &&
+                                        mobile.logoClosed
                                     }
 
                                 </div>
@@ -138,6 +136,18 @@ export const Header = memo((props: HeaderProps) => {
                             </div>
                             <div className={classes.contentWrapper}>
                                 <div className={classes.content}>
+                                    {
+                                        isMobileMenuOpen &&
+                                        mobile.logoOpen
+                                    }
+                                    <img src={backgroundSvg} alt="Header background svg" className={classes.backgroundSvg} />
+                                    <SquareButton
+                                        variant={isDark ? "gold" : "gold"}
+                                        label={lang === "fr" ? "FR" : "EN"}
+                                        onClick={toggleLang}
+                                        className={classes.mobileLanguageButton}
+                                    />
+
                                     <div className={classes.mobileLinks}>
                                         {
                                             links.map(({ label, href, onClick }) => <div onClick={handleClick} key={label}><RouteLink
@@ -237,20 +247,25 @@ const useStyles = tss
             },
             "mobileWrapper": {
                 "width": "100%",
-                "position": "relative"
+                "position": "relative",
             },
             "mobileTop": {
-                "position": "relative",
+                "position": "absolute",
+                "top": 0,
+                "left": 0,
+                "width": "100%",
                 "display": "flex",
                 "justifyContent": "space-between",
                 "alignItems": "center",
                 "paddingLeft": theme.spacing(6),
                 "paddingRight": theme.spacing(6),
                 "paddingTop": theme.spacing(3),
+                "boxSizing": "border-box",
+                "height": 106
             },
             "mobileLogoWrapper": {
                 "position": "relative",
-                "zIndex": isMobileMenuOpen ? 2 : 0
+                "zIndex": isMobileMenuOpen ? 4001 : 0
 
             },
             "contentWrapper": {
@@ -263,18 +278,36 @@ const useStyles = tss
                 "left": 0,
                 "overflow": "auto",
                 "transition": "height 500ms",
+                "zIndex": 4
 
             },
             "content": {
                 "position": "relative",
                 "width": "100%",
-                "backgroundColor": "black",
+                "background": theme.palette.cardDark.main,
                 "minHeight": "100%",
-                "paddingTop": 120,
+                //"paddingTop": 120,
                 "boxSizing": "border-box",
                 "paddingLeft": theme.spacing(8),
                 "paddingRight": theme.spacing(8),
                 "zIndex": 1,
+                "paddingBottom": theme.spacing(8),
+                "overflow": "hidden",
+                "paddingTop": theme.spacing(3)
+
+            },
+            "backgroundSvg": {
+                "position": "absolute",
+                "top": 0,
+                "left": 0,
+                "width": "100%"
+
+            },
+            "mobileLanguageButton": {
+                "position": "relative",
+                "marginBottom": theme.spacing(6),
+                "marginTop": theme.spacing(2)
+
 
             },
             "bottomBorder": {

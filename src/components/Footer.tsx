@@ -4,6 +4,7 @@ import type { Link } from "tools/link";
 import { ReactSVG } from "react-svg";
 import { RouteLink } from "./Header";
 import Typo from "@mui/material/Typography";
+import backgroundSvg from "assets/svg/marble-long-2.svg";
 
 export type FooterProps = {
     className?: string;
@@ -24,6 +25,7 @@ export const Footer = memo((props: FooterProps) => {
     const { classes, cx, windowInnerWidth, theme } = useStyles();
     return (
         <footer className={cx(classes.root, className)}>
+            <img className={classes.backgroundSvg} src={backgroundSvg} alt="Footer background svg" />
             {
                 windowInnerWidth >= theme.breakpoints.values.sm &&
                 <div className={classes.desktopSocial}>
@@ -104,7 +106,7 @@ export const Footer = memo((props: FooterProps) => {
 const useStyles = tss.withName("Footer").create(({ theme }) => {
     return ({
         "root": {
-            "backgroundColor": "black",
+            "background": theme.palette.footerDark.main,
             "position": "relative",
             "display": "flex",
             "justifyContent": "center",
@@ -124,6 +126,13 @@ const useStyles = tss.withName("Footer").create(({ theme }) => {
                 "paddingTop": 0,
                 "paddingBottom": theme.spacing(15)
             }
+        },
+        "backgroundSvg": {
+            "position": "absolute",
+            "top": 0,
+            "left": 0,
+            "width": "100%"
+
         },
         "desktopSocial": {
             "marginRight": theme.spacing(16)
