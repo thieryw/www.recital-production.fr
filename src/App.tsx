@@ -14,7 +14,9 @@ export function App() {
           "html, body": {
             "margin": "0",
             "padding": "0",
-            "overflowX": "hidden"
+            "overflowX": "hidden",
+            "boxSizing": "border-box",
+            "position": "relative"
           },
           "html": {
             "colorScheme": "light",

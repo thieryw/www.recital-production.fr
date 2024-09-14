@@ -16,9 +16,7 @@ export function Body() {
 
     return (
         <div id={bodyId} className={classes.root}>
-            <Header
-
-            />
+            <Header />
             <div>
                 {route.name === "home" && <Home />}
                 {route.name === "services" && <Services />}
@@ -34,10 +32,7 @@ export function Body() {
 const useStyles = tss.create(() => {
     return ({
         "root": {
-            "width": "100vw",
             "minHeight": "100vh",
-            "maxWidth": "100vw",
-            "boxSizing": "border-box",
             "display": "flex",
             "flexDirection": "column",
 

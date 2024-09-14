@@ -66,7 +66,7 @@ export const Header = memo((props: HeaderProps) => {
 
         if(!isMobileMenuOpen){
             style.height = "unset";
-            style.overflow = "unset";
+            style.overflowY = "unset";
             return;
         }
         style.height = "0px";
