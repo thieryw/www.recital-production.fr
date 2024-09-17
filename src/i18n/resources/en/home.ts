@@ -9,7 +9,11 @@ export const translation: TranslationHome<"en"> = {
         "servicesSurtitle": "Services",
         "servicesTitle": "Individuals, Municipalities, Businesses",
         "servicesParagraph": "We have the offer that suits you! High-quality music, flexibility, and tailored support: trusting us is the promise of a unique event.",
-        "servicesButtonLabel": "Discover"
+        "servicesButtonLabel": "Discover",
+        "qualityTitle1": "Musical Quality",
+        "qualityTitle2": "& Flexibility",
+        "qualityParagraph": "Recital Production guarantees you a high-quality, turnkey musical performance and offers you a very wide repertoire, ranging from classical music to your favorite pop songs.",
+        "qualityButtonLabel": "MORE"
 
     }
 }

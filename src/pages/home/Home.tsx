@@ -2,6 +2,7 @@ import { memo } from "react";
 import { declareComponentKeys } from "i18n";
 import { Hero } from "./Hero";
 import { Services } from "./Services";
+import { Quality } from "./Quality";
 
 
 export const Home = memo(() => {
@@ -9,6 +10,7 @@ export const Home = memo(() => {
         <div>
             <Hero />
             <Services />
+            <Quality />
         </div>
     )
 })
@@ -22,6 +24,10 @@ export const { i18n } = declareComponentKeys<
     | "servicesTitle"
     | "servicesParagraph"
     | "servicesButtonLabel"
+    | "qualityTitle1"
+    | "qualityTitle2"
+    | "qualityParagraph"
+    | "qualityButtonLabel"
 >()({ Home });
 
 export type I18n = typeof i18n;

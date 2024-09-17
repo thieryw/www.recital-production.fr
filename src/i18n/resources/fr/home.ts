@@ -9,6 +9,10 @@ export const translation: TranslationHome<"fr"> = {
         "servicesSurtitle": "Prestations",
         "servicesTitle": "Particuliers, Communes, Entreprises",
         "servicesParagraph": "Nous avons l’offre qui vous correspond ! Haute qualité musicale, flexibilité et accompagnement sur mesure : nous faire confiance, c’est la promesse d’un événement unique.",
-        "servicesButtonLabel": "Découvrir"
+        "servicesButtonLabel": "Découvrir",
+        "qualityTitle1": "Qualité Musicale",
+        "qualityTitle2": "& Flexibilté",
+        "qualityParagraph": "Recital Production vous garantit une prestation musicale clé en main de haute qualité, et met à votre disposition un très large répertoire, de la grande musique à vos morceaux pop favoris.",
+        "qualityButtonLabel": "PLUS"
     }
 }

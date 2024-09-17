@@ -24,10 +24,8 @@ export const Services = memo(() => {
     const { classes } = useStyles();
 
     return <section className={classes.root}>
-        <div className={classes.background}>
-            <img className={classes.backgroundPng} src={backgroundPng} alt="services background" />
+        <img className={classes.backgroundPng} src={backgroundPng} alt="services background" />
 
-        </div>
         <div className={classes.contentWrapper}>
             <SmallTitle className={classes.surtitle} description={t("servicesSurtitle")} />
             <Typo className={classes.title} variant="h2">{t("servicesTitle")}</Typo>
@@ -76,7 +74,7 @@ const useStyles = tss.create(({ theme }) => {
             },
             "marginBottom": theme.spacing(15),
             [theme.breakpoints.down("sm")]: {
-                ...(()=>{
+                ...(() => {
                     const value = theme.spacing(5);
                     return {
                         "paddingLeft": value,
@@ -91,17 +89,11 @@ const useStyles = tss.create(({ theme }) => {
         },
         "paragraph": {},
         "animatedBanner": {},
-        "background": {
-            "position": "absolute",
-            "width": "100%",
-            "height": "100%",
-            "top": 0,
-            "left": 0,
-        },
         "backgroundPng": {
-            "objectFit": "cover",
             "width": "100%",
-            "height": "100%",
+            "position": "absolute",
+            "bottom": 0,
+            "left": 0
 
         }
     })

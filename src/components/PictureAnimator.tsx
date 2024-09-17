@@ -71,7 +71,7 @@ const useStyles = tss.withParams<
         "root": {
             "position": "relative",
 
-            width,
+            "minWidth": width,
             height,
             borderRadius,
             "overflow": "hidden",
