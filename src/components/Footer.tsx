@@ -5,6 +5,7 @@ import { ReactSVG } from "react-svg";
 import { RouteLink } from "./Header";
 import Typo from "@mui/material/Typography";
 import backgroundSvg from "assets/svg/marble-long-2.svg";
+import backgroundSmallSvg from "assets/svg/marble-mobile.svg";
 
 export type FooterProps = {
     className?: string;
@@ -25,7 +26,7 @@ export const Footer = memo((props: FooterProps) => {
     const { classes, cx, windowInnerWidth, theme } = useStyles();
     return (
         <footer className={cx(classes.root, className)}>
-            <img className={classes.backgroundSvg} src={backgroundSvg} alt="Footer background svg" />
+            <img className={classes.backgroundSvg} src={windowInnerWidth < theme.breakpoints.values.sm ? backgroundSmallSvg : backgroundSvg} alt="Footer background svg" />
             {
                 windowInnerWidth >= theme.breakpoints.values.sm &&
                 <div className={classes.desktopSocial}>
