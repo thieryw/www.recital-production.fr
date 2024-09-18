@@ -118,12 +118,13 @@ const useStyles = tss.create(({ theme }) => {
         "root": {
             "display": "flex",
             "flexDirection": "column",
-            "alignItems": "center"
+            "alignItems": "center",
+            "marginBottom": theme.spacing(30)
         },
         "viewport": {
             "userSelect": "none",
             "overflow": "hidden",
-            "width": (360 * 3) + 80,
+            "width": (360 * 4) + 80,
             "maxWidth": "100vw",
             "height": 360 * 1.5,
             "position": "relative"
