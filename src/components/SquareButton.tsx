@@ -79,7 +79,7 @@ const useStyles = tss
                     "background": (()=>{
                         switch(variant){
                             case "darkGold": return "#F4F1EB";
-                            case "gold": return "red";
+                            case "gold": return "none";
                             case "grey": "#F4F1EB"
                         }
                     })(),
