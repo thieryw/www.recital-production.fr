@@ -13,7 +13,12 @@ export const translation: TranslationHome<"en"> = {
         "qualityTitle1": "Musical Quality",
         "qualityTitle2": "& Flexibility",
         "qualityParagraph": "Recital Production guarantees you a high-quality, turnkey musical performance and offers you a very wide repertoire, ranging from classical music to your favorite pop songs.",
-        "qualityButtonLabel": "MORE"
+        "qualityButtonLabel": "MORE",
+        "slide1": "Classical & Pop Repertoire",
+        "slide2": "By the Best Regional Talents",
+        "slide3": "Complete Support",
+        "slide4": "For All Types of Events",
+        "slide5": "In Gironde and Nouvelle-Aquitaine"
 
     }
 }

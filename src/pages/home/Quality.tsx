@@ -10,7 +10,7 @@ import qualityWebp from "assets/webp/home/qualite.webp";
 import { routes } from "router";
 
 export const Quality = memo(() => {
-    const { classes, cx, theme, windowInnerWidth } = useStyles();
+    const { classes, cx, theme } = useStyles();
     const { t } = useTranslation("Home");
     return (
         <section className={classes.root}>

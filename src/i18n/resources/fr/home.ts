@@ -13,6 +13,11 @@ export const translation: TranslationHome<"fr"> = {
         "qualityTitle1": "Qualité Musicale",
         "qualityTitle2": "& Flexibilté",
         "qualityParagraph": "Recital Production vous garantit une prestation musicale clé en main de haute qualité, et met à votre disposition un très large répertoire, de la grande musique à vos morceaux pop favoris.",
-        "qualityButtonLabel": "PLUS"
+        "qualityButtonLabel": "PLUS",
+        "slide1": "Répertoire classique & pop",
+        "slide2": "Par les meilleurs talents régionaux",
+        "slide3": "Accompagnement complet",
+        "slide4": "Tout type d’évènement",
+        "slide5": "En Gironde et Nouvelle-Aquitaine",
     }
 }

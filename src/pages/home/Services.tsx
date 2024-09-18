@@ -61,6 +61,7 @@ const useStyles = tss.create(({ theme }) => {
             "paddingBottom": theme.spacing(15),
             "paddingTop": theme.spacing(15),
             "position": "relative",
+            "overflow": "hidden"
 
         },
         "contentWrapper": {
@@ -93,7 +94,7 @@ const useStyles = tss.create(({ theme }) => {
             "width": "100%",
             "position": "absolute",
             "bottom": 0,
-            "left": 0
+            "left": 0,
 
         }
     })

@@ -26,7 +26,7 @@ export const SquareButton = memo((props: SquareButtonProps) => {
                     if(typeof label === "string"){
                         return <Typo className={classes.label} variant="button">{label}</Typo>
                     }
-                    return <div className={classes.labelWrapper}>label</div>
+                    return <div className={classes.label}>{label}</div>
                 })()
             }
         </button>
@@ -42,7 +42,7 @@ const useStyles = tss
             switch (variant) {
                 case "darkGold": return theme.palette.gold1.main;
                 case "gold": return theme.palette.gold2.main;
-                case "grey": return theme.palette.body.main;
+                case "grey": return theme.palette.icon.main;
             }
 
         })()
@@ -58,7 +58,6 @@ const useStyles = tss
         return ({
             "root": {
                 "border": `solid 1px ${color}`,
-                "backgroundColor": "#F4F1EB",
                 "display": "flex",
                 "justifyContent": "center",
                 "alignItems": "center",
@@ -77,19 +76,31 @@ const useStyles = tss
                 "transition": "border-color 500ms, background-color 500ms",
                 ":hover": {
                     "borderColor": hoverColor,
-                    "backgroundColor": theme.palette.body.main,
+                    "background": (()=>{
+                        switch(variant){
+                            case "darkGold": return "#F4F1EB";
+                            case "gold": return "red";
+                            case "grey": "#F4F1EB"
+                        }
+                    })(),
                 },
                 [`&:hover .${classes.label}`]: {
-                    "color": hoverColor
+                    "color": hoverColor,
+                    "& svg": {
+                        "fill": hoverColor
+                    }
                 }
             },
             "label": {
                 color,
-                "transition": "color 500ms"
+                "transition": "color 500ms",
+                "& svg": {
+                    "fill": color,
+                    "width": 15,
+                    "height": 15,
+                    "transition": "fill 500ms"
+                }
             },
-            "labelWrapper": {
-
-            }
 
         })
     })
