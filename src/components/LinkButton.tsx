@@ -12,6 +12,7 @@ export type LinkButtonProps = Link & {
     classes?: Partial<ReturnType<typeof useStyles>["classes"]>;
     variant?: "dark" | "light";
     openInNewTab?: boolean;
+    target?: string;
 }
 
 
@@ -19,14 +20,14 @@ export type LinkButtonProps = Link & {
 
 
 export const LinkButton = memo((props: LinkButtonProps) => {
-    const { href, label, onClick, className, variant, openInNewTab = false } = props;
+    const { href, label, onClick, className, variant, openInNewTab = false, target } = props;
     const { ref, domRect: { height } } = useDomRect();
     const { classes, cx } = useStyles({
         "variant": variant ?? "light",
         "textHeight": height,
         "classesOverrides": props.classes
     });
-    return <a className={cx(classes.root, className)} onClick={onClick} href={href} {...openInNewTab ? { "target": "_blank" } : {}}>
+    return <a className={cx(classes.root, className)} onClick={onClick} href={href} target={openInNewTab ? "_blank": target}>
         <div className={classes.inner}>
 
             <div className={classes.textWrapper}>
