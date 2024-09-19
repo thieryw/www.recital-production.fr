@@ -6,6 +6,7 @@ import { Quality } from "./Quality";
 import { ServiceSlider } from "./ServiceSlider";
 import { Media } from "./Media";
 import { Reviews } from "./Reviews";
+import { Insta } from "./Insta";
 
 
 export const Home = memo(() => {
@@ -17,6 +18,7 @@ export const Home = memo(() => {
             <ServiceSlider />
             <Media />
             <Reviews />
+            <Insta />
         </div>
     )
 })
@@ -46,6 +48,9 @@ export const { i18n } = declareComponentKeys<
     | "reviewsTitle"
     | "reviewsParagraph"
     | "reviewsLinkLabel"
+    | "instaSurtitle"
+    | "instaTitle"
+    | "instaButtonLabel"
 >()({ Home });
 
 export type I18n = typeof i18n;

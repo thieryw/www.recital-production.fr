@@ -25,7 +25,10 @@ export const translation: TranslationHome<"en"> = {
         "reviewsSurtitle": "Testimonial",
         "reviewsTitle": "They will tell you",
         "reviewsParagraph": "Your experience will also be unique and unforgettable. Trust us.",
-        "reviewsLinkLabel": "Contact"
+        "reviewsLinkLabel": "Contact",
+        "instaSurtitle": "News",
+        "instaTitle": "Follow us on Instagram",
+        "instaButtonLabel": "Follow us"
 
     }
 }
