@@ -21,7 +21,11 @@ export const translation: TranslationHome<"en"> = {
         "slide5": "In Gironde and Nouvelle-Aquitaine",
         "mediaSurtitle": "medias",
         "mediaTitle": "IMAGES",
-        "mediaButtonLabel": "DISCOVER"
+        "mediaButtonLabel": "DISCOVER",
+        "reviewsSurtitle": "Testimonial",
+        "reviewsTitle": "They will tell you",
+        "reviewsParagraph": "Your experience will also be unique and unforgettable. Trust us.",
+        "reviewsLinkLabel": "Contact"
 
     }
 }

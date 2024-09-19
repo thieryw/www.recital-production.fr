@@ -5,6 +5,7 @@ import { Services } from "./Services";
 import { Quality } from "./Quality";
 import { ServiceSlider } from "./ServiceSlider";
 import { Media } from "./Media";
+import { Reviews } from "./Reviews";
 
 
 export const Home = memo(() => {
@@ -15,6 +16,7 @@ export const Home = memo(() => {
             <Quality />
             <ServiceSlider />
             <Media />
+            <Reviews />
         </div>
     )
 })
@@ -40,6 +42,10 @@ export const { i18n } = declareComponentKeys<
     | "mediaSurtitle"
     | "mediaTitle"
     | "mediaButtonLabel"
+    | "reviewsSurtitle"
+    | "reviewsTitle"
+    | "reviewsParagraph"
+    | "reviewsLinkLabel"
 >()({ Home });
 
 export type I18n = typeof i18n;

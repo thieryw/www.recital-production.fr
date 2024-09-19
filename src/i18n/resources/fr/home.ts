@@ -21,6 +21,10 @@ export const translation: TranslationHome<"fr"> = {
         "slide5": "En Gironde et Nouvelle-Aquitaine",
         "mediaSurtitle": "Medias",
         "mediaTitle": "EN IMAGES",
-        "mediaButtonLabel": "DECOUVRIR"
+        "mediaButtonLabel": "DECOUVRIR",
+        "reviewsSurtitle": "Témoignages",
+        "reviewsTitle": "Ils vous racontent",
+        "reviewsParagraph": "Vous aussi, votre expérience sera unique et inoubliable. Faites-nous confiance.",
+        "reviewsLinkLabel": "contact"
     }
 }
