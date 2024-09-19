@@ -4,6 +4,7 @@ import { Hero } from "./Hero";
 import { Services } from "./Services";
 import { Quality } from "./Quality";
 import { ServiceSlider } from "./ServiceSlider";
+import { Media } from "./Media";
 
 
 export const Home = memo(() => {
@@ -13,6 +14,7 @@ export const Home = memo(() => {
             <Services />
             <Quality />
             <ServiceSlider />
+            <Media />
         </div>
     )
 })
@@ -35,6 +37,9 @@ export const { i18n } = declareComponentKeys<
     | "slide3"
     | "slide4"
     | "slide5"
+    | "mediaSurtitle"
+    | "mediaTitle"
+    | "mediaButtonLabel"
 >()({ Home });
 
 export type I18n = typeof i18n;

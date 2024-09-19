@@ -18,7 +18,10 @@ export const translation: TranslationHome<"en"> = {
         "slide2": "By the Best Regional Talents",
         "slide3": "Complete Support",
         "slide4": "For All Types of Events",
-        "slide5": "In Gironde and Nouvelle-Aquitaine"
+        "slide5": "In Gironde and Nouvelle-Aquitaine",
+        "mediaSurtitle": "medias",
+        "mediaTitle": "IMAGES",
+        "mediaButtonLabel": "DISCOVER"
 
     }
 }

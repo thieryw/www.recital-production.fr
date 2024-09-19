@@ -19,5 +19,8 @@ export const translation: TranslationHome<"fr"> = {
         "slide3": "Accompagnement complet",
         "slide4": "Tout type d’évènement",
         "slide5": "En Gironde et Nouvelle-Aquitaine",
+        "mediaSurtitle": "Medias",
+        "mediaTitle": "EN IMAGES",
+        "mediaButtonLabel": "DECOUVRIR"
     }
 }
