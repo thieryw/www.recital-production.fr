@@ -2,6 +2,21 @@ import type { TranslationServices } from "../../types";
 
 export const translation: TranslationServices<"fr"> = {
     "Services": {
+        "heroTitle": "PRESTATIONS",
+        "heroParagraph": "Pour tout type de cérémonie/évènements, Récital Production est la référence musicale en Nouvelle-Aquitaine. Haute qualité musicale, flexibilité et accompagnement sur mesure : nous faire confiance, c’est la promesse d’un événement unique.",
+        "heroCardTitle1": "PARTICULIERS",
+        "heroCardTitle2": "COMMUNES",
+        "heroCardTitle3": "ENTREPRISES",
+        "contact": "Contact",
+        "qualityTitle": "Qualité Musicale",
+        "qualityParagraph": "Recital Production vous garantit une prestation musicale clé en main de haute qualité, et met à votre disposition un très large répertoire, de la grande musique à vos morceaux pop favoris.",
+        "qualityCardTitle1": "Répertoire classique & pop",
+        "qualityCardParagraph1": "Un très large répertoire à votre disposition, allant de la musique classique aux plus grands tubes. Avec en prime : choix de vos morceaux favoris !",
+        "qualityCardTitle2": "Par les meilleurs talents régionaux",
+        "qualityCardParagraph2": "Sélectionnés pour vous : des artistes professionnels, passionnés et expérimentés, issus des conservatoires les plus prestigieux.",
+        "qualityCardTitle3": "Accompagnement complet",
+        "qualityCardParagraph3": "Depuis la planification jusqu'à la prestation live, vous bénéficierez d’un accompagnement complet 100% sur mesure tout au long du processus.",
+        "qualityButtonLabel": "Catalogue",
         "faqSectionTitle": "Questions fréquentes",
         "faq1": "Puis-je choisir une musique ?",
         "response1": "Oui ! Les musiciens peuvent jouer votre musique préférée, il suffit de nous transmettre votre liste de souhait.",

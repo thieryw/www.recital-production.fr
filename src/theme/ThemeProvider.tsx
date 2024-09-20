@@ -26,7 +26,7 @@ const typo: (palette: Palette) => TypographyOptions = (palette) => {
     return ({
         "h1": {
             "fontFamily": '"orpheuspro", serif',
-            "fontSize": "clamp(4.5rem, 6.667vw, 8rem)",
+            "fontSize": "clamp(3.5rem, 6.667vw, 8rem)",
             "color": palette.headings.main,
             "lineHeight": "1em"
 

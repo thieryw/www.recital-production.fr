@@ -90,7 +90,7 @@ const useStyles = tss
                 "minHeight": height,
                 "transform": isSelected ? "scale(1.2)" : "scale(1)",
                 "transition": "transform 500ms, background-color 500ms, box-shadow 500ms",
-                "maxWidth": "80vw",
+                //"maxWidth": "80vw",
             },
             "border": {
                 "position": "absolute",
@@ -121,7 +121,11 @@ const useStyles = tss
                     "fill": isSelected ? theme.palette.gold1.main : theme.palette.body.main,
                 }
             },
-            "textWrapper": {},
+            "textWrapper": {
+                "display": "grid",
+                "gridTemplateColumns": "1fr",
+                "gap": theme.spacing(4)
+            },
             "title": {
                 "textAlign": variant === "vertical" ? "center" : undefined
             },

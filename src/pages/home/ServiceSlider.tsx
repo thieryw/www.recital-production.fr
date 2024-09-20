@@ -83,6 +83,7 @@ export const ServiceSlider = memo(() => {
                                 width={360}
                                 height={360}
                                 isSelected={index === currentSlide}
+                                className={classes.card}
 
 
                             />
@@ -137,6 +138,10 @@ const useStyles = tss.create(({ theme }) => {
             "gap": theme.spacing(4),
             "paddingLeft": theme.spacing(4),
             "paddingRight": theme.spacing(4)
+        },
+        "card": {
+            "maxWidth": "80vw"
+
         },
         "arrowLeft": {
             "transform": "rotate(-90deg)"
