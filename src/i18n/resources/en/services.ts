@@ -26,5 +26,13 @@ export const translation: TranslationServices<"en"> = {
         "response3": "Let us know the date and place of your event as well as any particular requirements you may have, and we will make you the most suitable offer.",
         "faq4": "Where do we play?",
         "response4": "South western France, including  Bordeaux, Gironde…",
+        "flexibilityTitle": "Flexibility",
+        "flexibilityParagraph": "Whether you want a piano-cello duo for an intimate atmosphere or an instrumental ensemble for a more solemn mood, we will accompany you throughout your unique day.",
+        "flexibilityCardTitle1": "All Types of Events",
+        "flexibilityCardParagraph1": "Cultural programs, cocktail parties, weddings, ceremonies, receptions, galas, liturgies, etc. We have the right offer for you.",
+        "flexibilityCardTitle2": "In Gironde and Nouvelle-Aquitaine",
+        "flexibilityCardParagraph2": "Because top-quality service should be accessible everywhere, we cover the entire Nouvelle-Aquitaine region.",
+        "flexibilityCardTitle3": "Custom Ensemble",
+        "flexibilityCardParagraph3": "From solo to ensemble, from singing to classical dance, we offer a variety of performances to meet all your needs.",
     }
 }

@@ -26,5 +26,13 @@ export const translation: TranslationServices<"fr"> = {
         "response3": "Nous communiquer la date et le lieu de votre événement ainsi que vos souhaits particuliers, nous nous occupons de vous faire l'offre la plus adaptée.",
         "faq4": "Où pouvez-vous intervenir ?",
         "response4": "Bordeaux, Gironde, Sud Ouest.",
+        "flexibilityTitle": "Flexibilité",
+        "flexibilityParagraph": "Que vous souhaitiez un duo piano-violoncelle pour une ambiance intimiste, un ensemble instrumental pour une atmosphère plus solennelle, nous vous accompagnons tout au long de votre journée unique.",
+        "flexibilityCardTitle1": "Tout type d’évènement",
+        "flexibilityCardParagraph1": "Programmation culturelle, Cocktail, Mariage, Cérémonie, Vin d'honneur, Gala, Liturgie etc. Nous avons l’offre qu’il vous faut.",
+        "flexibilityCardTitle2": "En Gironde et Nouvelle-Aquitaine",
+        "flexibilityCardParagraph2": "Parce qu’un service de qualité supérieure se doit d’être accessible partout, nous couvrons toute la région Nouvelle-Aquitaine.",
+        "flexibilityCardTitle3": "Ensemble à la carte",
+        "flexibilityCardParagraph3": "Du solo à l’ensemble, du chant à la danse classique, nous offrons une variété de prestations pour satisfaire toutes les demandes.",
     }
 }

@@ -11,8 +11,8 @@ export type CardProps = {
     title?: string;
     paragraph?: string;
     variant?: "horizontal" | "vertical";
-    width: number;
-    height: number;
+    width?: number;
+    height?: number;
     isSelected?: boolean;
 }
 
@@ -59,42 +59,46 @@ const useStyles = tss
     .withName("card")
     .withParams<{ 
         variant: "horizontal" | "vertical"; 
-        width: number; 
-        height: number; 
+        width: number| undefined; 
+        height: number | undefined; 
         isSelected: boolean;
     }>()
     .create(({ theme, variant, height, width, isSelected }) => {
     return ({
         "root": {
                 "position": "relative",
-                "backgroundColor": isSelected ? theme.palette.white.main : theme.palette.elementBackground.main,
-                "boxShadow": !isSelected ? "none" : theme.shadows[1],
-                "border": isSelected ? "none" : "solid 1px",
-                "borderColor": theme.palette.icon.main,
-                "display": "grid",
                 "boxSizing": "border-box",
+                "width": width,
+                "minHeight": height,
                 ...(() => {
                     switch (variant) {
-                        case "horizontal": return {};
+                        case "horizontal": return {
+                            "display": "flex",
+                            "paddingRight": theme.spacing(4)
+                        };
                         case "vertical": return {
                             "gridTemplateColumns": "1fr",
                             "justifyItems": "center",
                             "alignContent": "center",
                             "gap": 25,
                             "paddingLeft": theme.spacing(5),
-                            "paddingRight": theme.spacing(5)
+                            "paddingRight": theme.spacing(5),
+                            "backgroundColor": isSelected ? theme.palette.white.main : theme.palette.elementBackground.main,
+                            "boxShadow": !isSelected ? "none" : theme.shadows[1],
+                            "border": isSelected ? "none" : "solid 1px",
+                            "borderColor": theme.palette.icon.main,
+                            "display": "grid",
+                            "transform": isSelected ? "scale(1.2)" : "scale(1)",
+                            "transition": "transform 500ms, background-color 500ms, box-shadow 500ms",
                         }
                     }
                 })(),
-                "width": width,
-                "minHeight": height,
-                "transform": isSelected ? "scale(1.2)" : "scale(1)",
-                "transition": "transform 500ms, background-color 500ms, box-shadow 500ms",
-                //"maxWidth": "80vw",
             },
             "border": {
                 "position": "absolute",
                 "background": theme.palette.goldGradient.main,
+                "transition": "opacity 500ms",
+                "opacity": isSelected ? 1 : 0,
                 ...(() => {
                     switch (variant) {
                         case "horizontal": return {
@@ -116,7 +120,9 @@ const useStyles = tss
                 })(),
             },
             "logo": {
+                "marginRight": variant === "horizontal" ? theme.spacing(6) : undefined,
                 "& svg": {
+                    "width": 65,
                     "transition": "fill 500ms",
                     "fill": isSelected ? theme.palette.gold1.main : theme.palette.body.main,
                 }
