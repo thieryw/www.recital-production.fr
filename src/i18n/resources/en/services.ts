@@ -34,5 +34,9 @@ export const translation: TranslationServices<"en"> = {
         "flexibilityCardParagraph2": "Because top-quality service should be accessible everywhere, we cover the entire Nouvelle-Aquitaine region.",
         "flexibilityCardTitle3": "Custom Ensemble",
         "flexibilityCardParagraph3": "From solo to ensemble, from singing to classical dance, we offer a variety of performances to meet all your needs.",
+        "exampleSectionTitle": "Example",
+        "exampleSurtitle": "Best-seller",
+        "exampleTitle": "Quartet for Cocktail",
+        "exampleParagraph": "Our string quartet is the perfect choice to bring a touch of distinction to your cocktail event. With unmatched instrumental mastery, these virtuosos are capable of transcending genres and eras. A moment of pure musical magic.",
     }
 }

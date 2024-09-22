@@ -34,5 +34,9 @@ export const translation: TranslationServices<"fr"> = {
         "flexibilityCardParagraph2": "Parce qu’un service de qualité supérieure se doit d’être accessible partout, nous couvrons toute la région Nouvelle-Aquitaine.",
         "flexibilityCardTitle3": "Ensemble à la carte",
         "flexibilityCardParagraph3": "Du solo à l’ensemble, du chant à la danse classique, nous offrons une variété de prestations pour satisfaire toutes les demandes.",
+        "exampleSectionTitle": "Exemple",
+        "exampleSurtitle": "Best-seller",
+        "exampleTitle": "Cocktail en Quatuor",
+        "exampleParagraph": "Notre quatuor à cordes est le choix par excellence pour apporter une touche de distinction à votre cocktail. Avec une maîtrise instrumentale incomparable, ces virtuoses sont capables de transcender les genres et les époques. Un moment de pure magie musicale."
     }
 }

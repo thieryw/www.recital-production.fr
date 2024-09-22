@@ -13,10 +13,11 @@ export type PictureAnimatorProps = {
     width: number;
     height: number;
     borderRadius: string;
+    rgbaFilter?: string;
 }
 
 export const PictureAnimator = memo((props: PictureAnimatorProps) => {
-    const { className, src, sources, alt, animationDelay = 0, width, height, borderRadius } = props;
+    const { className, src, sources, alt, animationDelay = 0, width, height, borderRadius, rgbaFilter } = props;
     const [ref, inView] = useInView({ "triggerOnce": true, "threshold": 0.4 })
     const [isImageVisible, setIsImageVisible] = useState(inView);
 
@@ -34,7 +35,8 @@ export const PictureAnimator = memo((props: PictureAnimatorProps) => {
         animationDelay,
         width,
         height,
-        borderRadius
+        borderRadius,
+        rgbaFilter
     });
 
     return <div ref={ref} className={cx(classes.root, className)}>
@@ -49,6 +51,9 @@ export const PictureAnimator = memo((props: PictureAnimatorProps) => {
             </picture>
 
         </div>
+        <div className={classes.background}>
+
+        </div>
     </div>
 
 })
@@ -60,8 +65,9 @@ const useStyles = tss.withParams<
         width: number;
         height: number;
         borderRadius: string;
+        rgbaFilter: string | undefined;
     }
->().create(({ inView, animationDelay, borderRadius, height: _height, width: _width, windowInnerWidth, theme }) => {
+>().create(({rgbaFilter, inView, animationDelay, borderRadius, height: _height, width: _width, windowInnerWidth, theme }) => {
 
     const width = windowInnerWidth < theme.breakpoints.values.sm ? "100vw" : _width;
     const height = windowInnerWidth < theme.breakpoints.values.sm ? `${_height / (_width / 100)}vw` : _height;
@@ -96,6 +102,15 @@ const useStyles = tss.withParams<
             "transitionDelay": `${animationDelay}ms`,
             "overflow": "hidden",
             height
+        },
+        "background": {
+            "position": "absolute",
+            "top": 0,
+            "left": 0,
+            height,
+            "width": inView ? width : 0,
+            "transition": "width 1000ms",
+            "backgroundColor": rgbaFilter
         },
         "image": {
             "transform": `scale(${inView ? 1 : 1.2})`,
