@@ -117,6 +117,7 @@ export const Quality = memo(() => {
                         }}
                         onMouseEnter={handleCardHover(index as CardIndex)}
                         onMouseLeave={handleCardHover(undefined)}
+                        key={index}
                     >
                         <Card
                             className={classes.card}

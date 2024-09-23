@@ -17,6 +17,7 @@ export type VideoProps = {
     classes?: Partial<ReturnType<typeof useStyles>["classes"]>;
     videoId: string;
     rgbaFilter?: string;
+    isAnimated?: boolean;
 } & Omit<PictureAnimatorProps, "className" | "classes">
 
 
@@ -31,7 +32,8 @@ export const Video = memo((props: VideoProps) => {
         animationDelay,
         className,
         sources,
-        rgbaFilter
+        rgbaFilter,
+        isAnimated = true
     } = props;
 
 
@@ -114,6 +116,7 @@ export const Video = memo((props: VideoProps) => {
         "classesOverrides": props.classes,
         isLightBoxOpen,
         zIndex,
+        rgbaFilter
     });
     return <div style={{
         width,
@@ -122,17 +125,29 @@ export const Video = memo((props: VideoProps) => {
         "maxHeight": `${(height / width) * 100}vw`
     }} className={cx(classes.root, className)}>
         <div className={classes.inner}>
+            {
+                isAnimated ?
+                    <PictureAnimator
+                        src={src}
+                        sources={sources}
+                        width={width}
+                        height={height}
+                        borderRadius={borderRadius}
+                        alt={alt}
+                        animationDelay={animationDelay}
+                        rgbaFilter={rgbaFilter}
+                    /> : <>
+                        <picture className={classes.picture}>
+                            {
+                                sources !== undefined &&
+                                sources.map((source, index) => <source key={index} {...source} />)
+                            }
+                            <img className={classes.img} src={src} alt={alt} />
+                        </picture>
+                        <div className={classes.rgba}></div>
+                    </>
+            }
 
-            <PictureAnimator
-                src={src}
-                sources={sources}
-                width={width}
-                height={height}
-                borderRadius={borderRadius}
-                alt={alt}
-                animationDelay={animationDelay}
-                rgbaFilter={rgbaFilter}
-            />
             <div className={classes.clickableWrapper}>
                 <ReactSVG
                     onClick={toggleLightBox(true)}
@@ -145,15 +160,6 @@ export const Video = memo((props: VideoProps) => {
             <div onClick={toggleLightBox(false)}>
                 <ClearIcon className={classes.closeIcon} />
             </div>
-            {/*<iframe
-                className={classes.iframe}
-                src={iframeUrl}
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-            >
-            </iframe>*/}
             <Youtube
                 className={classes.iframe}
                 videoId={videoId}
@@ -168,93 +174,128 @@ export const Video = memo((props: VideoProps) => {
     </div>
 });
 
-const useStyles = tss.withName("Video").withParams<{ isLightBoxOpen: boolean; zIndex: number | undefined}>().create(({ theme, isLightBoxOpen, zIndex }) => {
-    return ({
-        "root": {
-            "position": "relative",
+const useStyles = tss
+    .withName("Video")
+    .withParams<{
+        isLightBoxOpen: boolean;
+        zIndex: number | undefined;
+        rgbaFilter: string | undefined;
+    }>()
+    .create(({
+        theme,
+        isLightBoxOpen,
+        zIndex,
+        rgbaFilter
+    }) => {
+        return ({
+            "root": {
+                "position": "relative",
 
-        },
-        "inner": {
-            "position": "relative",
-        },
-        "clickableWrapper": {
-            "position": "absolute",
-            "display": "flex",
-            "alignItems": "center",
-            "justifyContent": "center",
-            "width": "100%",
-            "height": "100%",
-            "top": 0,
-            "left": 0
-        },
-        "playIcon": {
-            "position": "relative",
-            "& svg": {
-                "fill": theme.palette.white.main,
-                "transition": "fill 600ms, transform 600ms",
-                "width": theme.spacing(15),
-                "height": theme.spacing(15)
             },
-            ":hover": {
+            "inner": {
+                "position": "relative",
+                "width": "100%",
+                "height": "100%"
+            },
+            "clickableWrapper": {
+                "position": "absolute",
+                "display": "flex",
+                "alignItems": "center",
+                "justifyContent": "center",
+                "width": "100%",
+                "height": "100%",
+                "top": 0,
+                "left": 0,
+            },
+            "rgba": {
+                "position": "absolute",
+                "top": 0,
+                "left": 0,
+                "width": "100%",
+                "height": "100%",
+                "background": rgbaFilter
+
+            },
+            "playIcon": {
+                "position": "relative",
                 "& svg": {
-                    "fill": theme.palette.gold2.main,
-                    "transform": "scale(1.02)",
+                    "fill": theme.palette.white.main,
+                    "transition": "fill 600ms, transform 600ms",
+                    "width": theme.spacing(15),
+                    "height": theme.spacing(15)
                 },
-                "cursor": "pointer"
+                ":hover": {
+                    "& svg": {
+                        "fill": theme.palette.gold2.main,
+                        "transform": "scale(1.02)",
+                    },
+                    "cursor": "pointer"
 
 
-            }
-        },
-        "lightBox": {
-            "position": "fixed",
-            "display": "flex",
-            "alignItems": "center",
-            "justifyContent": "center",
-            "top": 0,
-            "left": 0,
-            "width": "100vw",
-            "height": "100vh",
-            "background": "rgba(0, 0, 0, 0.92)",
-            "opacity": isLightBoxOpen ? 1 : 0,
-            "transform": isLightBoxOpen ? undefined : "scale(0.7)",
-            "transition": `opacity ${transitionTime}ms, transform ${transitionTime}ms`,
-            "pointerEvents": isLightBoxOpen ? undefined : "none",
-            zIndex,
-            ...(() => {
-                const value = theme.spacing(5);
-                return {
-                    "paddingRight": value,
-                    "paddingLeft": value,
                 }
-            })(),
-            "boxSizing": "border-box"
-        },
-        "closeIcon": {
-            "position": "absolute",
-            "top": theme.spacing(11),
-            "right": theme.spacing(11),
-            "width": theme.spacing(8),
-            "height": theme.spacing(8),
-            "fill": "white",
-            "transition": "fill 600ms, transform 600ms",
-            ":hover": {
-                "fill": theme.palette.gold2.main,
-                "transform": "scale(1.1) rotate(360deg)",
-                "cursor": "pointer"
+            },
+            "lightBox": {
+                "position": "fixed",
+                "display": "flex",
+                "alignItems": "center",
+                "justifyContent": "center",
+                "top": 0,
+                "left": 0,
+                "width": "100vw",
+                "height": "100vh",
+                "background": "rgba(0, 0, 0, 0.92)",
+                "opacity": isLightBoxOpen ? 1 : 0,
+                "transform": isLightBoxOpen ? undefined : "scale(0.7)",
+                "transition": `opacity ${transitionTime}ms, transform ${transitionTime}ms`,
+                "pointerEvents": isLightBoxOpen ? undefined : "none",
+                zIndex,
+                ...(() => {
+                    const value = theme.spacing(5);
+                    return {
+                        "paddingRight": value,
+                        "paddingLeft": value,
+                    }
+                })(),
+                "boxSizing": "border-box"
+            },
+            "closeIcon": {
+                "position": "absolute",
+                "top": theme.spacing(11),
+                "right": theme.spacing(11),
+                "width": theme.spacing(8),
+                "height": theme.spacing(8),
+                "fill": "white",
+                "transition": "fill 600ms, transform 600ms",
+                ":hover": {
+                    "fill": theme.palette.gold2.main,
+                    "transform": "scale(1.1) rotate(360deg)",
+                    "cursor": "pointer"
 
 
+                }
+
+            },
+            "iframe": {
+                "& iframe": {
+                    "maxWidth": "100vw",
+                    "width": theme.spacing(100),
+                    "height": theme.spacing(50),
+                    "border": "none",
+
+                }
+            },
+            "picture": {
+
+                /*width,
+                height*/
+                "width": "100%",
+                "height": "100%"
+            },
+            "img": {
+                "width": "100%",
+                "height": "100%",
+                "objectFit": "cover"
             }
 
-        },
-        "iframe": {
-            "& iframe": {
-                "maxWidth": "100vw",
-                "width": theme.spacing(100),
-                "height": theme.spacing(50),
-                "border": "none",
-
-            }
-        }
-
-    })
-});
+        })
+    });

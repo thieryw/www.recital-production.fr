@@ -11,6 +11,9 @@ import { translation as homeFr } from "./resources/fr/home";
 import type { ComponentKeyServices } from "./types"
 import { translation as servicesEn } from "./resources/en/services";
 import { translation as servicesFr } from "./resources/fr/services";
+import type { ComponentKeyMedia } from "./types"
+import { translation as mediaEn } from "./resources/en/media";
+import { translation as mediaFr } from "./resources/fr/media";
 export { declareComponentKeys };
 
 
@@ -37,7 +40,8 @@ export const {
 	ComponentKeyHeader |
 	ComponentKeyFooter |
 	ComponentKeyHome |
-	ComponentKeyServices
+	ComponentKeyServices |
+	ComponentKeyMedia
 
 >()(
 	{
@@ -49,14 +53,16 @@ export const {
 			"Header": headerFr.Header,
 			"Footer": footerFr.Footer,
 			"Home": homeFr.Home,
-			"Services": servicesFr.Services
+			"Services": servicesFr.Services,
+			"Media": mediaFr.Media
 
 		},
 		"en": {
 			"Header": headerEn.Header,
 			"Footer": footerEn.Footer,
 			"Home": homeEn.Home,
-			"Services": servicesEn.Services
+			"Services": servicesEn.Services,
+			"Media": mediaEn.Media
 
 		}
 	}

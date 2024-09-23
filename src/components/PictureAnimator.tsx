@@ -7,7 +7,7 @@ export type PictureAnimatorProps = {
     className?: string;
     classes?: Partial<ReturnType<typeof useStyles>["classes"]>;
     src: string;
-    sources?: {srcSet: string; type: string}[];
+    sources?: {srcSet?: string; type?: string}[];
     alt?: string;
     animationDelay?: number;
     width: number;

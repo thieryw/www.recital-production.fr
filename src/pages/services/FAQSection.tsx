@@ -41,6 +41,7 @@ export const FAQSection = memo(() => {
                         response={response}
                         isOpen={index === 1}
                         className={classes.question}
+                        key={index}
                     />)
                 }
 

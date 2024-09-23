@@ -14,6 +14,10 @@ export type ComponentKeyHome =
 export type ComponentKeyServices =
     | import("pages/services").I18n
 
+export type ComponentKeyMedia =
+    | import("pages/media").I18n
+
+
 export type TranslationHeader<L extends Language> = GenericTranslations<
     ComponentKeyHeader,
     Language,
@@ -37,6 +41,13 @@ export type TranslationHome<L extends Language> = GenericTranslations<
 
 export type TranslationServices<L extends Language> = GenericTranslations<
     ComponentKeyServices,
+    Language,
+    typeof fallbackLanguage,
+    L
+>
+
+export type TranslationMedia<L extends Language> = GenericTranslations<
+    ComponentKeyMedia,
     Language,
     typeof fallbackLanguage,
     L
