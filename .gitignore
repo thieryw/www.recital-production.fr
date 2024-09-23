@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 webp
+generatedMiniatureJpgExports.ts
+generatedMiniatureWebpExports.ts
+generatedPhotoJpgExports.ts
+generatedPhotoWebpExports.ts
