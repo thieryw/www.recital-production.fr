@@ -57,8 +57,8 @@ export const Footer = memo(() => {
         activeLinkLabel={links.find(({ routeName }) => routeName === route.name)?.label}
         socialLinks={[
             {
-                "href": "",
-                "iconUrl": instaSvg
+                "href": "https://www.instagram.com/recital_production/",
+                "iconUrl": instaSvg,
             },
             {
                 "href": "",

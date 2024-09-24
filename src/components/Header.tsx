@@ -326,7 +326,8 @@ const useStyles = tss
             "social": {
                 "display": "flex",
                 "marginTop": theme.spacing(10),
-                "marginBottom": theme.spacing(10)
+                "marginBottom": theme.spacing(10),
+                "position": "relative"
             },
             "socialIcon": {
                 "marginLeft": theme.spacing(2),

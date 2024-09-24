@@ -63,7 +63,7 @@ export const Header = memo(() => {
             "socialLinks": [
                 {
                     "iconUrl": instaSvg,
-                    "href": ""
+                    "href": "https://www.instagram.com/recital_production/"
                 },
                 {
                     "iconUrl": ytSvg,

@@ -4,7 +4,8 @@ import { tss } from "tss";
 import { Home } from "pages/home";
 import { useRoute } from "router";
 import { Services } from "pages/services";
-import { Media } from "pages/media/Media";
+import { Media } from "pages/Media";
+import { Contact } from "pages/Contact";
 
 export const bodyId = "bodyId";
 
@@ -22,6 +23,7 @@ export function Body() {
                 {route.name === "home" && <Home />}
                 {route.name === "services" && <Services />}
                 {route.name === "media" && <Media />}
+                {route.name === "contact" && <Contact />}
             </div>
             <Footer />
 
