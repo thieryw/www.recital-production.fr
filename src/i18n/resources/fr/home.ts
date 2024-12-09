@@ -12,7 +12,7 @@ export const translation: TranslationHome<"fr"> = {
         "servicesButtonLabel": "Découvrir",
         "qualityTitle1": "Qualité Musicale",
         "qualityTitle2": "& Flexibilté",
-        "qualityParagraph": "Recital Production vous garantit une prestation musicale clé en main de haute qualité, et met à votre disposition un très large répertoire, de la grande musique à vos morceaux pop favoris.",
+        "qualityParagraph": "Recital Production vous garantit une prestation musicale clé en main de haute qualité, et met à votre disposition un très large répertoire. De la musique classique / jazz, à vos morceaux pop favoris",
         "qualityButtonLabel": "PLUS",
         "slide1": "Répertoire classique & pop",
         "slide2": "Par les meilleurs talents régionaux",

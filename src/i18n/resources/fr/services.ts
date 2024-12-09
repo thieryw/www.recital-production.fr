@@ -9,7 +9,7 @@ export const translation: TranslationServices<"fr"> = {
         "heroCardTitle3": "ENTREPRISES",
         "contact": "Contact",
         "qualityTitle": "Qualité Musicale",
-        "qualityParagraph": "Recital Production vous garantit une prestation musicale clé en main de haute qualité, et met à votre disposition un très large répertoire, de la grande musique à vos morceaux pop favoris.",
+        "qualityParagraph": "Recital Production vous garantit une prestation musicale clé en main de haute qualité, et met à votre disposition un très large répertoire. De la musique classique / jazz, à vos morceaux pop favoris",
         "qualityCardTitle1": "Répertoire classique & pop",
         "qualityCardParagraph1": "Un très large répertoire à votre disposition, allant de la musique classique aux plus grands tubes. Avec en prime : choix de vos morceaux favoris !",
         "qualityCardTitle2": "Par les meilleurs talents régionaux",
