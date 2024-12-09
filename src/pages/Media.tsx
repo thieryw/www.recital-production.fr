@@ -8,11 +8,10 @@ import { tss } from "tss";
 import Typo from "@mui/material/Typography";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "i18n";
-import { VideoSlider } from "components/VideoSlider";
 import { SmallTitle } from "components/SmallTitle";
 import backgroundSvg from "assets/svg/marble-large.svg";
-import zephyrJpg from  "assets/jpg/media/zephyr-video.jpg";
-import zephyrWebp from  "assets/webp/media/zephyr-video.webp";
+import { Slider } from "components/Slider";
+import Youtube from "react-youtube";
 
 
 export const Media = memo(() => {
@@ -74,64 +73,21 @@ export const Media = memo(() => {
                     className={classes.smallTitle}
 
                 />
-                <VideoSlider
-                    rgbaFilter="rgba(0, 0, 0, 0.5)"
-                    videos={[
-                        {
-                            "id": "Chw4LtjoQS0",
-                            "image": {
-                                "src": zephyrWebp,
-                                "sources": [
-                                    {
-                                        "srcSet": zephyrWebp,
-                                        "type": "image/webp"
-                                    },
-                                    {
-                                        "srcSet": zephyrJpg,
-                                        "type": "image/jpeg"
-                                    },
-                                ]
-                            },
-                            "title": "Duo Zéphir",
-                        },
-                        {
-                            "id": "Chw4LtjoQS0",
-                            "image": {
-                                "src": zephyrWebp,
-                                "sources": [
-                                    {
-                                        "srcSet": zephyrWebp,
-                                        "type": "image/webp"
-                                    },
-                                    {
-                                        "srcSet": zephyrJpg,
-                                        "type": "image/jpeg"
-                                    },
-                                ]
-                            },
-                            "title": "Duo Zéphir",
-                        },
-                        {
-                            "id": "Chw4LtjoQS0",
-                            "image": {
-                                "src": zephyrWebp,
-                                "sources": [
-                                    {
-                                        "srcSet": zephyrWebp,
-                                        "type": "image/webp"
-                                    },
-                                    {
-                                        "srcSet": zephyrJpg,
-                                        "type": "image/jpeg"
-                                    },
-                                ]
-                            },
-                            "title": "Duo Zéphir",
-                        },
-                    ]}
-                    classes={{
-                        "cardVideoComponent": classes.cardVideoComponent
-                    }}
+                <Slider 
+                    className={classes.slider}
+                    slides={[
+                        "m4KVytsPdGY",
+                        "s9kxlnvclpA",
+                        "GF64sBI2fVQ",
+                        "Vd8apnl8m-g",
+                        "qD7evQDFDQM",
+                        "pSFHL-vbZxc",
+                        "J6RVeWH_n-s"
+                    ].map(id => <Youtube 
+                            key={id}
+                            videoId={id}
+                            className={classes.video}
+                    />)}
                 />
 
             </div>
@@ -162,14 +118,18 @@ const useStyles = tss.create(({ theme }) => {
             "paddingLeft": theme.spacing(5),
             "paddingRight": theme.spacing(5)
         },
+        "slider": {
+
+        },
         "videos": {
             "display": "flex",
-            "alignItems": "flex-start",
+            "flexDirection": "column",
+            "alignItems": "center",
             "width": "100%",
             "justifyContent": "space-between",
             "marginTop": theme.spacing(30),
-            "paddingLeft": theme.spacing(13),
-            "paddingRight": theme.spacing(24),
+            "paddingLeft": theme.spacing(5),
+            "paddingRight": theme.spacing(5),
             "boxSizing": "border-box",
             "position": "relative",
             "marginBottom": theme.spacing(24),
@@ -177,8 +137,8 @@ const useStyles = tss.create(({ theme }) => {
                 "flexDirection": "column"
             },
             [theme.breakpoints.down("md")]: {
-                "paddingLeft": theme.spacing(5),
-                "paddingRight": theme.spacing(5)
+                "paddingLeft": 0,
+                "paddingRight": 0
 
             },
         },
@@ -213,6 +173,14 @@ const useStyles = tss.create(({ theme }) => {
         },
         "cardVideoComponent": {
             "maxWidth": `calc(100vw - ${2 * parseInt(theme.spacing(5))}px) !important`,
+        },
+        "video": {
+            "& iframe": {
+                "width": 500,
+                "height": 360,
+                "maxWidth": "96vw",
+                "border": "none"
+            }
         }
     })
 })

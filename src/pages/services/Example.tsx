@@ -38,7 +38,7 @@ export const Example = memo(() => {
                     ]}
                     width={windowInnerWidth > theme.breakpoints.values.md ? 673 : 600}
                     height={windowInnerWidth > theme.breakpoints.values.md ? 450 : 400}
-                    videoId="Chw4LtjoQS0"
+                    videoId="pSFHL-vbZxc"
                     rgbaFilter="rgba(0, 0, 0, 0.5)"
                 />
                 <div className={classes.textWrapper}>

@@ -6,6 +6,7 @@ export const translation: TranslationContact<"fr"> = {
         "contactTitle": "Contact",
         "email": "contact@recital-production.fr",
         "contactText": "Région bordelaise, Gironde, et tout le Sud-Ouest de la France.",
-        "referenceSite": "Mariage.net"
+        "referenceSite": "Mariage.net",
+        "reviewText": "Lire nos avis à"
     }
 }

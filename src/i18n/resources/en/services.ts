@@ -5,7 +5,7 @@ export const translation: TranslationServices<"en"> = {
         "heroTitle": "SERVICES",
         "heroParagraph": "For any type of ceremony/event, Récital Production is the musical reference in Nouvelle-Aquitaine. High-quality music, flexibility, and tailor-made support: trusting us is the promise of a unique event.",
         "heroCardTitle1": "INDIVIDUALS",
-        "heroCardTitle2": "MUNICIPALITIES",
+        "heroCardTitle2": "COMMUNITY",
         "heroCardTitle3": "BUSINESSES",
         "contact": "Contact",
         "qualityTitle": "Musical Quality",

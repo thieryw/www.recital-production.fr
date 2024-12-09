@@ -7,6 +7,7 @@ import instaSvg from "assets/svg/Insta.svg";
 import ytSvg from "assets/svg/YT.svg";
 import Typo from "@mui/material/Typography";
 import logoSvg from "assets/svg/footerLogo.svg";
+import legalPdf from "assets/pdf/mentions-legales-recital-production.pdf";
 
 
 export const Footer = memo(() => {
@@ -66,13 +67,13 @@ export const Footer = memo(() => {
             }
         ]}
         bottomDiv={<div className={classes.bottomDiv}>
-            <a className={classes.bdLine} {...routes.legal().link}><Typo className={cx(classes.linkLabel, classes.text)} variant="body2">{t("legalLinkLabel")}</Typo></a>
+            <a className={classes.bdLine} href={legalPdf} target="_blank"><Typo className={cx(classes.linkLabel, classes.text)} variant="body2">{t("legalLinkLabel")}</Typo></a>
             <Typo className={classes.divider} variant="body2">/</Typo>
             <Typo className={cx(classes.bdLine, classes.text)} variant="body2">{t("copyRight")}</Typo>
             <Typo className={classes.divider} variant="body2">/</Typo>
             <div className={cx(classes.designer, classes.bdLine)}>
                 <Typo className={classes.text} variant="body2">{t("designed")}</Typo>
-                <a className={classes.ideaArt} href="https://dribbble.com/IdeaArt"><Typo className={cx(classes.linkLabel)} variant="body2">{t("designer")}</Typo></a>
+                <a target="_blank" className={classes.ideaArt} href="https://dribbble.com/IdeaArt"><Typo className={cx(classes.linkLabel)} variant="body2">{t("designer")}</Typo></a>
             </div>
 
         </div>}

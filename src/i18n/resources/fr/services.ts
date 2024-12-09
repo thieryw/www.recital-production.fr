@@ -3,7 +3,7 @@ import type { TranslationServices } from "../../types";
 export const translation: TranslationServices<"fr"> = {
     "Services": {
         "heroTitle": "PRESTATIONS",
-        "heroParagraph": "Pour tout type de cérémonie/évènements, Récital Production est la référence musicale en Nouvelle-Aquitaine. Haute qualité musicale, flexibilité et accompagnement sur mesure : nous faire confiance, c’est la promesse d’un événement unique.",
+        "heroParagraph": "Pour tout type de cérémonie/événements, Récital Production est la référence musicale en Nouvelle-Aquitaine. Haute qualité musicale, flexibilité et accompagnement sur mesure : nous faire confiance, c’est la promesse d’un événement unique.",
         "heroCardTitle1": "PARTICULIERS",
         "heroCardTitle2": "COMMUNES",
         "heroCardTitle3": "ENTREPRISES",
@@ -28,7 +28,7 @@ export const translation: TranslationServices<"fr"> = {
         "response4": "Bordeaux, Gironde, Sud Ouest.",
         "flexibilityTitle": "Flexibilité",
         "flexibilityParagraph": "Que vous souhaitiez un duo piano-violoncelle pour une ambiance intimiste, un ensemble instrumental pour une atmosphère plus solennelle, nous vous accompagnons tout au long de votre journée unique.",
-        "flexibilityCardTitle1": "Tout type d’évènement",
+        "flexibilityCardTitle1": "Tout type d’événement",
         "flexibilityCardParagraph1": "Programmation culturelle, Cocktail, Mariage, Cérémonie, Vin d'honneur, Gala, Liturgie etc. Nous avons l’offre qu’il vous faut.",
         "flexibilityCardTitle2": "En Gironde et Nouvelle-Aquitaine",
         "flexibilityCardParagraph2": "Parce qu’un service de qualité supérieure se doit d’être accessible partout, nous couvrons toute la région Nouvelle-Aquitaine.",

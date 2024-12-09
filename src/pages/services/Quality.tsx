@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { tss } from "tss";
 import Typo from "@mui/material/Typography";
-import { useTranslation } from "i18n";
+import { useLang, useTranslation } from "i18n";
 import card1svg from "assets/svg/icons/1-repertoire.svg";
 import card2svg from "assets/svg/icons/2-talents.svg";
 import card3svg from "assets/svg/icons/3-accompagnement.svg";
@@ -11,6 +11,8 @@ import { LinkButton } from "components/LinkButton";
 import { useInView } from "react-intersection-observer";
 import { useAnimation, type Variant } from "framer-motion";
 import { motion } from "framer-motion";
+import cataloguePdf from "assets/pdf/catalogue-recital-production.pdf";
+import catalogueEngPdf from "assets/pdf/catalogue-recital-production-english.pdf";
 
 type CardIndex = 1 | 2 | 3 | undefined;
 
@@ -46,6 +48,7 @@ export const Quality = memo(() => {
     const [activeIndex, setActiveIndex] = useState<CardIndex>(undefined)
     const { ref: cardsRef, domRect: { width } } = useDomRect();
     const [ref, inView] = useInView({ "triggerOnce": true, "threshold": 1 });
+    const { lang } = useLang();
 
     const controls = useAnimation();
 
@@ -132,8 +135,9 @@ export const Quality = memo(() => {
             </div>
             {/*<div className={classes.buttonWrapper}></div>*/}
             <LinkButton
-                href=""
+                href={lang === "en" ? catalogueEngPdf : cataloguePdf}
                 label={t("qualityButtonLabel")}
+                target="_blank"
 
             />
         </section>
