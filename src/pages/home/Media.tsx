@@ -31,11 +31,13 @@ export const Media = memo(() => {
                     <Typo variant="h2">{t("mediaTitle")}</Typo>
                 </div>
                 <div className={classes.imageWrapper}>
-                    <picture>
-                        <source srcSet={mediaWebp1} type="image/webp" />
-                        <source srcSet={mediaJpg1} type="image/jpeg" />
-                        <img className={classes.image1} src={mediaWebp1} alt="quartet" />
-                    </picture>
+                    <a {...routes.media().link}>
+                        <picture>
+                            <source srcSet={mediaWebp1} type="image/webp" />
+                            <source srcSet={mediaJpg1} type="image/jpeg" />
+                            <img className={classes.image1} src={mediaWebp1} alt="quartet" />
+                        </picture>
+                    </a>
                     <picture>
                         <source srcSet={mediaWebp2} type="image/webp" />
                         <source srcSet={mediaJpg2} type="image/jpeg" />
@@ -43,6 +45,7 @@ export const Media = memo(() => {
                     </picture>
 
                 </div>
+
                 <LinkButton
                     {...routes.media().link}
                     label={t("mediaButtonLabel")}
@@ -72,7 +75,7 @@ const useStyles = tss.create(({ theme }) => {
             "flexDirection": "column",
             "alignItems": "flex-start",
             [theme.breakpoints.down("mdPlus")]: {
-                ...(()=>{
+                ...(() => {
                     const value = theme.spacing(5);
                     return {
                         "paddingLeft": value,
@@ -100,7 +103,7 @@ const useStyles = tss.create(({ theme }) => {
                 "maxWidth": "100%",
                 "left": 0,
             }
-            
+
         },
         "image1": {
             "width": 880,
@@ -109,6 +112,11 @@ const useStyles = tss.create(({ theme }) => {
             [theme.breakpoints.down("mdPlus")]: {
                 "maxWidth": "100%",
                 "left": 0,
+            },
+            "transition": "transform 500ms",
+            ":hover": {
+                "transform": "scale(1.01)"
+
             }
         },
         "image2": {

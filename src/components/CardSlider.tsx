@@ -3,10 +3,10 @@ import { tss } from "tss";
 import Text from "@mui/material/Typography";
 import starSvg from "assets/svg/star.svg";
 import { animate } from "tools/animate";
-import { useConstCallback, useCallbackFactory } from "powerhooks";
+import { useConstCallback } from "powerhooks";
 import { ReactSVG } from "react-svg";
-import { SquareButton } from "./SquareButton";
-import arrow from "assets/svg/small-arrow.svg";
+/*import { SquareButton } from "./SquareButton";
+import arrow from "assets/svg/small-arrow.svg";*/
 
 export type CardSliderProps = {
     className?: string;
@@ -33,13 +33,13 @@ export const CardSlider = memo((props: CardSliderProps) => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [previousIndex, setPreviousIndex] = useState<number | null>(null)
-    const [isTransitioning, setIsTransitioning] = useState(false);
+    //const [isTransitioning, setIsTransitioning] = useState(false);
     const { classes, cx, theme, windowInnerWidth } = useStyles({
         "classesOverrides": props.classes
     });
 
 
-    useEffect(() => {
+    /*useEffect(() => {
 
         (async () => {
             if (isTransitioning) {
@@ -51,7 +51,16 @@ export const CardSlider = memo((props: CardSliderProps) => {
 
         })()
 
-    }, [currentIndex])
+    }, [currentIndex])*/
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setPreviousIndex(currentIndex)
+            setCurrentIndex(currentIndex === cards.length - 1 ? 0 : currentIndex + 1); 
+        }, 8000);
+
+        // Cleanup function to clear the interval when the component unmounts
+        return () => clearInterval(intervalId);
+    }, [ currentIndex])
 
     const calculateVector = useConstCallback((
         index: number
@@ -78,7 +87,7 @@ export const CardSlider = memo((props: CardSliderProps) => {
 
     });
 
-    const handleSlide = useCallbackFactory((
+    /*const handleSlide = useCallbackFactory((
         [direction]: ["prev" | "next"]
     ) => {
         if (isTransitioning) {
@@ -90,7 +99,7 @@ export const CardSlider = memo((props: CardSliderProps) => {
             case "prev": setCurrentIndex(currentIndex === 0 ? cards.length - 1 : currentIndex - 1); break;
         }
 
-    })
+    })*/
 
     return <div className={cx(classes.root, className)}>
         <div className={classes.cardWrapper}>
@@ -133,7 +142,7 @@ export const CardSlider = memo((props: CardSliderProps) => {
             }
 
         </div>
-        <div className={classes.buttonWrapper}>
+        {/*<div className={classes.buttonWrapper}>
             <SquareButton
                 onClick={handleSlide("next")}
                 variant="grey"
@@ -144,7 +153,7 @@ export const CardSlider = memo((props: CardSliderProps) => {
                 variant="grey"
                 label={<ReactSVG className={classes.arrowLeft} src={arrow} />}
             />
-        </div>
+        </div>*/}
 
     </div>
 })

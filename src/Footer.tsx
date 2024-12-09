@@ -61,7 +61,7 @@ export const Footer = memo(() => {
                 "iconUrl": instaSvg,
             },
             {
-                "href": "",
+                "href": "https://www.youtube.com/@recitalproduction",
                 "iconUrl": ytSvg
             }
         ]}

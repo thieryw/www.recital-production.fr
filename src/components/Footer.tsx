@@ -31,13 +31,13 @@ export const Footer = memo((props: FooterProps) => {
                 windowInnerWidth >= theme.breakpoints.values.sm &&
                 <div className={classes.desktopSocial}>
                     {
-                        socialLinks.map(({ href, iconUrl }) => <a href={href} target="_blank" key={iconUrl}>
+                        socialLinks.map(({ href, iconUrl }) => <div key={iconUrl} className={classes.socialLinkWrapper}><a className={classes.socialLink} href={href} target="_blank">
                             <ReactSVG
                                 src={iconUrl}
                                 className={classes.socialIcon}
                             />
 
-                        </a>)
+                        </a></div>)
                     }
 
                 </div>
@@ -73,13 +73,13 @@ export const Footer = memo((props: FooterProps) => {
                     windowInnerWidth < theme.breakpoints.values.sm &&
                     <div className={classes.mobileSocial}>
                         {
-                            socialLinks.map(({ href, iconUrl }) => <a href={href} target="_blank" key={iconUrl}>
+                            socialLinks.map(({ href, iconUrl }) => <div key={iconUrl} className={classes.socialLinkWrapper}> <a className={classes.socialLink} href={href} target="_blank">
                                 <ReactSVG
                                     src={iconUrl}
                                     className={classes.mobileSocialIcon}
                                 />
 
-                            </a>)
+                            </a></div>)
                         }
 
                     </div>
@@ -136,11 +136,19 @@ const useStyles = tss.withName("Footer").create(({ theme }) => {
 
         },
         "desktopSocial": {
-            "marginRight": theme.spacing(16)
+            "marginRight": theme.spacing(16),
         },
-        "socialIcon": {
+        "socialLinkWrapper": {
+            "position": "relative",
             "marginTop": theme.spacing(1),
             "marginBottom": theme.spacing(1),
+
+        },
+        "socialLink": {
+            "position": "relative",
+
+        },
+        "socialIcon": {
             "& svg": {
                 "width": 50,
                 "height": 50

@@ -40,24 +40,27 @@ export const Insta = memo(() => {
     const { classes } = useStyles();
     return (
         <section className={classes.root}>
-            <div className={classes.pictureWrapper}>
-                {
-                    images.map(({ jpg, webp }, index) => <picture key={index}>
-                        <source srcSet={webp} type="image/webp" />
-                        <source srcSet={jpg} type="image/jpeg" />
-                        <img className={classes.image} src={webp} alt="instagram portrait" />
-                    </picture>)
-                }
-                <div className={classes.insta}>
-                    <picture className={classes.instaPicture}>
-                        <source srcSet={profilWebp} type="image/webp" />
-                        <source srcSet={profilJpg} type="image/jpeg" />
-                        <img className={classes.instaImage} src={profilWebp} alt="instagram profil" />
+            <a href="https://www.instagram.com/recital_production/" target="_blanc">
+                <div className={classes.pictureWrapper}>
+                    {
+                        images.map(({ jpg, webp }, index) => <picture key={index}>
+                            <source srcSet={webp} type="image/webp" />
+                            <source srcSet={jpg} type="image/jpeg" />
+                            <img className={classes.image} src={webp} alt="instagram portrait" />
+                        </picture>)
+                    }
+                    <div className={classes.insta}>
+                        <picture className={classes.instaPicture}>
+                            <source srcSet={profilWebp} type="image/webp" />
+                            <source srcSet={profilJpg} type="image/jpeg" />
+                            <img className={classes.instaImage} src={profilWebp} alt="instagram profil" />
 
-                    </picture>
+                        </picture>
 
+                    </div>
                 </div>
-            </div>
+
+            </a>
             <TextSection
                 className={classes.textSection}
                 surtitle={t("instaSurtitle")}
@@ -100,6 +103,10 @@ const useStyles = tss.create(({ theme }) => {
             "marginRight": theme.spacing(9),
             [theme.breakpoints.down("sm")]: {
                 "marginRight": 0,
+            },
+            "transition": "transform 500ms",
+            ":hover": {
+                "transform": "scale(1.01)"
             }
         },
         "image": {
