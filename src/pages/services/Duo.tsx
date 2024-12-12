@@ -51,6 +51,7 @@ const useStyles = tss.withParams<{ img2Width: number; img2Height: number; }>().c
         },
         "pictures": {
             "display": "flex",
+            "justifyContent": "center"
 
 
         },

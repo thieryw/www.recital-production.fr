@@ -18,35 +18,38 @@ export const Example = memo(() => {
                 <img className={classes.backgroundSvg} src={backgroundSvg} alt="background" />
 
             </div>
-            <SmallTitle
-                description={t("exampleSectionTitle")}
-            />
-            <div className={classes.content}>
-                <Video
-                    className={classes.video}
-                    borderRadius=""
-                    src={webp}
-                    sources={[
-                        {
-                            "srcSet": webp,
-                            "type": "image/webp"
-                        },
-                        {
-                            "srcSet": jpg,
-                            "type": "image/jpeg"
-                        }
-                    ]}
-                    width={windowInnerWidth > theme.breakpoints.values.md ? 673 : 600}
-                    height={windowInnerWidth > theme.breakpoints.values.md ? 450 : 400}
-                    videoId="pSFHL-vbZxc"
-                    rgbaFilter="rgba(0, 0, 0, 0.5)"
+            <div className={classes.inner}>
+                <SmallTitle
+                    description={t("exampleSectionTitle")}
                 />
-                <div className={classes.textWrapper}>
-                    <Typo className={classes.surtitle} variant="button">{t("exampleSurtitle")}</Typo>
-                    <Typo className={classes.title} variant="h3">{t("exampleTitle")}</Typo>
-                    <Typo className={classes.paragraph} variant="body1">{t("exampleParagraph")}</Typo>
+                <div className={classes.content}>
+                    <Video
+                        className={classes.video}
+                        borderRadius=""
+                        src={webp}
+                        sources={[
+                            {
+                                "srcSet": webp,
+                                "type": "image/webp"
+                            },
+                            {
+                                "srcSet": jpg,
+                                "type": "image/jpeg"
+                            }
+                        ]}
+                        width={windowInnerWidth > theme.breakpoints.values.md ? 673 : 600}
+                        height={windowInnerWidth > theme.breakpoints.values.md ? 450 : 400}
+                        videoId="pSFHL-vbZxc"
+                        rgbaFilter="rgba(0, 0, 0, 0.5)"
+                    />
+                    <div className={classes.textWrapper}>
+                        <Typo className={classes.surtitle} variant="button">{t("exampleSurtitle")}</Typo>
+                        <Typo className={classes.title} variant="h3">{t("exampleTitle")}</Typo>
+                        <Typo className={classes.paragraph} variant="body1">{t("exampleParagraph")}</Typo>
 
+                    </div>
                 </div>
+
             </div>
 
         </section>
@@ -57,10 +60,17 @@ export const Example = memo(() => {
 const useStyles = tss.create(({ theme }) => {
     return ({
         "root": {
+            "position": "relative",
+            "display": "flex",
+            "justifyContent": "center"
+
+        },
+        "inner": {
+            "position": "relative",
             "display": "flex",
             "alignItems": "flex-start",
             "justifyContent": "space-between",
-            ...(()=>{
+            ...(() => {
                 const value = theme.spacing(25);
                 return {
                     "paddingLeft": value,
@@ -81,7 +91,8 @@ const useStyles = tss.create(({ theme }) => {
                 "paddingLeft": theme.spacing(5),
                 "paddingRight": theme.spacing(5),
             },
-            "position": "relative"
+            "maxWidth": 1980,
+            "width": "100%"
 
         },
         "content": {
@@ -123,7 +134,7 @@ const useStyles = tss.create(({ theme }) => {
 
         },
         "decoSection": {
-            "width": "100%",
+            "width": "100vw",
             "height": theme.spacing(32),
             "overflow": "hidden",
             "background": theme.palette.patternBackground.main,

@@ -40,7 +40,7 @@ export const Insta = memo(() => {
     const { classes } = useStyles();
     return (
         <section className={classes.root}>
-            <a href="https://www.instagram.com/recital_production/" target="_blanc">
+            <a className={classes.pictureWrapperLink} href="https://www.instagram.com/recital_production/" target="_blanc">
                 <div className={classes.pictureWrapper}>
                     {
                         images.map(({ jpg, webp }, index) => <picture key={index}>
@@ -92,6 +92,10 @@ const useStyles = tss.create(({ theme }) => {
                 "flexDirection": "column-reverse",
                 "alignItems": "flex-start"
             }
+        },
+        "pictureWrapperLink": {
+            "maxWidth": "100%"
+
         },
         "pictureWrapper": {
             "display": "grid",
