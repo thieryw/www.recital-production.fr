@@ -7,7 +7,7 @@ import smallArrowSvg from "assets/svg/small-arrow.svg";
 import { ReactSVG } from "react-svg";
 
 
-export type LinkButtonProps = Link & {
+export type LinkButtonProps = Partial<Link> & {
     className?: string;
     classes?: Partial<ReturnType<typeof useStyles>["classes"]>;
     variant?: "dark" | "light";
@@ -56,7 +56,8 @@ const useStyles = tss
         return ({
             "root": {
                 "textDecoration": "none",
-                "position": "relative"
+                "position": "relative",
+                "cursor": "pointer"
             },
             "textWrapper": {
                 "height": textHeight,

@@ -7,7 +7,51 @@ export const translation: TranslationServices<"fr"> = {
         "heroCardTitle1": "PARTICULIERS",
         "heroCardTitle2": "COMMUNES",
         "heroCardTitle3": "ENTREPRISES",
+        "communeTitle": "Vous cherchez un concert / spectacle de musique classique dans votre programmation culturelle ?",
+        "communeSubtitle1": "Des propositions uniques",
+        "communeBulletPoint1": "Spectacle jeunesse",
+        "communeBulletPoint2": "Récital de piano, musique de chambre, ensemble instrumental.",
+        "communeBulletPoint3": "Concert spectacle",
+        "communeBulletPoint4": "Concert immersif",
+        "communeBulletPoint5": "Grand concert classique de fin d'année",
+        "communeBulletPoint6": "Musique vocale et instrumentale",
+        "communeSubtitle2": "Une offre variée et riche",
+        "communeParagraph": `Nous sommes à l'écoute de vos
+besoins et de vos souhaits pour
+vous offrir une prestation sur
+mesure qui répondra
+parfaitement à vos attentes.
+Nos musiciens expérimentés
+vous garantissent une prestation
+musicale de haute qualité, avec
+un large répertoire`,
+        "companyTitle": "Vous cherchez une animation musicale pour un gala, cocktail ?",
+        "companySubtitle1": "Animation de 1h à 3h",
+        "companyBulletPoint1": "Quatuor à cordes",
+        "companyBulletPoint2": "Chant piano",
+        "companyBulletPoint3": "Violon piano",
+        "companyBulletPoint4": "Violon guitare",
+        "companyBulletPoint5": "Formation à la carte",
+        "companySubtitle2": "Une offre variée et riche de propositions",
+        "companyParagraph": "Des prestations clés en main par les meilleurs musiciens de la région.",
+        "individualTitle": "Mariages & Cérémonies",
+        "individualSubtitle1": "La qualité musicale avant tout",
+        "individualBulletPoint1": "Répertoire classique et pop music",
+        "individualBulletPoint2": "Choix de vos morceaux favoris",
+        "individualBulletPoint3": "Cérémonie et /ou cocktail / vin d'honneur",
+        "individualBulletPoint4": "Accompagnement musicale liturgique",
+        "individualBulletPoint5": "Bordeaux, Gironde et Sud-Ouest",
+        "individualBulletPoint6": "Quatuor à cordes, duo violon et piano, violon et violoncelle, etc. De multiples formations sont possibles !",
+        "individualSubtitle2": "Du solo à l'ensemble instrumental",
+        "individualParagraph": `Nous offrons une variété de formations
+musicales pour s'adapter à vos goûts et vos
+préférences. Que vous souhaitiez un duo
+piano-violoncelle pour une ambiance intimiste,
+un ensemble instrumental pour une
+atmosphère plus solennelle ou tout autre type`,
         "contact": "Contact",
+        "more": "VOIR PLUS",
+        "less": "MOINS",
         "qualityTitle": "Qualité Musicale",
         "qualityParagraph": "Recital Production vous garantit une prestation musicale clé en main de haute qualité, et met à votre disposition un très large répertoire. De la musique classique / jazz, à vos morceaux pop favoris",
         "qualityCardTitle1": "Répertoire classique & pop",
