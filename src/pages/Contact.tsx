@@ -11,6 +11,7 @@ import { PictureAnimator } from "components/PictureAnimator";
 import jpg from "assets/jpg/home/en-images-1.jpg";
 import webp from "assets/webp/home/en-images-1.webp";
 import { ReviewWidget } from "components/ReviewWidget";
+import { ElfSight } from "components/ElfSight";
 
 
 
@@ -66,6 +67,7 @@ export const Contact = memo(() => {
                 </div>
 
             </div>
+            <ElfSight />
             <ReviewWidget />
 
 
