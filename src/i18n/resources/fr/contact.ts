@@ -4,7 +4,7 @@ export const translation: TranslationContact<"fr"> = {
     "Contact": {
         "collaborationText": "Nous serions heureux de collaborer avec vous.",
         "contactTitle": "Contact",
-        "email": "contact@recital-production.fr",
+        "email": "recitalproduction@gmail.com",
         "contactText": "Région bordelaise, Gironde, et tout le Sud-Ouest de la France.",
         "referenceSite": "Mariage.net",
         "reviewText": "Lire nos avis à"
