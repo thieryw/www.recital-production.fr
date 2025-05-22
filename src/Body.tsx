@@ -6,6 +6,9 @@ import { useRoute } from "router";
 import { Services } from "pages/services";
 import { Media } from "pages/Media";
 import { Contact } from "pages/Contact";
+import { useEffect } from "react";
+import { initGA, trackPage } from "analytics";
+import { session } from "./router";
 
 export const bodyId = "bodyId";
 
@@ -14,6 +17,20 @@ export function Body() {
 
     const { classes } = useStyles();
     const route = useRoute();
+    useEffect(() => {
+        initGA(); // Start GA4
+
+        // Track initial pageview
+        trackPage(window.location.pathname);
+
+        // Track future route changes
+        const unsubscribe = session.listen((route) => {
+            trackPage(route.href);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
 
 
     return (

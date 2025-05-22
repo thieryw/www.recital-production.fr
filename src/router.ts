@@ -20,6 +20,6 @@ export const routeDefs = {
 
 makeThisModuleAnExecutableRouteLister(routeDefs);
 
-export const { RouteProvider, routes, useRoute } = createRouter(opts,
+export const { RouteProvider, routes, useRoute, session } = createRouter(opts,
 	routeDefs
 );
