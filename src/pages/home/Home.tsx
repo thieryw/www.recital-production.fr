@@ -44,6 +44,8 @@ export const { i18n } = declareComponentKeys<
     | "mediaSurtitle"
     | "mediaTitle"
     | "mediaButtonLabel"
+    | "mediaAltImage1"
+    | "mediaAltImage2"
     | "reviewsSurtitle"
     | "reviewsTitle"
     | "reviewsParagraph"

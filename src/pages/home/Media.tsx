@@ -35,13 +35,13 @@ export const Media = memo(() => {
                         <picture>
                             <source srcSet={mediaWebp1} type="image/webp" />
                             <source srcSet={mediaJpg1} type="image/jpeg" />
-                            <img className={classes.image1} src={mediaWebp1} alt="quartet" />
+                            <img className={classes.image1} src={mediaWebp1} alt={t("mediaAltImage1")} />
                         </picture>
                     </a>
                     <picture>
                         <source srcSet={mediaWebp2} type="image/webp" />
                         <source srcSet={mediaJpg2} type="image/jpeg" />
-                        <img className={classes.image2} src={mediaWebp2} alt="cellist" />
+                        <img className={classes.image2} src={mediaWebp2} alt={t("mediaAltImage2")} />
                     </picture>
 
                 </div>
