@@ -8,10 +8,10 @@ import { tss } from "tss";
 import Typo from "@mui/material/Typography";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "i18n";
-/*import { SmallTitle } from "components/SmallTitle";
+import { SmallTitle } from "components/SmallTitle";
 import backgroundSvg from "assets/svg/marble-large.svg";
 import { Slider } from "components/Slider";
-import Youtube from "react-youtube";*/
+import Youtube from "react-youtube";
 
 
 export const Media = memo(() => {
@@ -63,7 +63,7 @@ export const Media = memo(() => {
                 })}
 
             />
-            {/*<div className={classes.videos}>
+            <div className={classes.videos}>
                 <div className={classes.decoSection}>
                     <img className={classes.backgroundSvg} src={backgroundSvg} alt="background" />
 
@@ -76,12 +76,13 @@ export const Media = memo(() => {
                 <Slider 
                     className={classes.slider}
                     slides={[
+                        "D1yG240Ll70",
                         "m4KVytsPdGY",
                         "s9kxlnvclpA",
                         "GF64sBI2fVQ",
                         "Vd8apnl8m-g",
                         "qD7evQDFDQM",
-                        "pSFHL-vbZxc",
+                        //"pSFHL-vbZxc",
                         "J6RVeWH_n-s"
                     ].map(id => <Youtube 
                             key={id}
@@ -90,7 +91,7 @@ export const Media = memo(() => {
                     />)}
                 />
 
-            </div>*/}
+            </div>
         </div>
     )
 
@@ -117,7 +118,6 @@ const useStyles = tss.create(({ theme }) => {
             "maxWidth": "100%",
             "paddingLeft": theme.spacing(5),
             "paddingRight": theme.spacing(5),
-            "paddingBottom": theme.spacing(20)
         },
         "slider": {
 

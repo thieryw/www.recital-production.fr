@@ -5,7 +5,7 @@ export const translation: TranslationHome<"fr"> = {
         "heroTitleLine1": "Les Meilleurs",
         "heroTitleLine2": "Musiciens & Danseurs",
         "heroTitleLine3": "Pour Vos Événements",
-        "heroParagraph": "Récital Production c’est une touche d’élégance musicale pour sublimer vos événements en région bordelaise, région parisienne, Gironde, et tout le Sud-Ouest de la France.",
+        "heroParagraph": "Récital Production vous propose des prestations musicales élégantes pour mariages, cocktails et événements privés à Bordeaux, Paris, en Gironde et dans tout le Sud-Ouest. Duo piano-voix, musique classique et pop live pour une ambiance raffinée et personnalisée.",
         "servicesSurtitle": "Prestations",
         "servicesTitle": "Particuliers, Communes, Entreprises",
         "servicesParagraph": "Nous avons l’offre qui vous correspond ! Haute qualité musicale, flexibilité et accompagnement sur mesure : nous faire confiance, c’est la promesse d’un événement unique.",
