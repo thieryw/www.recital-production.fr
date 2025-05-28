@@ -23,10 +23,11 @@ export const Hero = memo(() => {
 
         </div>
         <div className={classes.content}>
+            <h1 className={classes.hiddenTitle}>{t("heroHiddenTitle")}</h1>
             <div className={classes.titleWrapper}>
-                <Typo className={classes.title} variant="h1">{t("heroTitleLine1")}</Typo>
-                <Typo className={classes.titleGold} variant="h1">{t("heroTitleLine2")}</Typo>
-                <Typo className={classes.title} variant="h1">{t("heroTitleLine3")}</Typo>
+                <Typo className={classes.title} variant="h2">{t("heroTitleLine1")}</Typo>
+                <Typo className={classes.titleGold} variant="h2">{t("heroTitleLine2")}</Typo>
+                <Typo className={classes.title} variant="h2">{t("heroTitleLine3")}</Typo>
             </div>
 
             <Typo className={classes.paragraph} variant="body1">{t("heroParagraph")}</Typo>
@@ -37,6 +38,8 @@ export const Hero = memo(() => {
 
 
 const useStyles = tss.withName("homeHero").create(({theme}) => {
+
+    console.log(theme.typography.h1)
 
     return ({
         "root": {
@@ -91,14 +94,28 @@ const useStyles = tss.withName("homeHero").create(({theme}) => {
         },
         "titleWrapper": {},
         "title": {
+            "textAlign": "center",
             "color": theme.palette.white.main,
-            "textAlign": "center"
+            "fontFamily": '"orpheuspro", serif',
+            "fontSize": "clamp(3.5rem, 6.667vw, 8rem)",
+            "lineHeight": "1em"
+        },
+        "hiddenTitle": {
+            "position": "absolute",
+            "left": 9999,
+            "width": 1,
+            "height": 1,
+            "overflow": "hidden",
+
         },
         "titleGold": {
             "background": theme.palette.goldGradient.main,
             "color": "transparent",
             "backgroundClip": "text",
-            "textAlign": "center"
+            "textAlign": "center",
+            "fontFamily": '"orpheuspro", serif',
+            "fontSize": "clamp(3.5rem, 6.667vw, 8rem)",
+            "lineHeight": "1em"
         },
         "paragraph": {
             "color": theme.palette.white.main,

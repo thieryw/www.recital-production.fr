@@ -32,7 +32,7 @@ export const Quality = memo(() => {
                             "type": "image/jpeg"
                         }
                     ]}
-                    alt="quality section"
+                    alt={t("qualityPictureDesc")}
 
                 />
                 <div className={classes.textWrapper}>
