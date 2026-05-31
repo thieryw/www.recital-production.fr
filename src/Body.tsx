@@ -9,6 +9,7 @@ import { Contact } from "pages/Contact";
 import { useEffect } from "react";
 import { initGA, trackPage } from "analytics";
 import { session } from "./router";
+import { useSeo } from "seo/useSeo";
 
 export const bodyId = "bodyId";
 
@@ -17,6 +18,9 @@ export function Body() {
 
     const { classes } = useStyles();
     const route = useRoute();
+
+    useSeo();
+
     useEffect(() => {
         initGA(); // Start GA4
 
