@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://www.recital-production.fr/</loc>
+    <lastmod>2026-05-31</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.recital-production.fr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.recital-production.fr/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.recital-production.fr/"/>
+  </url>
+  <url>
+    <loc>https://www.recital-production.fr/prestations</loc>
+    <lastmod>2026-05-31</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.recital-production.fr/prestations"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.recital-production.fr/prestations?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.recital-production.fr/prestations"/>
+  </url>
+  <url>
+    <loc>https://www.recital-production.fr/en-images</loc>
+    <lastmod>2026-05-31</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.recital-production.fr/en-images"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.recital-production.fr/en-images?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.recital-production.fr/en-images"/>
+  </url>
+  <url>
+    <loc>https://www.recital-production.fr/contact</loc>
+    <lastmod>2026-05-31</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.recital-production.fr/contact"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.recital-production.fr/contact?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.recital-production.fr/contact"/>
+  </url>
+</urlset>
