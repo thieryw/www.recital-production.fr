@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "createMediaFiles": "npx vite-node src/bin/generateImageUrlExports.ts",
-    "postinstall": "format-images -a src/assets/jpg -o src/assets/webp -f webp --ov true && yarn createMediaFiles",
+    "postinstall": "vite-node src/bin/normalizeGalleryPhotos.ts && format-images -a src/assets/jpg -o src/assets/webp -f webp --ov true && yarn createMediaFiles",
     "prerender": "vite-node src/bin/prerender.ts"
   },
   "dependencies": {
