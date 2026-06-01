@@ -3,13 +3,17 @@ import { Header } from "Header"
 import { tss } from "tss";
 import { Home } from "pages/home";
 import { useRoute } from "router";
-import { Services } from "pages/services";
-import { Media } from "pages/Media";
-import { Contact } from "pages/Contact";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { initGA, trackPage } from "analytics";
 import { session } from "./router";
 import { useSeo } from "seo/useSeo";
+
+// Home stays eager (it's the most common landing page and LCP-critical).
+// The heavier inner pages — Media pulls in the gallery + YouTube embeds — are
+// code-split so they don't ship in the initial bundle on every visit.
+const Services = lazy(() => import("pages/services").then(m => ({ default: m.Services })));
+const Media = lazy(() => import("pages/Media").then(m => ({ default: m.Media })));
+const Contact = lazy(() => import("pages/Contact").then(m => ({ default: m.Contact })));
 
 export const bodyId = "bodyId";
 
@@ -41,10 +45,12 @@ export function Body() {
         <div id={bodyId} className={classes.root}>
             <Header />
             <div>
-                {route.name === "home" && <Home />}
-                {route.name === "services" && <Services />}
-                {route.name === "media" && <Media />}
-                {route.name === "contact" && <Contact />}
+                <Suspense fallback={null}>
+                    {route.name === "home" && <Home />}
+                    {route.name === "services" && <Services />}
+                    {route.name === "media" && <Media />}
+                    {route.name === "contact" && <Contact />}
+                </Suspense>
             </div>
             <Footer />
 
