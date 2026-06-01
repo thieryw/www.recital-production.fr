@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && hack-gh-pages src/router.ts && vite-node src/bin/injectSeo.ts",
+    "build": "tsc -b && vite build && hack-gh-pages src/router.ts && vite-node src/bin/injectSeo.ts && vite-node src/bin/prerender.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "createMediaFiles": "npx vite-node src/bin/generateImageUrlExports.ts",
-    "postinstall": "format-images -a src/assets/jpg -o src/assets/webp -f webp --ov true && yarn createMediaFiles"
+    "postinstall": "format-images -a src/assets/jpg -o src/assets/webp -f webp --ov true && yarn createMediaFiles",
+    "prerender": "vite-node src/bin/prerender.ts"
   },
   "dependencies": {
     "@emotion/react": "11.13.3",
@@ -43,6 +44,7 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "github-pages-plugin-for-type-route": "^2.0.4",
     "globals": "^15.9.0",
+    "puppeteer": "^25.1.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
