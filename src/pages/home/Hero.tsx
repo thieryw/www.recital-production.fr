@@ -1,7 +1,10 @@
 import { memo } from "react";
 import { tss } from "tss";
 import Typo from "@mui/material/Typography"
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 import heroMp4 from "assets/mp4/home/hero.mp4";
+import heroPosterJpg from "assets/jpg/home/hero-poster.jpg";
 import { useTranslation } from "i18n";
 
 
@@ -9,12 +12,40 @@ export const Hero = memo(() => {
 
     const { t } = useTranslation("Home");
     const { classes } = useStyles();
+    const theme = useTheme();
+
+    // Only load the (multi-MB) background video on larger screens. Mobile
+    // visitors get the lightweight poster image instead — this keeps the page
+    // weight and LCP down on the devices that need it most, and saves their data.
+    const shouldLoadVideo = useMediaQuery(theme.breakpoints.up("md"));
 
     return <div className={classes.root}>
         <div className={classes.backgroundWrapper}>
-            <video className={classes.backgroundVideo} autoPlay loop muted playsInline>
-                <source src={heroMp4} type="video/mp4" />
-            </video>
+            <picture>
+                <img
+                    className={classes.backgroundImage}
+                    src={heroPosterJpg}
+                    alt=""
+                    aria-hidden="true"
+                    fetchPriority="high"
+                    decoding="async"
+                    width={1600}
+                    height={1066}
+                />
+            </picture>
+            {shouldLoadVideo && (
+                <video
+                    className={classes.backgroundVideo}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    poster={heroPosterJpg}
+                >
+                    <source src={heroMp4} type="video/mp4" />
+                </video>
+            )}
         </div>
         <div className={classes.backgroundFilter}>
 
@@ -39,8 +70,6 @@ export const Hero = memo(() => {
 
 const useStyles = tss.withName("homeHero").create(({theme}) => {
 
-    console.log(theme.typography.h1)
-
     return ({
         "root": {
             "minHeight": 800,
@@ -58,7 +87,18 @@ const useStyles = tss.withName("homeHero").create(({theme}) => {
             "overflow": "hidden"
 
         },
+        "backgroundImage": {
+            "position": "absolute",
+            "top": 0,
+            "left": 0,
+            "objectFit": "cover",
+            "width": "100%",
+            "height": "100%"
+        },
         "backgroundVideo": {
+            "position": "absolute",
+            "top": 0,
+            "left": 0,
             "objectFit": "cover",
             "width": "100%",
             "height": "100%"

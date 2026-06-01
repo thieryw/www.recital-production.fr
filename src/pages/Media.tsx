@@ -33,11 +33,12 @@ export const Media = memo(() => {
                 images={webpMin.files.map((file, index) => {
                     return {
                         "thumbNail": {
+                            "alt": t("galleryImageAlt", { "index": index + 1 }),
                             "src": file.url,
                             "sources": [
                                 {
                                     "srcSet": file.url,
-                                    "type": "image/wbep"
+                                    "type": "image/webp"
                                 },
                                 {
                                     "srcSet": jpgMin.files[index].url,
@@ -46,6 +47,7 @@ export const Media = memo(() => {
                             ]
                         },
                         "lightBox": {
+                            "alt": t("galleryImageAlt", { "index": index + 1 }),
                             "src": webpPhotos.files[index].url,
                             "sources": [
                                 {
@@ -190,6 +192,7 @@ const useStyles = tss.create(({ theme }) => {
 export const { i18n } = declareComponentKeys<
     | "heroTitle"
     | "videosSmallTitle"
+    | { K: "galleryImageAlt"; P: { index: number } }
 >()({ Media })
 
 export type I18n = typeof i18n;
