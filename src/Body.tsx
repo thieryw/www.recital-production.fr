@@ -7,6 +7,8 @@ import { lazy, Suspense, useEffect } from "react";
 import { initGA, trackPage } from "analytics";
 import { session } from "./router";
 import { useSeo } from "seo/useSeo";
+import { useLang } from "i18n";
+import { pageOf, langOf } from "seo/localized";
 
 // Home stays eager (it's the most common landing page and LCP-critical).
 // The heavier inner pages — Media pulls in the gallery + YouTube embeds — are
@@ -24,6 +26,19 @@ export function Body() {
     const route = useRoute();
 
     useSeo();
+
+    // The route is the single source of truth for language: keep i18nifty in
+    // sync so an /en/* URL renders English (this is also what lets the
+    // prerenderer capture English HTML by simply visiting the /en/* path).
+    const { lang, setLang } = useLang();
+    const routeLang = langOf(route.name);
+    useEffect(() => {
+        if (lang !== routeLang) {
+            setLang(routeLang);
+        }
+    }, [routeLang, lang, setLang]);
+
+    const page = pageOf(route.name);
 
     useEffect(() => {
         initGA(); // Start GA4
@@ -46,10 +61,10 @@ export function Body() {
             <Header />
             <div>
                 <Suspense fallback={null}>
-                    {route.name === "home" && <Home />}
-                    {route.name === "services" && <Services />}
-                    {route.name === "media" && <Media />}
-                    {route.name === "contact" && <Contact />}
+                    {page === "home" && <Home />}
+                    {page === "services" && <Services />}
+                    {page === "media" && <Media />}
+                    {page === "contact" && <Contact />}
                 </Suspense>
             </div>
             <Footer />

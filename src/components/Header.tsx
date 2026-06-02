@@ -4,6 +4,8 @@ import { type Link } from "tools/link";
 import Typo from "@mui/material/Typography";
 import { SquareButton } from "./SquareButton";
 import { useLang } from "i18n";
+import { useRoute } from "router";
+import { pushToAlternateLang } from "seo/localized";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { ReactSVG } from "react-svg";
 import { getScrollableParent } from "powerhooks/getScrollableParent";
@@ -30,7 +32,8 @@ export type HeaderProps = {
 
 export const Header = memo((props: HeaderProps) => {
     const { links, logo, mobile, className, isDark, activeLinkLabel } = props;
-    const { lang, setLang } = useLang();
+    const { lang } = useLang();
+    const route = useRoute();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const ref = useRef(null);
     const { windowInnerWidth, theme, cx, classes } = useStyles({
@@ -38,14 +41,10 @@ export const Header = memo((props: HeaderProps) => {
 
     });
 
+    // Switch language by navigating to the same page's other-language URL.
+    // i18nifty's language then follows the route (see Body.tsx).
     const toggleLang = useConstCallback(() => {
-        console.log("ok");
-        if (lang === "en") {
-            setLang("fr");
-            return;
-        }
-        setLang("en");
-
+        pushToAlternateLang(route.name);
     });
 
     const toggleMobileMenu = useConstCallback(() => {

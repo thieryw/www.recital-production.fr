@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useRoute } from "router";
-import { useLang } from "i18n";
 import {
     SEO_BY_ROUTE,
     ROUTE_META,
@@ -8,7 +7,6 @@ import {
     SITE_NAME,
     absUrl,
     buildAlternates,
-    type Lang,
     type RouteName
 } from "./seoData";
 
@@ -48,12 +46,12 @@ function setCanonical(href: string) {
  * become stale on SPA navigation) and removes any duplicates, leaving a single
  * clean, route-aware set.
  */
-function setAlternates(path: string) {
+function setAlternates(routeName: RouteName) {
     document.head
         .querySelectorAll('link[rel="alternate"][hreflang]')
         .forEach(node => node.parentNode?.removeChild(node));
 
-    buildAlternates(path).forEach(({ hreflang, href }) => {
+    buildAlternates(routeName).forEach(({ hreflang, href }) => {
         const link = document.createElement("link");
         link.setAttribute("rel", "alternate");
         link.setAttribute("hreflang", hreflang);
@@ -69,16 +67,16 @@ function setAlternates(path: string) {
  */
 export function useSeo() {
     const route = useRoute();
-    const { lang } = useLang();
 
     useEffect(() => {
-        const routeName = (
-            route.name !== false && route.name in ROUTE_META ? route.name : "home"
-        ) as RouteName;
+        const matched = route.name !== false && route.name in ROUTE_META;
+        const routeName = (matched ? route.name : "home") as RouteName;
+        const meta = ROUTE_META[routeName];
+        const lang = meta.lang;
 
-        const isIndexable = route.name !== false && ROUTE_META[routeName].index;
-        const seo = SEO_BY_ROUTE[routeName][lang as Lang];
-        const canonical = absUrl(ROUTE_META[routeName].path);
+        const isIndexable = matched && meta.index;
+        const seo = SEO_BY_ROUTE[meta.page][lang];
+        const canonical = absUrl(meta.path);
         const ogImage = absUrl("/preview.jpg");
 
         document.title = seo.title;
@@ -94,13 +92,13 @@ export function useSeo() {
         setMetaByProperty("og:description", seo.description);
         setMetaByProperty("og:url", canonical);
         setMetaByProperty("og:image", ogImage);
-        setMetaByProperty("og:locale", OG_LOCALE[lang as Lang]);
+        setMetaByProperty("og:locale", OG_LOCALE[lang]);
 
         setMetaByName("twitter:card", "summary_large_image");
         setMetaByName("twitter:title", seo.title);
         setMetaByName("twitter:description", seo.description);
         setMetaByName("twitter:image", ogImage);
 
-        setAlternates(ROUTE_META[routeName].path);
-    }, [route.name, lang]);
+        setAlternates(routeName);
+    }, [route.name]);
 }

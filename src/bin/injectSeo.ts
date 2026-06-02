@@ -14,7 +14,6 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import {
     ROUTE_META,
-    PRIMARY_LANG,
     SITE_URL,
     absUrl,
     buildAlternates,
@@ -27,7 +26,7 @@ const DIST = "dist";
 const START = "<!-- seo:start -->";
 const END = "<!-- seo:end -->";
 
-function injectInto(file: string, headHtml: string): boolean {
+function injectInto(file: string, headHtml: string, lang: string): boolean {
     const path = join(DIST, file);
     if (!existsSync(path)) {
         console.warn(`[injectSeo] skip (not found): ${path}`);
@@ -42,19 +41,24 @@ function injectInto(file: string, headHtml: string): boolean {
     }
     const before = html.slice(0, startIdx + START.length);
     const after = html.slice(endIdx);
-    const next = `${before}\n    ${headHtml}\n    ${after}`;
+    let next = `${before}\n    ${headHtml}\n    ${after}`;
+    // Reflect the page's language on the root <html> element.
+    next = /<html[^>]*\blang="[^"]*"/i.test(next)
+        ? next.replace(/(<html[^>]*\blang=")[^"]*(")/i, `$1${lang}$2`)
+        : next.replace(/<html\b/i, `<html lang="${lang}"`);
     writeFileSync(path, next, "utf8");
-    console.log(`[injectSeo] injected: ${path}`);
+    console.log(`[injectSeo] injected (${lang}): ${path}`);
     return true;
 }
 
-/* Inject every route file. */
+/* Inject every route file (each in its own language). */
 (Object.keys(ROUTE_META) as RouteName[]).forEach(routeName => {
-    injectInto(ROUTE_META[routeName].file, renderHeadTags(routeName, PRIMARY_LANG));
+    const meta = ROUTE_META[routeName];
+    injectInto(meta.file, renderHeadTags(routeName), meta.lang);
 });
 
 /* 404.html: keep the SPA shell but make it noindex. */
-injectInto("404.html", renderHeadTagsRaw404());
+injectInto("404.html", renderHeadTagsRaw404(), "fr");
 
 /* Build sitemap.xml from the indexable routes. */
 const lastmod = new Date().toISOString().slice(0, 10);
@@ -62,7 +66,7 @@ const urls = (Object.keys(ROUTE_META) as RouteName[])
     .filter(name => ROUTE_META[name].index)
     .map(name => {
         const path = ROUTE_META[name].path;
-        const alternates = buildAlternates(path)
+        const alternates = buildAlternates(name)
             .map(
                 a =>
                     `    <xhtml:link rel="alternate" hreflang="${a.hreflang}" href="${a.href}"/>`

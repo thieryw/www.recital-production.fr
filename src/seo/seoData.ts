@@ -9,7 +9,12 @@
  */
 
 export type Lang = "fr" | "en";
-export type RouteName = "home" | "services" | "media" | "contact" | "legal";
+/** Logical page, shared across languages. */
+export type Page = "home" | "services" | "media" | "contact" | "legal";
+/** A concrete route = one page in one language. Must mirror `src/router.ts`. */
+export type RouteName =
+    | "home" | "services" | "media" | "contact" | "legal"
+    | "homeEn" | "servicesEn" | "mediaEn" | "contactEn";
 
 /** Canonical host. Must match `public/CNAME` (www) and `.env`'s VITE_SITE_URL. */
 export const SITE_URL = "https://www.recital-production.fr";
@@ -39,19 +44,42 @@ export const OG_LOCALE: Record<Lang, string> = {
  *  - `file`  : the file produced in `dist`
  *  - `index` : whether the page should be indexed by search engines
  */
-export const ROUTE_META: Record<
-    RouteName,
-    { path: string; file: string; index: boolean }
-> = {
-    "home": { "path": "/", "file": "index.html", "index": true },
-    "services": { "path": "/prestations", "file": "prestations.html", "index": true },
-    "media": { "path": "/en-images", "file": "en-images.html", "index": true },
-    "contact": { "path": "/contact", "file": "contact.html", "index": true },
-    "legal": { "path": "/legal", "file": "legal.html", "index": false }
+export type RouteMeta = {
+    /** Clean public URL path (used for canonical + sitemap). */
+    path: string;
+    /** File emitted in `dist` by github-pages-plugin-for-type-route. */
+    file: string;
+    /** Whether search engines should index the page. */
+    index: boolean;
+    /** Language this concrete route is served in. */
+    lang: Lang;
+    /** Logical page, shared across languages. */
+    page: Page;
+    /** RouteName of the same page in the other language (drives hreflang). */
+    alternate?: RouteName;
 };
 
-/** Per-route, per-language <title> and meta description. */
-export const SEO_BY_ROUTE: Record<RouteName, Record<Lang, { title: string; description: string }>> = {
+/**
+ * English lives at path-prefixed routes (`/en`, `/en/services`, …) rather than
+ * `?lang=en`, because a query-string variant cannot be self-canonical on static
+ * hosting and so never gets indexed as a distinct language. The home-en path is
+ * `/en` (no trailing slash): the gh-pages plugin runs `path.relative` which
+ * strips a trailing slash, so `/en` and the emitted file `en.html` stay aligned.
+ */
+export const ROUTE_META: Record<RouteName, RouteMeta> = {
+    "home":       { "path": "/",            "file": "index.html",       "index": true,  "lang": "fr", "page": "home",     "alternate": "homeEn" },
+    "services":   { "path": "/prestations", "file": "prestations.html", "index": true,  "lang": "fr", "page": "services", "alternate": "servicesEn" },
+    "media":      { "path": "/en-images",   "file": "en-images.html",   "index": true,  "lang": "fr", "page": "media",    "alternate": "mediaEn" },
+    "contact":    { "path": "/contact",     "file": "contact.html",     "index": true,  "lang": "fr", "page": "contact",  "alternate": "contactEn" },
+    "legal":      { "path": "/legal",       "file": "legal.html",       "index": false, "lang": "fr", "page": "legal" },
+    "homeEn":     { "path": "/en",          "file": "en.html",          "index": true,  "lang": "en", "page": "home",     "alternate": "home" },
+    "servicesEn": { "path": "/en/services", "file": "en/services.html", "index": true,  "lang": "en", "page": "services", "alternate": "services" },
+    "mediaEn":    { "path": "/en/gallery",  "file": "en/gallery.html",  "index": true,  "lang": "en", "page": "media",    "alternate": "media" },
+    "contactEn":  { "path": "/en/contact",  "file": "en/contact.html",  "index": true,  "lang": "en", "page": "contact",  "alternate": "contact" }
+};
+
+/** Per-page, per-language <title> and meta description. */
+export const SEO_BY_ROUTE: Record<Page, Record<Lang, { title: string; description: string }>> = {
     "home": {
         "fr": {
             "title": "Récital Production – Musiciens pour mariages & événements à Bordeaux",
@@ -179,21 +207,33 @@ export function escapeHtml(value: string): string {
 }
 
 /**
- * hreflang alternates for a given path.
- * French is the default/primary language served at the clean URL; English is
- * reachable via the `?lang=en` search param (handled by i18nifty at runtime).
+ * Reciprocal hreflang alternates for a concrete route.
+ * Both the FR and EN page emit the identical cluster (fr → FR url, en → EN url,
+ * x-default → FR url), and every target is the self-canonical URL of a real
+ * page — which is what makes Google honour the annotation. Single-language
+ * pages (e.g. legal) get no cluster.
  */
-export function buildAlternates(path: string): { hreflang: string; href: string }[] {
-    const clean = absUrl(path);
+export function buildAlternates(routeName: RouteName): { hreflang: string; href: string }[] {
+    const meta = ROUTE_META[routeName];
+    if (meta.alternate === undefined) {
+        return [];
+    }
+    const alt = ROUTE_META[meta.alternate];
+    const frPath = meta.lang === "fr" ? meta.path : alt.path;
+    const enPath = meta.lang === "en" ? meta.path : alt.path;
     return [
-        { "hreflang": "fr", "href": clean },
-        { "hreflang": "en", "href": `${clean}${clean.includes("?") ? "&" : "?"}lang=en` },
-        { "hreflang": "x-default", "href": clean }
+        { "hreflang": "fr", "href": absUrl(frPath) },
+        { "hreflang": "en", "href": absUrl(enPath) },
+        { "hreflang": "x-default", "href": absUrl(frPath) }
     ];
 }
 
-/** Structured data (schema.org) graph for a given route + language. */
-export function buildJsonLd(routeName: RouteName, lang: Lang): object {
+/** Structured data (schema.org) graph for a concrete route. */
+export function buildJsonLd(routeName: RouteName): object {
+    const meta = ROUTE_META[routeName];
+    const lang = meta.lang;
+    const page = meta.page;
+
     const organization = {
         "@type": ["MusicGroup", "LocalBusiness"],
         "@id": `${SITE_URL}/#organization`,
@@ -219,10 +259,10 @@ export function buildJsonLd(routeName: RouteName, lang: Lang): object {
 
     const graph: object[] = [organization, website];
 
-    if (routeName === "services") {
+    if (page === "services") {
         graph.push({
             "@type": "FAQPage",
-            "@id": `${absUrl(ROUTE_META.services.path)}#faq`,
+            "@id": `${absUrl(meta.path)}#faq`,
             "mainEntity": SERVICES_FAQ[lang].map(({ question, answer }) => ({
                 "@type": "Question",
                 "name": question,
@@ -236,12 +276,14 @@ export function buildJsonLd(routeName: RouteName, lang: Lang): object {
 
 /**
  * Renders the full block of head tags injected statically at build time
- * (between the `<!-- seo:start -->` / `<!-- seo:end -->` markers in index.html).
- * `lang` defaults to the primary (statically rendered) language.
+ * (between the `<!-- seo:start -->` / `<!-- seo:end -->` markers).
+ * The language is the route's OWN language, so each emitted file (FR or EN) is
+ * self-canonical and described in its own language.
  */
-export function renderHeadTags(routeName: RouteName, lang: Lang = PRIMARY_LANG): string {
+export function renderHeadTags(routeName: RouteName): string {
     const meta = ROUTE_META[routeName];
-    const seo = SEO_BY_ROUTE[routeName][lang];
+    const lang = meta.lang;
+    const seo = SEO_BY_ROUTE[meta.page][lang];
     const canonical = absUrl(meta.path);
     const ogImage = absUrl(OG_IMAGE_PATH);
     const robots = meta.index ? "index, follow" : "noindex, follow";
@@ -253,7 +295,7 @@ export function renderHeadTags(routeName: RouteName, lang: Lang = PRIMARY_LANG):
         `<meta name="description" content="${d}">`,
         `<link rel="canonical" href="${canonical}">`,
         `<meta name="robots" content="${robots}">`,
-        ...buildAlternates(meta.path).map(
+        ...buildAlternates(routeName).map(
             a => `<link rel="alternate" hreflang="${a.hreflang}" href="${escapeHtml(a.href)}">`
         ),
         `<meta property="og:type" content="website">`,
@@ -270,7 +312,7 @@ export function renderHeadTags(routeName: RouteName, lang: Lang = PRIMARY_LANG):
         `<meta name="twitter:title" content="${t}">`,
         `<meta name="twitter:description" content="${d}">`,
         `<meta name="twitter:image" content="${ogImage}">`,
-        `<script type="application/ld+json">${JSON.stringify(buildJsonLd(routeName, lang))}</script>`
+        `<script type="application/ld+json">${JSON.stringify(buildJsonLd(routeName))}</script>`
     ];
 
     return lines.join("\n    ");
