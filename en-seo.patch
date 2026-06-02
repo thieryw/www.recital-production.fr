@@ -1,0 +1,646 @@
+diff --git a/src/Body.tsx b/src/Body.tsx
+index 713e2b7..ae2e779 100644
+--- a/src/Body.tsx
++++ b/src/Body.tsx
+@@ -7,6 +7,8 @@ import { lazy, Suspense, useEffect } from "react";
+ import { initGA, trackPage } from "analytics";
+ import { session } from "./router";
+ import { useSeo } from "seo/useSeo";
++import { useLang } from "i18n";
++import { pageOf, langOf } from "seo/localized";
+ 
+ // Home stays eager (it's the most common landing page and LCP-critical).
+ // The heavier inner pages — Media pulls in the gallery + YouTube embeds — are
+@@ -25,6 +27,19 @@ export function Body() {
+ 
+     useSeo();
+ 
++    // The route is the single source of truth for language: keep i18nifty in
++    // sync so an /en/* URL renders English (this is also what lets the
++    // prerenderer capture English HTML by simply visiting the /en/* path).
++    const { lang, setLang } = useLang();
++    const routeLang = langOf(route.name);
++    useEffect(() => {
++        if (lang !== routeLang) {
++            setLang(routeLang);
++        }
++    }, [routeLang, lang, setLang]);
++
++    const page = pageOf(route.name);
++
+     useEffect(() => {
+         initGA(); // Start GA4
+ 
+@@ -46,10 +61,10 @@ export function Body() {
+             <Header />
+             <div>
+                 <Suspense fallback={null}>
+-                    {route.name === "home" && <Home />}
+-                    {route.name === "services" && <Services />}
+-                    {route.name === "media" && <Media />}
+-                    {route.name === "contact" && <Contact />}
++                    {page === "home" && <Home />}
++                    {page === "services" && <Services />}
++                    {page === "media" && <Media />}
++                    {page === "contact" && <Contact />}
+                 </Suspense>
+             </div>
+             <Footer />
+diff --git a/src/Footer.tsx b/src/Footer.tsx
+index d49269d..6b15890 100644
+--- a/src/Footer.tsx
++++ b/src/Footer.tsx
+@@ -1,7 +1,8 @@
+ import { memo, useMemo } from "react";
+-import { declareComponentKeys, useLang, useTranslation } from "i18n"
++import { declareComponentKeys, useTranslation } from "i18n"
+ import { Footer as FooterComponent } from "components/Footer";
+-import { routes, useRoute } from "router";
++import { useRoute } from "router";
++import { linkTo, langOf, routeNameForPage } from "seo/localized";
+ import { tss } from "tss";
+ import instaSvg from "assets/svg/Insta.svg";
+ import ytSvg from "assets/svg/YT.svg";
+@@ -13,8 +14,8 @@ import legalPdf from "assets/pdf/mentions-legales-recital-production.pdf";
+ export const Footer = memo(() => {
+ 
+     const { t } = useTranslation("Footer");
+-    const { lang } = useLang();
+     const route = useRoute();
++    const lang = langOf(route.name);
+ 
+     const links = useMemo((): {
+         href: string;
+@@ -23,30 +24,13 @@ export const Footer = memo(() => {
+         routeName: string;
+     }[] => {
+         return [
+-            {
+-                "label": t("link0"),
+-                ...routes.home().link,
+-                "routeName": routes.home().name
+-            },
+-            {
+-                "label": t("link1"),
+-                ...routes.services().link,
+-                "routeName": routes.services().name
+-            },
+-            {
+-                "label": t("link2"),
+-                ...routes.media().link,
+-                "routeName": routes.media().name
+-            },
+-            {
+-                "label": t("link3"),
+-                ...routes.contact().link,
+-                "routeName": routes.contact().name
+-            },
+-
++            { "label": t("link0"), ...linkTo("home", lang), "routeName": routeNameForPage("home", lang) },
++            { "label": t("link1"), ...linkTo("services", lang), "routeName": routeNameForPage("services", lang) },
++            { "label": t("link2"), ...linkTo("media", lang), "routeName": routeNameForPage("media", lang) },
++            { "label": t("link3"), ...linkTo("contact", lang), "routeName": routeNameForPage("contact", lang) },
+         ]
+ 
+-    }, [lang])
++    }, [lang, t])
+ 
+ 
+     const { classes, cx } = useStyles();
+diff --git a/src/Header.tsx b/src/Header.tsx
+index b3b0808..fbbbf83 100644
+--- a/src/Header.tsx
++++ b/src/Header.tsx
+@@ -1,7 +1,9 @@
+ import { memo, useMemo } from "react";
+-import { declareComponentKeys, useLang, useTranslation } from "i18n"
++import { declareComponentKeys, useTranslation } from "i18n"
+ import { Header as HeaderComponent } from "components/Header";
+-import { routes, useRoute } from "router";
++import { useRoute } from "router";
++import { linkTo, langOf, pageOf, routeNameForPage } from "seo/localized";
++import type { Page } from "seo/seoData";
+ import logoSvg from "assets/svg/logoHeader.svg";
+ import logoDarkSvg from "assets/svg/logoHeaderDark.svg";
+ import { ReactSVG } from "react-svg";
+@@ -15,51 +17,36 @@ export const Header = memo(() => {
+ 
+     const { t } = useTranslation("Header");
+     const route = useRoute();
+-    const { lang } = useLang();
++    const lang = langOf(route.name);
++    const currentPage = pageOf(route.name);
+ 
+     const links = useMemo((): {
+         href: string;
+         onClick?: () => void;
+         label: string;
+         routeName: string;
++        page: Page;
+     }[] => {
+         return [
+-            {
+-                "label": t("link0"),
+-                ...routes.home().link,
+-                "routeName": routes.home().name
+-            },
+-            {
+-                "label": t("link1"),
+-                ...routes.services().link,
+-                "routeName": routes.services().name
+-            },
+-            {
+-                "label": t("link2"),
+-                ...routes.media().link,
+-                "routeName": routes.media().name
+-            },
+-            {
+-                "label": t("link3"),
+-                ...routes.contact().link,
+-                "routeName": routes.contact().name
+-            },
+-
++            { "label": t("link0"), ...linkTo("home", lang), "routeName": routeNameForPage("home", lang), "page": "home" },
++            { "label": t("link1"), ...linkTo("services", lang), "routeName": routeNameForPage("services", lang), "page": "services" },
++            { "label": t("link2"), ...linkTo("media", lang), "routeName": routeNameForPage("media", lang), "page": "media" },
++            { "label": t("link3"), ...linkTo("contact", lang), "routeName": routeNameForPage("contact", lang), "page": "contact" },
+         ]
+ 
+-    }, [lang])
++    }, [lang, t])
+ 
+ 
+     const { classes, windowInnerWidth, theme } = useStyles();
+ 
+     return <HeaderComponent
+         activeLinkLabel={links.find(({ routeName }) => routeName === route.name)?.label}
+-        links={windowInnerWidth >= theme.breakpoints.values.sm ? links.filter((link) => link.routeName !== "home") : links}
+-        logo={<a className={classes.logoWrapper} {...routes.home().link}><ReactSVG className={classes.logo} src={route.name === "home" ? logoDarkSvg : logoSvg} /></a>}
+-        isDark={route.name === "home"}
++        links={windowInnerWidth >= theme.breakpoints.values.sm ? links.filter((link) => link.page !== "home") : links}
++        logo={<a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={currentPage === "home" ? logoDarkSvg : logoSvg} /></a>}
++        isDark={currentPage === "home"}
+         mobile={{
+-            "logoOpen": <a className={classes.logoWrapper} {...routes.home().link}><ReactSVG className={classes.logo} src={logoDarkSvg} /></a>,
+-            "logoClosed": <a className={classes.logoWrapper} {...routes.home().link}><ReactSVG className={classes.logo} src={route.name === "home" ? logoDarkSvg : logoSvg} /></a>,
++            "logoOpen": <a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={logoDarkSvg} /></a>,
++            "logoClosed": <a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={currentPage === "home" ? logoDarkSvg : logoSvg} /></a>,
+             "socialLinks": [
+                 {
+                     "iconUrl": instaSvg,
+@@ -71,7 +58,7 @@ export const Header = memo(() => {
+                 }
+             ],
+             "bottomDiv": <div className={classes.bottomDiv}>
+-                <a className={classes.bdLine} {...routes.legal().link}><Typo className={classes.linkLabel} variant="button">{t("legalLinkLabel")}</Typo></a>
++                <a className={classes.bdLine} {...linkTo("legal", lang)}><Typo className={classes.linkLabel} variant="button">{t("legalLinkLabel")}</Typo></a>
+                 <Typo className={classes.bdLine} variant="button">{t("copyRight")}</Typo>
+                 <div className={classes.designer}>
+                     <Typo variant="button">{t("designed")}</Typo>
+diff --git a/src/bin/injectSeo.ts b/src/bin/injectSeo.ts
+index bf12162..499475b 100644
+--- a/src/bin/injectSeo.ts
++++ b/src/bin/injectSeo.ts
+@@ -14,7 +14,6 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
+ import { join } from "node:path";
+ import {
+     ROUTE_META,
+-    PRIMARY_LANG,
+     SITE_URL,
+     absUrl,
+     buildAlternates,
+@@ -27,7 +26,7 @@ const DIST = "dist";
+ const START = "<!-- seo:start -->";
+ const END = "<!-- seo:end -->";
+ 
+-function injectInto(file: string, headHtml: string): boolean {
++function injectInto(file: string, headHtml: string, lang: string): boolean {
+     const path = join(DIST, file);
+     if (!existsSync(path)) {
+         console.warn(`[injectSeo] skip (not found): ${path}`);
+@@ -42,19 +41,24 @@ function injectInto(file: string, headHtml: string): boolean {
+     }
+     const before = html.slice(0, startIdx + START.length);
+     const after = html.slice(endIdx);
+-    const next = `${before}\n    ${headHtml}\n    ${after}`;
++    let next = `${before}\n    ${headHtml}\n    ${after}`;
++    // Reflect the page's language on the root <html> element.
++    next = /<html[^>]*\blang="[^"]*"/i.test(next)
++        ? next.replace(/(<html[^>]*\blang=")[^"]*(")/i, `$1${lang}$2`)
++        : next.replace(/<html\b/i, `<html lang="${lang}"`);
+     writeFileSync(path, next, "utf8");
+-    console.log(`[injectSeo] injected: ${path}`);
++    console.log(`[injectSeo] injected (${lang}): ${path}`);
+     return true;
+ }
+ 
+-/* Inject every route file. */
++/* Inject every route file (each in its own language). */
+ (Object.keys(ROUTE_META) as RouteName[]).forEach(routeName => {
+-    injectInto(ROUTE_META[routeName].file, renderHeadTags(routeName, PRIMARY_LANG));
++    const meta = ROUTE_META[routeName];
++    injectInto(meta.file, renderHeadTags(routeName), meta.lang);
+ });
+ 
+ /* 404.html: keep the SPA shell but make it noindex. */
+-injectInto("404.html", renderHeadTagsRaw404());
++injectInto("404.html", renderHeadTagsRaw404(), "fr");
+ 
+ /* Build sitemap.xml from the indexable routes. */
+ const lastmod = new Date().toISOString().slice(0, 10);
+@@ -62,7 +66,7 @@ const urls = (Object.keys(ROUTE_META) as RouteName[])
+     .filter(name => ROUTE_META[name].index)
+     .map(name => {
+         const path = ROUTE_META[name].path;
+-        const alternates = buildAlternates(path)
++        const alternates = buildAlternates(name)
+             .map(
+                 a =>
+                     `    <xhtml:link rel="alternate" hreflang="${a.hreflang}" href="${a.href}"/>`
+diff --git a/src/components/Header.tsx b/src/components/Header.tsx
+index 223e7c3..c29bb71 100644
+--- a/src/components/Header.tsx
++++ b/src/components/Header.tsx
+@@ -4,6 +4,8 @@ import { type Link } from "tools/link";
+ import Typo from "@mui/material/Typography";
+ import { SquareButton } from "./SquareButton";
+ import { useLang } from "i18n";
++import { useRoute } from "router";
++import { pushToAlternateLang } from "seo/localized";
+ import { useConstCallback } from "powerhooks/useConstCallback";
+ import { ReactSVG } from "react-svg";
+ import { getScrollableParent } from "powerhooks/getScrollableParent";
+@@ -30,7 +32,8 @@ export type HeaderProps = {
+ 
+ export const Header = memo((props: HeaderProps) => {
+     const { links, logo, mobile, className, isDark, activeLinkLabel } = props;
+-    const { lang, setLang } = useLang();
++    const { lang } = useLang();
++    const route = useRoute();
+     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+     const ref = useRef(null);
+     const { windowInnerWidth, theme, cx, classes } = useStyles({
+@@ -38,14 +41,10 @@ export const Header = memo((props: HeaderProps) => {
+ 
+     });
+ 
++    // Switch language by navigating to the same page's other-language URL.
++    // i18nifty's language then follows the route (see Body.tsx).
+     const toggleLang = useConstCallback(() => {
+-        console.log("ok");
+-        if (lang === "en") {
+-            setLang("fr");
+-            return;
+-        }
+-        setLang("en");
+-
++        pushToAlternateLang(route.name);
+     });
+ 
+     const toggleMobileMenu = useConstCallback(() => {
+diff --git a/src/main.tsx b/src/main.tsx
+index baeaba3..531c6c7 100644
+--- a/src/main.tsx
++++ b/src/main.tsx
+@@ -4,6 +4,14 @@ import { App } from './App.tsx'
+ //import './index.css'
+ import { ThemeProvider } from "theme";
+ import { RouteProvider } from "router.ts";
++import { $lang } from "i18n";
++
++// Path-based language: an /en/* URL must render English from the first frame so
++// it matches the statically prerendered HTML (no FR→EN flash on hydration).
++// Subsequent in-app changes are handled by the route-sync effect in Body.tsx.
++if (/^\/en(\/|$)/.test(window.location.pathname)) {
++    $lang.current = "en";
++}
+ 
+ createRoot(document.getElementById('root')!).render(
+   <StrictMode>
+diff --git a/src/router.ts b/src/router.ts
+index 0319262..f9d92d2 100644
+--- a/src/router.ts
++++ b/src/router.ts
+@@ -15,6 +15,14 @@ export const routeDefs = {
+     "media": defineRoute(publicUrl + "en-images"),
+     "contact": defineRoute(publicUrl + "contact"),
+ 	"legal": defineRoute(publicUrl + "legal"),
++    // English (path-prefixed) mirror routes. Language is derived from the route
++    // (see src/seo/localized.ts); the page→component mapping lives in Body.tsx.
++    // home-en is "/en" (no trailing slash) to stay aligned with the emitted
++    // file "en.html" — see the note in src/seo/seoData.ts.
++    "homeEn": defineRoute(publicUrl + "en"),
++    "servicesEn": defineRoute(publicUrl + "en/services"),
++    "mediaEn": defineRoute(publicUrl + "en/gallery"),
++    "contactEn": defineRoute(publicUrl + "en/contact"),
+ };
+ 
+ 
+diff --git a/src/seo/localized.ts b/src/seo/localized.ts
+new file mode 100644
+index 0000000..20290ad
+--- /dev/null
++++ b/src/seo/localized.ts
+@@ -0,0 +1,61 @@
++/**
++ * Runtime glue between type-route's concrete (per-language) routes and the
++ * app's logical pages. Keeps the FR/EN mirror-route bookkeeping in one spot so
++ * components can think in terms of `{ page, lang }` instead of nine route names.
++ *
++ * Browser-only (imports `router`, which pulls in type-route). Never import this
++ * from the build scripts — they consume the framework-free `seoData` directly.
++ */
++import { routes } from "router";
++import { ROUTE_META, type RouteName, type Page, type Lang } from "./seoData";
++
++type RouteFn = () => {
++    link: { href: string; onClick: (event?: unknown) => void };
++    href: string;
++    push: () => void;
++};
++const routeTable = routes as unknown as Record<RouteName, RouteFn>;
++
++/** `${page}:${lang}` -> RouteName, built once from ROUTE_META. */
++const byPageLang: Partial<Record<string, RouteName>> = {};
++(Object.keys(ROUTE_META) as RouteName[]).forEach(name => {
++    const { page, lang } = ROUTE_META[name];
++    byPageLang[`${page}:${lang}`] = name;
++});
++
++/** The active route's logical page (undefined when no route matches). */
++export function pageOf(routeName: string | false): Page | undefined {
++    if (routeName === false) {
++        return undefined;
++    }
++    return ROUTE_META[routeName as RouteName]?.page;
++}
++
++/** The active route's language (falls back to French). */
++export function langOf(routeName: string | false): Lang {
++    if (routeName === false) {
++        return "fr";
++    }
++    return ROUTE_META[routeName as RouteName]?.lang ?? "fr";
++}
++
++/** RouteName for a page in a language, falling back to the French route. */
++export function routeNameForPage(page: Page, lang: Lang): RouteName {
++    return byPageLang[`${page}:${lang}`] ?? byPageLang[`${page}:fr`] ?? "home";
++}
++
++/** type-route `.link` (`{ href, onClick }`) for a page in a language. */
++export function linkTo(page: Page, lang: Lang) {
++    return routeTable[routeNameForPage(page, lang)]().link;
++}
++
++/**
++ * Navigate to the current page in the other language (used by the FR/EN
++ * toggle). Setting i18nifty's language is left to the route-sync effect in
++ * Body.tsx, so language always follows the URL.
++ */
++export function pushToAlternateLang(routeName: string | false): void {
++    const current = routeName === false ? "home" : (routeName as RouteName);
++    const target = ROUTE_META[current]?.alternate ?? current;
++    routeTable[target]().push();
++}
+diff --git a/src/seo/seoData.ts b/src/seo/seoData.ts
+index 31fcaed..67035f5 100644
+--- a/src/seo/seoData.ts
++++ b/src/seo/seoData.ts
+@@ -9,7 +9,12 @@
+  */
+ 
+ export type Lang = "fr" | "en";
+-export type RouteName = "home" | "services" | "media" | "contact" | "legal";
++/** Logical page, shared across languages. */
++export type Page = "home" | "services" | "media" | "contact" | "legal";
++/** A concrete route = one page in one language. Must mirror `src/router.ts`. */
++export type RouteName =
++    | "home" | "services" | "media" | "contact" | "legal"
++    | "homeEn" | "servicesEn" | "mediaEn" | "contactEn";
+ 
+ /** Canonical host. Must match `public/CNAME` (www) and `.env`'s VITE_SITE_URL. */
+ export const SITE_URL = "https://www.recital-production.fr";
+@@ -39,19 +44,42 @@ export const OG_LOCALE: Record<Lang, string> = {
+  *  - `file`  : the file produced in `dist`
+  *  - `index` : whether the page should be indexed by search engines
+  */
+-export const ROUTE_META: Record<
+-    RouteName,
+-    { path: string; file: string; index: boolean }
+-> = {
+-    "home": { "path": "/", "file": "index.html", "index": true },
+-    "services": { "path": "/prestations", "file": "prestations.html", "index": true },
+-    "media": { "path": "/en-images", "file": "en-images.html", "index": true },
+-    "contact": { "path": "/contact", "file": "contact.html", "index": true },
+-    "legal": { "path": "/legal", "file": "legal.html", "index": false }
++export type RouteMeta = {
++    /** Clean public URL path (used for canonical + sitemap). */
++    path: string;
++    /** File emitted in `dist` by github-pages-plugin-for-type-route. */
++    file: string;
++    /** Whether search engines should index the page. */
++    index: boolean;
++    /** Language this concrete route is served in. */
++    lang: Lang;
++    /** Logical page, shared across languages. */
++    page: Page;
++    /** RouteName of the same page in the other language (drives hreflang). */
++    alternate?: RouteName;
+ };
+ 
+-/** Per-route, per-language <title> and meta description. */
+-export const SEO_BY_ROUTE: Record<RouteName, Record<Lang, { title: string; description: string }>> = {
++/**
++ * English lives at path-prefixed routes (`/en`, `/en/services`, …) rather than
++ * `?lang=en`, because a query-string variant cannot be self-canonical on static
++ * hosting and so never gets indexed as a distinct language. The home-en path is
++ * `/en` (no trailing slash): the gh-pages plugin runs `path.relative` which
++ * strips a trailing slash, so `/en` and the emitted file `en.html` stay aligned.
++ */
++export const ROUTE_META: Record<RouteName, RouteMeta> = {
++    "home":       { "path": "/",            "file": "index.html",       "index": true,  "lang": "fr", "page": "home",     "alternate": "homeEn" },
++    "services":   { "path": "/prestations", "file": "prestations.html", "index": true,  "lang": "fr", "page": "services", "alternate": "servicesEn" },
++    "media":      { "path": "/en-images",   "file": "en-images.html",   "index": true,  "lang": "fr", "page": "media",    "alternate": "mediaEn" },
++    "contact":    { "path": "/contact",     "file": "contact.html",     "index": true,  "lang": "fr", "page": "contact",  "alternate": "contactEn" },
++    "legal":      { "path": "/legal",       "file": "legal.html",       "index": false, "lang": "fr", "page": "legal" },
++    "homeEn":     { "path": "/en",          "file": "en.html",          "index": true,  "lang": "en", "page": "home",     "alternate": "home" },
++    "servicesEn": { "path": "/en/services", "file": "en/services.html", "index": true,  "lang": "en", "page": "services", "alternate": "services" },
++    "mediaEn":    { "path": "/en/gallery",  "file": "en/gallery.html",  "index": true,  "lang": "en", "page": "media",    "alternate": "media" },
++    "contactEn":  { "path": "/en/contact",  "file": "en/contact.html",  "index": true,  "lang": "en", "page": "contact",  "alternate": "contact" }
++};
++
++/** Per-page, per-language <title> and meta description. */
++export const SEO_BY_ROUTE: Record<Page, Record<Lang, { title: string; description: string }>> = {
+     "home": {
+         "fr": {
+             "title": "Récital Production – Musiciens pour mariages & événements à Bordeaux",
+@@ -179,21 +207,33 @@ export function escapeHtml(value: string): string {
+ }
+ 
+ /**
+- * hreflang alternates for a given path.
+- * French is the default/primary language served at the clean URL; English is
+- * reachable via the `?lang=en` search param (handled by i18nifty at runtime).
++ * Reciprocal hreflang alternates for a concrete route.
++ * Both the FR and EN page emit the identical cluster (fr → FR url, en → EN url,
++ * x-default → FR url), and every target is the self-canonical URL of a real
++ * page — which is what makes Google honour the annotation. Single-language
++ * pages (e.g. legal) get no cluster.
+  */
+-export function buildAlternates(path: string): { hreflang: string; href: string }[] {
+-    const clean = absUrl(path);
++export function buildAlternates(routeName: RouteName): { hreflang: string; href: string }[] {
++    const meta = ROUTE_META[routeName];
++    if (meta.alternate === undefined) {
++        return [];
++    }
++    const alt = ROUTE_META[meta.alternate];
++    const frPath = meta.lang === "fr" ? meta.path : alt.path;
++    const enPath = meta.lang === "en" ? meta.path : alt.path;
+     return [
+-        { "hreflang": "fr", "href": clean },
+-        { "hreflang": "en", "href": `${clean}${clean.includes("?") ? "&" : "?"}lang=en` },
+-        { "hreflang": "x-default", "href": clean }
++        { "hreflang": "fr", "href": absUrl(frPath) },
++        { "hreflang": "en", "href": absUrl(enPath) },
++        { "hreflang": "x-default", "href": absUrl(frPath) }
+     ];
+ }
+ 
+-/** Structured data (schema.org) graph for a given route + language. */
+-export function buildJsonLd(routeName: RouteName, lang: Lang): object {
++/** Structured data (schema.org) graph for a concrete route. */
++export function buildJsonLd(routeName: RouteName): object {
++    const meta = ROUTE_META[routeName];
++    const lang = meta.lang;
++    const page = meta.page;
++
+     const organization = {
+         "@type": ["MusicGroup", "LocalBusiness"],
+         "@id": `${SITE_URL}/#organization`,
+@@ -219,10 +259,10 @@ export function buildJsonLd(routeName: RouteName, lang: Lang): object {
+ 
+     const graph: object[] = [organization, website];
+ 
+-    if (routeName === "services") {
++    if (page === "services") {
+         graph.push({
+             "@type": "FAQPage",
+-            "@id": `${absUrl(ROUTE_META.services.path)}#faq`,
++            "@id": `${absUrl(meta.path)}#faq`,
+             "mainEntity": SERVICES_FAQ[lang].map(({ question, answer }) => ({
+                 "@type": "Question",
+                 "name": question,
+@@ -236,12 +276,14 @@ export function buildJsonLd(routeName: RouteName, lang: Lang): object {
+ 
+ /**
+  * Renders the full block of head tags injected statically at build time
+- * (between the `<!-- seo:start -->` / `<!-- seo:end -->` markers in index.html).
+- * `lang` defaults to the primary (statically rendered) language.
++ * (between the `<!-- seo:start -->` / `<!-- seo:end -->` markers).
++ * The language is the route's OWN language, so each emitted file (FR or EN) is
++ * self-canonical and described in its own language.
+  */
+-export function renderHeadTags(routeName: RouteName, lang: Lang = PRIMARY_LANG): string {
++export function renderHeadTags(routeName: RouteName): string {
+     const meta = ROUTE_META[routeName];
+-    const seo = SEO_BY_ROUTE[routeName][lang];
++    const lang = meta.lang;
++    const seo = SEO_BY_ROUTE[meta.page][lang];
+     const canonical = absUrl(meta.path);
+     const ogImage = absUrl(OG_IMAGE_PATH);
+     const robots = meta.index ? "index, follow" : "noindex, follow";
+@@ -253,7 +295,7 @@ export function renderHeadTags(routeName: RouteName, lang: Lang = PRIMARY_LANG):
+         `<meta name="description" content="${d}">`,
+         `<link rel="canonical" href="${canonical}">`,
+         `<meta name="robots" content="${robots}">`,
+-        ...buildAlternates(meta.path).map(
++        ...buildAlternates(routeName).map(
+             a => `<link rel="alternate" hreflang="${a.hreflang}" href="${escapeHtml(a.href)}">`
+         ),
+         `<meta property="og:type" content="website">`,
+@@ -270,7 +312,7 @@ export function renderHeadTags(routeName: RouteName, lang: Lang = PRIMARY_LANG):
+         `<meta name="twitter:title" content="${t}">`,
+         `<meta name="twitter:description" content="${d}">`,
+         `<meta name="twitter:image" content="${ogImage}">`,
+-        `<script type="application/ld+json">${JSON.stringify(buildJsonLd(routeName, lang))}</script>`
++        `<script type="application/ld+json">${JSON.stringify(buildJsonLd(routeName))}</script>`
+     ];
+ 
+     return lines.join("\n    ");
+diff --git a/src/seo/useSeo.ts b/src/seo/useSeo.ts
+index cc36ff6..58aaedb 100644
+--- a/src/seo/useSeo.ts
++++ b/src/seo/useSeo.ts
+@@ -1,6 +1,5 @@
+ import { useEffect } from "react";
+ import { useRoute } from "router";
+-import { useLang } from "i18n";
+ import {
+     SEO_BY_ROUTE,
+     ROUTE_META,
+@@ -8,7 +7,6 @@ import {
+     SITE_NAME,
+     absUrl,
+     buildAlternates,
+-    type Lang,
+     type RouteName
+ } from "./seoData";
+ 
+@@ -48,12 +46,12 @@ function setCanonical(href: string) {
+  * become stale on SPA navigation) and removes any duplicates, leaving a single
+  * clean, route-aware set.
+  */
+-function setAlternates(path: string) {
++function setAlternates(routeName: RouteName) {
+     document.head
+         .querySelectorAll('link[rel="alternate"][hreflang]')
+         .forEach(node => node.parentNode?.removeChild(node));
+ 
+-    buildAlternates(path).forEach(({ hreflang, href }) => {
++    buildAlternates(routeName).forEach(({ hreflang, href }) => {
+         const link = document.createElement("link");
+         link.setAttribute("rel", "alternate");
+         link.setAttribute("hreflang", hreflang);
+@@ -69,16 +67,16 @@ function setAlternates(path: string) {
+  */
+ export function useSeo() {
+     const route = useRoute();
+-    const { lang } = useLang();
+ 
+     useEffect(() => {
+-        const routeName = (
+-            route.name !== false && route.name in ROUTE_META ? route.name : "home"
+-        ) as RouteName;
++        const matched = route.name !== false && route.name in ROUTE_META;
++        const routeName = (matched ? route.name : "home") as RouteName;
++        const meta = ROUTE_META[routeName];
++        const lang = meta.lang;
+ 
+-        const isIndexable = route.name !== false && ROUTE_META[routeName].index;
+-        const seo = SEO_BY_ROUTE[routeName][lang as Lang];
+-        const canonical = absUrl(ROUTE_META[routeName].path);
++        const isIndexable = matched && meta.index;
++        const seo = SEO_BY_ROUTE[meta.page][lang];
++        const canonical = absUrl(meta.path);
+         const ogImage = absUrl("/preview.jpg");
+ 
+         document.title = seo.title;
+@@ -94,13 +92,13 @@ export function useSeo() {
+         setMetaByProperty("og:description", seo.description);
+         setMetaByProperty("og:url", canonical);
+         setMetaByProperty("og:image", ogImage);
+-        setMetaByProperty("og:locale", OG_LOCALE[lang as Lang]);
++        setMetaByProperty("og:locale", OG_LOCALE[lang]);
+ 
+         setMetaByName("twitter:card", "summary_large_image");
+         setMetaByName("twitter:title", seo.title);
+         setMetaByName("twitter:description", seo.description);
+         setMetaByName("twitter:image", ogImage);
+ 
+-        setAlternates(ROUTE_META[routeName].path);
+-    }, [route.name, lang]);
++        setAlternates(routeName);
++    }, [route.name]);
+ }

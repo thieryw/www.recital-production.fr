@@ -1,7 +1,9 @@
 import { memo, useMemo } from "react";
-import { declareComponentKeys, useLang, useTranslation } from "i18n"
+import { declareComponentKeys, useTranslation } from "i18n"
 import { Header as HeaderComponent } from "components/Header";
-import { routes, useRoute } from "router";
+import { useRoute } from "router";
+import { linkTo, langOf, pageOf, routeNameForPage } from "seo/localized";
+import type { Page } from "seo/seoData";
 import logoSvg from "assets/svg/logoHeader.svg";
 import logoDarkSvg from "assets/svg/logoHeaderDark.svg";
 import { ReactSVG } from "react-svg";
@@ -15,51 +17,36 @@ export const Header = memo(() => {
 
     const { t } = useTranslation("Header");
     const route = useRoute();
-    const { lang } = useLang();
+    const lang = langOf(route.name);
+    const currentPage = pageOf(route.name);
 
     const links = useMemo((): {
         href: string;
         onClick?: () => void;
         label: string;
         routeName: string;
+        page: Page;
     }[] => {
         return [
-            {
-                "label": t("link0"),
-                ...routes.home().link,
-                "routeName": routes.home().name
-            },
-            {
-                "label": t("link1"),
-                ...routes.services().link,
-                "routeName": routes.services().name
-            },
-            {
-                "label": t("link2"),
-                ...routes.media().link,
-                "routeName": routes.media().name
-            },
-            {
-                "label": t("link3"),
-                ...routes.contact().link,
-                "routeName": routes.contact().name
-            },
-
+            { "label": t("link0"), ...linkTo("home", lang), "routeName": routeNameForPage("home", lang), "page": "home" },
+            { "label": t("link1"), ...linkTo("services", lang), "routeName": routeNameForPage("services", lang), "page": "services" },
+            { "label": t("link2"), ...linkTo("media", lang), "routeName": routeNameForPage("media", lang), "page": "media" },
+            { "label": t("link3"), ...linkTo("contact", lang), "routeName": routeNameForPage("contact", lang), "page": "contact" },
         ]
 
-    }, [lang])
+    }, [lang, t])
 
 
     const { classes, windowInnerWidth, theme } = useStyles();
 
     return <HeaderComponent
         activeLinkLabel={links.find(({ routeName }) => routeName === route.name)?.label}
-        links={windowInnerWidth >= theme.breakpoints.values.sm ? links.filter((link) => link.routeName !== "home") : links}
-        logo={<a className={classes.logoWrapper} {...routes.home().link}><ReactSVG className={classes.logo} src={route.name === "home" ? logoDarkSvg : logoSvg} /></a>}
-        isDark={route.name === "home"}
+        links={windowInnerWidth >= theme.breakpoints.values.sm ? links.filter((link) => link.page !== "home") : links}
+        logo={<a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={currentPage === "home" ? logoDarkSvg : logoSvg} /></a>}
+        isDark={currentPage === "home"}
         mobile={{
-            "logoOpen": <a className={classes.logoWrapper} {...routes.home().link}><ReactSVG className={classes.logo} src={logoDarkSvg} /></a>,
-            "logoClosed": <a className={classes.logoWrapper} {...routes.home().link}><ReactSVG className={classes.logo} src={route.name === "home" ? logoDarkSvg : logoSvg} /></a>,
+            "logoOpen": <a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={logoDarkSvg} /></a>,
+            "logoClosed": <a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={currentPage === "home" ? logoDarkSvg : logoSvg} /></a>,
             "socialLinks": [
                 {
                     "iconUrl": instaSvg,
@@ -71,7 +58,7 @@ export const Header = memo(() => {
                 }
             ],
             "bottomDiv": <div className={classes.bottomDiv}>
-                <a className={classes.bdLine} {...routes.legal().link}><Typo className={classes.linkLabel} variant="button">{t("legalLinkLabel")}</Typo></a>
+                <a className={classes.bdLine} {...linkTo("legal", lang)}><Typo className={classes.linkLabel} variant="button">{t("legalLinkLabel")}</Typo></a>
                 <Typo className={classes.bdLine} variant="button">{t("copyRight")}</Typo>
                 <div className={classes.designer}>
                     <Typo variant="button">{t("designed")}</Typo>

@@ -1,7 +1,8 @@
 import { memo, useMemo } from "react";
-import { declareComponentKeys, useLang, useTranslation } from "i18n"
+import { declareComponentKeys, useTranslation } from "i18n"
 import { Footer as FooterComponent } from "components/Footer";
-import { routes, useRoute } from "router";
+import { useRoute } from "router";
+import { linkTo, langOf, routeNameForPage } from "seo/localized";
 import { tss } from "tss";
 import instaSvg from "assets/svg/Insta.svg";
 import ytSvg from "assets/svg/YT.svg";
@@ -13,8 +14,8 @@ import legalPdf from "assets/pdf/mentions-legales-recital-production.pdf";
 export const Footer = memo(() => {
 
     const { t } = useTranslation("Footer");
-    const { lang } = useLang();
     const route = useRoute();
+    const lang = langOf(route.name);
 
     const links = useMemo((): {
         href: string;
@@ -23,30 +24,13 @@ export const Footer = memo(() => {
         routeName: string;
     }[] => {
         return [
-            {
-                "label": t("link0"),
-                ...routes.home().link,
-                "routeName": routes.home().name
-            },
-            {
-                "label": t("link1"),
-                ...routes.services().link,
-                "routeName": routes.services().name
-            },
-            {
-                "label": t("link2"),
-                ...routes.media().link,
-                "routeName": routes.media().name
-            },
-            {
-                "label": t("link3"),
-                ...routes.contact().link,
-                "routeName": routes.contact().name
-            },
-
+            { "label": t("link0"), ...linkTo("home", lang), "routeName": routeNameForPage("home", lang) },
+            { "label": t("link1"), ...linkTo("services", lang), "routeName": routeNameForPage("services", lang) },
+            { "label": t("link2"), ...linkTo("media", lang), "routeName": routeNameForPage("media", lang) },
+            { "label": t("link3"), ...linkTo("contact", lang), "routeName": routeNameForPage("contact", lang) },
         ]
 
-    }, [lang])
+    }, [lang, t])
 
 
     const { classes, cx } = useStyles();
