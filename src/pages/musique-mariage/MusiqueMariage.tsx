@@ -7,6 +7,36 @@ import { langOf, linkTo } from "seo/localized";
 import { LinkButton } from "components/LinkButton";
 import { Reviews } from "pages/home/Reviews";
 
+import heroJpg from "assets/jpg/services/img-1.jpg";
+import heroWebp from "assets/webp/services/img-1.webp";
+import areaJpg from "assets/jpg/services/img-2.jpg";
+import areaWebp from "assets/webp/services/img-2.webp";
+import why1Jpg from "assets/jpg/services/particuliers.jpg";
+import why1Webp from "assets/webp/services/particuliers.webp";
+import why2Jpg from "assets/jpg/services/quatuor-video.jpg";
+import why2Webp from "assets/webp/services/quatuor-video.webp";
+import why3Jpg from "assets/jpg/media/gallery/photos/2.jpeg";
+import why3Webp from "assets/webp/media/gallery/photos/2.webp";
+import format1Jpg from "assets/jpg/media/gallery/photos/1.jpeg";
+import format1Webp from "assets/webp/media/gallery/photos/1.webp";
+import format2Jpg from "assets/jpg/media/gallery/photos/4.jpeg";
+import format2Webp from "assets/webp/media/gallery/photos/4.webp";
+import format3Jpg from "assets/jpg/media/gallery/photos/6.jpeg";
+import format3Webp from "assets/webp/media/gallery/photos/6.webp";
+
+
+type Picture = { jpg: string; webp: string; alt: string };
+
+const Img = memo((props: { picture: Picture; className: string }) => {
+    const { picture, className } = props;
+    return (
+        <picture>
+            <source srcSet={picture.webp} type="image/webp" />
+            <img className={className} src={picture.jpg} alt={picture.alt} loading="lazy" />
+        </picture>
+    );
+});
+
 
 export const MusiqueMariage = memo(() => {
     const { t } = useTranslation("MusiqueMariage");
@@ -16,15 +46,15 @@ export const MusiqueMariage = memo(() => {
     const contactLink = linkTo("contact", lang);
 
     const why = [
-        { "title": t("why1Title"), "text": t("why1Text") },
-        { "title": t("why2Title"), "text": t("why2Text") },
-        { "title": t("why3Title"), "text": t("why3Text") }
+        { "title": t("why1Title"), "text": t("why1Text"), "jpg": why1Jpg, "webp": why1Webp, "alt": t("why1Alt") },
+        { "title": t("why2Title"), "text": t("why2Text"), "jpg": why2Jpg, "webp": why2Webp, "alt": t("why2Alt") },
+        { "title": t("why3Title"), "text": t("why3Text"), "jpg": why3Jpg, "webp": why3Webp, "alt": t("why3Alt") }
     ];
 
     const formats = [
-        { "title": t("format1Title"), "text": t("format1Text") },
-        { "title": t("format2Title"), "text": t("format2Text") },
-        { "title": t("format3Title"), "text": t("format3Text") }
+        { "title": t("format1Title"), "text": t("format1Text"), "jpg": format1Jpg, "webp": format1Webp, "alt": t("format1Alt") },
+        { "title": t("format2Title"), "text": t("format2Text"), "jpg": format2Jpg, "webp": format2Webp, "alt": t("format2Alt") },
+        { "title": t("format3Title"), "text": t("format3Text"), "jpg": format3Jpg, "webp": format3Webp, "alt": t("format3Alt") }
     ];
 
     const faq = [
@@ -42,6 +72,10 @@ export const MusiqueMariage = memo(() => {
                 <LinkButton label={t("heroCta")} {...contactLink} />
             </section>
 
+            <div className={classes.banner}>
+                <Img picture={{ "jpg": heroJpg, "webp": heroWebp, "alt": t("heroAlt") }} className={classes.bannerImage} />
+            </div>
+
             <section className={classes.intro}>
                 <Typo className={classes.introParagraph} variant="body1">{t("introParagraph")}</Typo>
             </section>
@@ -49,8 +83,9 @@ export const MusiqueMariage = memo(() => {
             <section className={classes.block}>
                 <Typo className={classes.blockTitle} variant="h2">{t("whyTitle")}</Typo>
                 <div className={classes.cards}>
-                    {why.map(({ title, text }) => (
+                    {why.map(({ title, text, jpg, webp, alt }) => (
                         <div className={classes.card} key={title}>
+                            <Img picture={{ jpg, webp, alt }} className={classes.cardImage} />
                             <Typo className={classes.cardTitle} variant="h3">{title}</Typo>
                             <Typo variant="body1">{text}</Typo>
                         </div>
@@ -61,8 +96,9 @@ export const MusiqueMariage = memo(() => {
             <section className={classes.block}>
                 <Typo className={classes.blockTitle} variant="h2">{t("formatsTitle")}</Typo>
                 <div className={classes.cards}>
-                    {formats.map(({ title, text }) => (
+                    {formats.map(({ title, text, jpg, webp, alt }) => (
                         <div className={classes.card} key={title}>
+                            <Img picture={{ jpg, webp, alt }} className={classes.cardImage} />
                             <Typo className={classes.cardTitle} variant="h3">{title}</Typo>
                             <Typo variant="body1">{text}</Typo>
                         </div>
@@ -73,6 +109,9 @@ export const MusiqueMariage = memo(() => {
             <section className={classes.block}>
                 <Typo className={classes.blockTitle} variant="h2">{t("areaTitle")}</Typo>
                 <Typo className={classes.introParagraph} variant="body1">{t("areaParagraph")}</Typo>
+                <div className={classes.banner}>
+                    <Img picture={{ "jpg": areaJpg, "webp": areaWebp, "alt": t("areaAlt") }} className={classes.bannerImage} />
+                </div>
             </section>
 
             <section className={classes.block}>
@@ -115,13 +154,27 @@ const useStyles = tss.create(({ theme }) => ({
         "alignItems": "center",
         "textAlign": "center",
         "paddingTop": theme.spacing(34),
-        "marginBottom": theme.spacing(14),
+        "marginBottom": theme.spacing(10),
         "maxWidth": 720
     },
     "lead": {
         "marginTop": theme.spacing(4),
         "marginBottom": theme.spacing(8),
         "maxWidth": 600
+    },
+    "banner": {
+        "width": "100%",
+        "maxWidth": 1100,
+        "marginBottom": theme.spacing(14),
+        "borderTop": `solid ${theme.palette.gold1.main} 4px`,
+        "borderBottom": `solid ${theme.palette.gold1.main} 4px`
+    },
+    "bannerImage": {
+        "display": "block",
+        "width": "100%",
+        "height": "auto",
+        "maxHeight": "65vh",
+        "objectFit": "cover"
     },
     "intro": {
         "maxWidth": 760,
@@ -157,6 +210,13 @@ const useStyles = tss.create(({ theme }) => ({
         "borderTop": `solid ${theme.palette.gold1.main} 4px`,
         "paddingTop": theme.spacing(5)
     },
+    "cardImage": {
+        "display": "block",
+        "width": "100%",
+        "aspectRatio": "4 / 3",
+        "objectFit": "cover",
+        "marginBottom": theme.spacing(4)
+    },
     "cardTitle": {
         "marginBottom": theme.spacing(3)
     },
@@ -188,23 +248,31 @@ export const { i18n } = declareComponentKeys<
     | "heroTitle"
     | "heroParagraph"
     | "heroCta"
+    | "heroAlt"
     | "introParagraph"
     | "whyTitle"
     | "why1Title"
     | "why1Text"
+    | "why1Alt"
     | "why2Title"
     | "why2Text"
+    | "why2Alt"
     | "why3Title"
     | "why3Text"
+    | "why3Alt"
     | "formatsTitle"
     | "format1Title"
     | "format1Text"
+    | "format1Alt"
     | "format2Title"
     | "format2Text"
+    | "format2Alt"
     | "format3Title"
     | "format3Text"
+    | "format3Alt"
     | "areaTitle"
     | "areaParagraph"
+    | "areaAlt"
     | "faqTitle"
     | "faq1"
     | "response1"

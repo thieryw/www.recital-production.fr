@@ -6,31 +6,39 @@ export const translation: TranslationMusiqueMariage<"fr"> = {
         "heroParagraph":
             "De la cérémonie au cocktail, du premier accord à la dernière coupe, Récital Production accompagne votre mariage en musique live. Nos musiciens — solistes, duos et quatuors à cordes formés en conservatoire — adaptent leur jeu à votre lieu, votre style et votre histoire, partout en Gironde, en Dordogne, au Cap-Ferret, à Arcachon et au-delà.",
         "heroCta": "Demander un devis",
+        "heroAlt": "Musiciens de Récital Production lors d'une cérémonie de mariage dans le Sud-Ouest",
         "introParagraph":
             "Chaque année, Récital Production accompagne en musique plus de 80 mariages — châteaux viticoles, villas en bord de Bassin, lieux de caractère du Sud-Ouest. Chaque setlist se construit autour de vous : votre histoire, vos invités, votre lieu.",
         "whyTitle": "Pourquoi nous choisir",
         "why1Title": "Des artistes formés en conservatoire",
         "why1Text":
             "Chaque musicien du collectif est diplômé du Conservatoire de Bordeaux ou d'une académie européenne équivalente. L'exigence de la salle de concert, au service de l'émotion de votre journée.",
+        "why1Alt": "Musiciens classiques formés en conservatoire",
         "why2Title": "Un répertoire qui vous ressemble",
         "why2Text":
             "Du Canon de Pachelbel aux reprises acoustiques de vos titres pop préférés, nos quatuors à cordes, duos et chanteurs composent une setlist sur mesure, fidèle à votre style et à vos cultures.",
+        "why2Alt": "Quatuor à cordes Récital Production en représentation",
         "why3Title": "Une coordination bilingue, sans stress",
         "why3Text":
             "Organiser un mariage de destination peut être éprouvant. Nous assurons une coordination en français comme en anglais et un déroulé minuté, main dans la main avec votre lieu ou votre wedding planner.",
+        "why3Alt": "Musiciens lors d'une réception de mariage",
         "formatsTitle": "Choisissez votre format",
         "format1Title": "Cérémonie",
         "format1Text":
             "Un violon solo pour l'entrée de la mariée ou un quatuor complet pour accompagner les vœux : nous façonnons l'atmosphère dès les premiers instants.",
+        "format1Alt": "Violoniste lors d'une cérémonie de mariage",
         "format2Title": "Cérémonie + cocktail",
         "format2Text":
             "Prolongez l'ambiance pendant le vin d'honneur — classique tout en douceur, jazz ou pop acoustique — pendant que vos invités se retrouvent.",
+        "format2Alt": "Musiciens animant un cocktail de mariage",
         "format3Title": "Journée complète",
         "format3Text":
             "De la cérémonie au dîner et jusqu'au bout de la soirée, un parcours musical continu, avec des formations qui évoluent au fil de la journée.",
+        "format3Alt": "Formation musicale au fil d'une journée de mariage",
         "areaTitle": "Nos musiciens dans tout le Sud-Ouest",
         "areaParagraph":
             "Nous intervenons à Bordeaux, en Dordogne, au Cap-Ferret et à Arcachon. Des châteaux viticoles aux villas en bord de Bassin, chaque prestation s'adapte à votre lieu.",
+        "areaAlt": "Prestation de musique live lors d'un mariage en Gironde",
         "faqTitle": "Questions fréquentes",
         "faq1": "Pouvons-nous choisir nos morceaux ?",
         "response1":
