@@ -14,6 +14,7 @@ import { pageOf, langOf } from "seo/localized";
 // The heavier inner pages — Media pulls in the gallery + YouTube embeds — are
 // code-split so they don't ship in the initial bundle on every visit.
 const Services = lazy(() => import("pages/services").then(m => ({ default: m.Services })));
+const MusiqueMariage = lazy(() => import("pages/musique-mariage").then(m => ({ default: m.MusiqueMariage })));
 const Media = lazy(() => import("pages/Media").then(m => ({ default: m.Media })));
 const Contact = lazy(() => import("pages/Contact").then(m => ({ default: m.Contact })));
 
@@ -63,6 +64,7 @@ export function Body() {
                 <Suspense fallback={null}>
                     {page === "home" && <Home />}
                     {page === "services" && <Services />}
+                    {page === "musiqueMariage" && <MusiqueMariage />}
                     {page === "media" && <Media />}
                     {page === "contact" && <Contact />}
                 </Suspense>

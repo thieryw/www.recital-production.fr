@@ -10,11 +10,11 @@
 
 export type Lang = "fr" | "en";
 /** Logical page, shared across languages. */
-export type Page = "home" | "services" | "media" | "contact" | "legal";
+export type Page = "home" | "services" | "musiqueMariage" | "media" | "contact" | "legal";
 /** A concrete route = one page in one language. Must mirror `src/router.ts`. */
 export type RouteName =
-    | "home" | "services" | "media" | "contact" | "legal"
-    | "homeEn" | "servicesEn" | "mediaEn" | "contactEn";
+    | "home" | "services" | "musiqueMariage" | "media" | "contact" | "legal"
+    | "homeEn" | "servicesEn" | "musiqueMariageEn" | "mediaEn" | "contactEn";
 
 /** Canonical host. Must match `public/CNAME` (www) and `.env`'s VITE_SITE_URL. */
 export const SITE_URL = "https://www.recital-production.fr";
@@ -69,11 +69,13 @@ export type RouteMeta = {
 export const ROUTE_META: Record<RouteName, RouteMeta> = {
     "home":       { "path": "/",            "file": "index.html",       "index": true,  "lang": "fr", "page": "home",     "alternate": "homeEn" },
     "services":   { "path": "/prestations", "file": "prestations.html", "index": true,  "lang": "fr", "page": "services", "alternate": "servicesEn" },
+    "musiqueMariage":   { "path": "/musique-mariage", "file": "musique-mariage.html", "index": true, "lang": "fr", "page": "musiqueMariage", "alternate": "musiqueMariageEn" },
     "media":      { "path": "/en-images",   "file": "en-images.html",   "index": true,  "lang": "fr", "page": "media",    "alternate": "mediaEn" },
     "contact":    { "path": "/contact",     "file": "contact.html",     "index": true,  "lang": "fr", "page": "contact",  "alternate": "contactEn" },
     "legal":      { "path": "/legal",       "file": "legal.html",       "index": false, "lang": "fr", "page": "legal" },
     "homeEn":     { "path": "/en",          "file": "en.html",          "index": true,  "lang": "en", "page": "home",     "alternate": "home" },
     "servicesEn": { "path": "/en/services", "file": "en/services.html", "index": true,  "lang": "en", "page": "services", "alternate": "services" },
+    "musiqueMariageEn": { "path": "/en/wedding-music", "file": "en/wedding-music.html", "index": true, "lang": "en", "page": "musiqueMariage", "alternate": "musiqueMariage" },
     "mediaEn":    { "path": "/en/gallery",  "file": "en/gallery.html",  "index": true,  "lang": "en", "page": "media",    "alternate": "media" },
     "contactEn":  { "path": "/en/contact",  "file": "en/contact.html",  "index": true,  "lang": "en", "page": "contact",  "alternate": "contact" }
 };
@@ -102,6 +104,18 @@ export const SEO_BY_ROUTE: Record<Page, Record<Lang, { title: string; descriptio
             "title": "Music Services – Weddings, Cocktails & Concerts | Récital Production",
             "description":
                 "String quartet, piano-voice and violin-piano duos and more. Bespoke live music for individuals, towns and companies across New Aquitaine."
+        }
+    },
+    "musiqueMariage": {
+        "fr": {
+            "title": "Musique de mariage à Bordeaux & dans le Sud-Ouest | Récital Production",
+            "description":
+                "Musiciens de mariage formés en conservatoire : quatuor à cordes, duos et solistes pour votre cérémonie et votre cocktail à Bordeaux, en Gironde, au Cap-Ferret, à Arcachon et en Dordogne."
+        },
+        "en": {
+            "title": "Wedding Music in Bordeaux & South-West France | Récital Production",
+            "description":
+                "Conservatoire-trained wedding musicians — string quartet, duos and soloists for your ceremony and cocktail hour in Bordeaux, Cap-Ferret, Arcachon and the Dordogne."
         }
     },
     "media": {
@@ -186,6 +200,40 @@ export const SERVICES_FAQ: Record<Lang, { question: string; answer: string }[]> 
 
 const AREA_SERVED = ["Bordeaux", "Gironde", "Nouvelle-Aquitaine", "Paris", "Sud-Ouest de la France"];
 
+/** Wedding-hub FAQ, used to emit FAQPage structured data. Keep in sync with the musiqueMariage i18n resources. */
+export const WEDDING_FAQ: Record<Lang, { question: string; answer: string }[]> = {
+    "fr": [
+        {
+            "question": "Pouvons-nous choisir nos morceaux ?",
+            "answer":
+                "Oui. Vous nous transmettez votre liste de souhaits (entrée, signature, sortie) et nos musiciens les arrangent et les interprètent en live."
+        },
+        {
+            "question": "Vous déplacez-vous en dehors de Bordeaux ?",
+            "answer": "Oui, nos formations couvrent tout le Sud-Ouest, dont la Dordogne, le Cap-Ferret et Arcachon."
+        },
+        {
+            "question": "Faut-il prévoir du matériel ?",
+            "answer":
+                "Non. Pupitres, partitions et, si besoin, une sonorisation discrète sont pris en charge par nos musiciens."
+        }
+    ],
+    "en": [
+        {
+            "question": "Can we choose our own music?",
+            "answer": "Yes. Send us your wish list (entrance, signing, exit) and our musicians will arrange and perform it live."
+        },
+        {
+            "question": "Do you travel outside Bordeaux?",
+            "answer": "Yes, our line-ups cover the whole of South-West France, including the Dordogne, Cap-Ferret and Arcachon."
+        },
+        {
+            "question": "Do we need to provide equipment?",
+            "answer": "No. Music stands, scores and, where needed, discreet amplification are all handled by our musicians."
+        }
+    ]
+};
+
 /* ------------------------------------------------------------------ */
 /* Helpers                                                            */
 /* ------------------------------------------------------------------ */
@@ -264,6 +312,18 @@ export function buildJsonLd(routeName: RouteName): object {
             "@type": "FAQPage",
             "@id": `${absUrl(meta.path)}#faq`,
             "mainEntity": SERVICES_FAQ[lang].map(({ question, answer }) => ({
+                "@type": "Question",
+                "name": question,
+                "acceptedAnswer": { "@type": "Answer", "text": answer }
+            }))
+        });
+    }
+
+    if (page === "musiqueMariage") {
+        graph.push({
+            "@type": "FAQPage",
+            "@id": `${absUrl(meta.path)}#faq`,
+            "mainEntity": WEDDING_FAQ[lang].map(({ question, answer }) => ({
                 "@type": "Question",
                 "name": question,
                 "acceptedAnswer": { "@type": "Answer", "text": answer }
