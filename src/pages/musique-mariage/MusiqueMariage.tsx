@@ -6,12 +6,14 @@ import { useRoute } from "router";
 import { langOf, linkTo } from "seo/localized";
 import { LinkButton } from "components/LinkButton";
 import { Reveal } from "components/Reveal";
-import { Reviews } from "pages/home/Reviews";
+import { FAQ } from "components/FAQ";
+import { ElfSight } from "components/ElfSight";
+import { ReviewWidget } from "components/ReviewWidget";
 
 import heroJpg from "assets/jpg/services/img-1.jpg";
 import heroWebp from "assets/webp/services/img-1.webp";
-import areaJpg from "assets/jpg/services/img-2.jpg";
-import areaWebp from "assets/webp/services/img-2.webp";
+import areaJpg from "assets/jpg/media/gallery/photos/9.jpeg";
+import areaWebp from "assets/webp/media/gallery/photos/9.webp";
 import why1Jpg from "assets/jpg/services/particuliers.jpg";
 import why1Webp from "assets/webp/services/particuliers.webp";
 import why2Jpg from "assets/jpg/services/quatuor-video.jpg";
@@ -41,7 +43,7 @@ const Img = memo((props: { picture: Picture; className: string }) => {
 
 export const MusiqueMariage = memo(() => {
     const { t } = useTranslation("MusiqueMariage");
-    const { classes } = useStyles();
+    const { classes, cx } = useStyles();
     const route = useRoute();
     const lang = langOf(route.name);
     const contactLink = linkTo("contact", lang);
@@ -126,10 +128,10 @@ export const MusiqueMariage = memo(() => {
                     <Typo className={classes.blockTitle} variant="h2">{t("areaTitle")}</Typo>
                 </Reveal>
                 <Reveal className={classes.revealWrap}>
-                    <Typo className={classes.introParagraph} variant="body1">{t("areaParagraph")}</Typo>
+                    <Typo className={cx(classes.introParagraph, classes.sectionParagraph)} variant="body1">{t("areaParagraph")}</Typo>
                 </Reveal>
                 <Reveal className={classes.revealWrap} delay={0.15}>
-                    <div className={classes.banner}>
+                    <div className={cx(classes.banner, classes.areaBanner)}>
                         <Img picture={{ "jpg": areaJpg, "webp": areaWebp, "alt": t("areaAlt") }} className={classes.bannerImage} />
                     </div>
                 </Reveal>
@@ -142,10 +144,13 @@ export const MusiqueMariage = memo(() => {
                 <div className={classes.faq}>
                     {faq.map(({ q, a }, index) => (
                         <Reveal delay={index * 0.1} key={q}>
-                            <div className={classes.faqItem}>
-                                <Typo className={classes.cardTitle} variant="h3">{q}</Typo>
-                                <Typo variant="body1">{a}</Typo>
-                            </div>
+                            <FAQ
+                                number={index + 1}
+                                question={q}
+                                response={a}
+                                isOpen={index === 1}
+                                className={classes.question}
+                            />
                         </Reveal>
                     ))}
                 </div>
@@ -154,13 +159,14 @@ export const MusiqueMariage = memo(() => {
             <Reveal className={classes.revealWrap}>
                 <section className={classes.cta}>
                     <Typo className={classes.blockTitle} variant="h2">{t("ctaTitle")}</Typo>
-                    <Typo className={classes.introParagraph} variant="body1">{t("ctaParagraph")}</Typo>
+                    <Typo className={cx(classes.introParagraph, classes.sectionParagraph)} variant="body1">{t("ctaParagraph")}</Typo>
                     <LinkButton label={t("ctaButton")} {...contactLink} />
                 </section>
             </Reveal>
 
             <div className={classes.reviews}>
-                <Reviews />
+                <ElfSight />
+                <ReviewWidget />
             </div>
 
         </div>
@@ -206,6 +212,9 @@ const useStyles = tss.create(({ theme }) => ({
         "borderTop": `solid ${theme.palette.gold1.main} 4px`,
         "borderBottom": `solid ${theme.palette.gold1.main} 4px`
     },
+    "areaBanner": {
+        "marginBottom": 0
+    },
     "bannerImage": {
         "display": "block",
         "width": "100%",
@@ -221,6 +230,9 @@ const useStyles = tss.create(({ theme }) => ({
     "introParagraph": {
         "maxWidth": 760,
         "textAlign": "center"
+    },
+    "sectionParagraph": {
+        "marginBottom": theme.spacing(8)
     },
     "block": {
         "display": "flex",
@@ -261,10 +273,11 @@ const useStyles = tss.create(({ theme }) => ({
         "width": "100%",
         "maxWidth": 760,
         "display": "flex",
-        "flexDirection": "column",
-        "gap": theme.spacing(7)
+        "flexDirection": "column"
     },
-    "faqItem": {},
+    "question": {
+        "marginBottom": theme.spacing(4)
+    },
     "cta": {
         "display": "flex",
         "flexDirection": "column",
@@ -274,9 +287,10 @@ const useStyles = tss.create(({ theme }) => ({
         "marginBottom": theme.spacing(16)
     },
     "reviews": {
-        "marginTop": theme.spacing(6),
-        "marginBottom": theme.spacing(22),
-        "width": "100%"
+        "width": "100%",
+        "display": "flex",
+        "flexDirection": "column",
+        "alignItems": "center"
     }
 }));
 
