@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Récital Production — Wedding Music Selection</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf7f2;
+    --gold: #b8975a;
+    --gold-light: #d4b57a;
+    --ink: #2a2318;
+    --muted: #8a7a66;
+    --rose: #c4856a;
+    --border: #e8dfd0;
+    --selected-bg: #f5efe4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(184,151,90,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-ornament {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(32px, 6vw, 56px);
+    color: var(--ink);
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+
+  .counter-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,247,242,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .counter-info {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .counter-info strong {
+    color: var(--gold);
+    font-weight: 500;
+    font-size: 18px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 14px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .btn-export {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: none;
+  }
+  .btn-export:hover { background: var(--gold); color: var(--cream); }
+
+  .search-wrap {
+    padding: 20px 40px 0;
+    max-width: 400px;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 8px 0;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    letter-spacing: 0.05em;
+  }
+
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-wrap input:focus { border-bottom-color: var(--gold); }
+
+  .main {
+    padding: 30px 40px;
+    columns: 2;
+    column-gap: 50px;
+  }
+
+  @media (max-width: 700px) {
+    .main { columns: 1; padding: 20px; }
+    .counter-bar { padding: 10px 20px; }
+    .search-wrap { padding: 16px 20px 0; }
+  }
+
+  .artist-block {
+    break-inside: avoid;
+    margin-bottom: 36px;
+  }
+
+  .artist-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .artist-check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .artist-check.partial { border-color: var(--gold-light); background: rgba(184,151,90,0.1); }
+  .artist-check.full { border-color: var(--gold); background: var(--gold); }
+
+  .artist-check.full::after {
+    content: '';
+    width: 8px; height: 5px;
+    border-left: 1.5px solid white;
+    border-bottom: 1.5px solid white;
+    transform: rotate(-45deg) translateY(-1px);
+  }
+
+  .artist-check.partial::after {
+    content: '';
+    width: 8px; height: 1.5px;
+    background: var(--gold-light);
+    position: absolute;
+  }
+
+  .artist-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    flex: 1;
+  }
+
+  .artist-count {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .subsection-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--muted);
+    margin: 8px 0 4px 28px;
+    letter-spacing: 0.08em;
+  }
+
+  .song-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0 5px 28px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background 0.15s;
+  }
+
+  .song-row:hover { background: rgba(184,151,90,0.05); }
+  .song-row.selected { background: var(--selected-bg); }
+
+  .song-check {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .song-row.selected .song-check {
+    border-color: var(--gold);
+    background: var(--gold);
+  }
+
+  .song-row.selected .song-check::after {
+    content: '';
+    width: 6px; height: 4px;
+    border-left: 1.5px solid white;
+    border-bottom: 1.5px solid white;
+    transform: rotate(-45deg) translateY(-1px);
+  }
+
+  .song-title {
+    font-size: 13.5px;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  .song-row.selected .song-title { color: var(--gold); font-weight: 400; }
+
+  .hidden { display: none !important; }
+
+  #export-panel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(42,35,24,0.6);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  #export-panel.open { display: flex; }
+
+  .export-box {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .export-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .export-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 20px;
+  }
+
+  .export-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  #export-content {
+    padding: 20px 24px;
+    overflow-y: auto;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    flex: 1;
+    color: var(--ink);
+  }
+
+  .export-footer {
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .btn-copy {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .btn-copy:hover { background: var(--gold); color: var(--cream); }
+
+  .no-results {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    columns: 1;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="header-ornament">Récital Production</span>
+  <h1>Your <em>Wedding</em></h1>
+  <p class="subtitle">Select your favourite songs</p>
+</header>
+
+<div class="counter-bar">
+  <div class="counter-info">
+    <strong id="count">0</strong> songs selected
+  </div>
+  <div class="controls">
+    <button class="btn" onclick="clearAll()">Uncheck all</button>
+    <button class="btn btn-export" onclick="openExport()">View my selection</button>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Search for an artist or a song…" oninput="filterList()">
+</div>
+
+<div class="main" id="main"></div>
+
+<div id="export-panel">
+  <div class="export-box">
+    <div class="export-header">
+      <h3>My selection</h3>
+      <button class="export-close" onclick="closeExport()">✕</button>
+    </div>
+    <div id="export-content"></div>
+    <div class="export-footer">
+      <button class="btn btn-copy" onclick="copySelection()">Copy</button>
+      <button class="btn" onclick="closeExport()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  { artist: "ABBA", songs: ["Dancing Queen","SOS","Money, Money, Money","The Winner Takes It All","One Of Us","Angeleyes","I Still Have Faith In You","Waterloo","Fernando","Knowing Me, Knowing You","Lay All Your Love On Me","The Name Of The Game","Mamma Mia","Gimme! Gimme! Gimme!"] },
+  { artist: "AC/DC", songs: ["Thunderstruck"] },
+  { artist: "Adèle", songs: ["Make You Feel My Love","Hello","Rumour Has It","Water Under the Bridge","Oh My God","Someone Like You","Send My Love (To Your New Lover)","Chasing Pavements","Skyfall","When We Were Young","Set Fire To The Rain","Easy On Me","Rolling in the Deep","All I Ask"] },
+  { artist: "Aerosmith", songs: ["Cryin'"] },
+  { artist: "Anka", songs: ["Put Your Head On My Shoulder"] },
+  { artist: "Aznavour", songs: ["La Bohème","Je m'voyais déjà","Les Comédiens","Emmenez-moi","Que c'est triste Venise","For Me... Formidable","Non je n'ai rien oublié","Parce que tu crois","Il faut savoir","Comme Ils Disent","Ave Maria","La mamma","She","Hier Encore"] },
+  { artist: "Bad Bunny", songs: ["NUEVAYoL","Si Estuviésemos Juntos","La Canción","La Noche de Anoche","Yonaguni","Moscow Mule","Callaíta","Ojitos Lindos","Me Porto Bonito","Tití Me Preguntó","Un 100xto","Baile Inolvidable","La Mudanza","Dákiti"] },
+  { artist: "Beetlejuice", songs: ["Theme"] },
+  { artist: "Beatles", songs: ["Here Comes The Sun","I Want To Hold Your Hand","Help!","Michelle","Penny Lane","Come Together","We Can Work It Out","While My Guitar Gently Weeps","Lady Madonna","Blackbird","Here, There, and Everywhere","Eleanor Rigby","Lucy In The Sky With Diamonds","Yesterday","With A Little Help From My Friends","Hey Jude","All You Need is Love","In My Life"] },
+  { artist: "Beyoncé", songs: ["Déjà-vu"] },
+  { artist: "Bieber", songs: ["10,000 Hours","Anyone"] },
+  { artist: "Billie Eilish", songs: ["Bad Guy","Birds of a Feather","Ocean Eyes"] },
+  { artist: "Bon Jovi", songs: ["Always"] },
+  { artist: "Bowie", songs: ["Space Oddity"] },
+  {
+    artist: "Bridgerton", subsections: [
+      { title: "Saison 1", songs: ["We Could Form an Attachment — Kris Bowers","Bridgerton Theme — Kris Bowers","thank u, next — Ariana Grande","bad guy — Billie Eilish","Strange — Celeste"] },
+      { title: "Saison 2", songs: ["Material Girl — Madonna","Diamonds — Rihanna","Dancing on My Own — Robyn","You Oughta Know — Alanis Morissette","Wrecking Ball — Miley Cyrus","Flawless My Dear — Kris Bowers"] },
+      { title: "Saison 3", songs: ["Abcdefu — GAYLE","Cheap Thrills — Sia","Thunder — Imagine Dragons","Yellow — Coldplay","Give Me Everything — Pitbull, AFROJACK, Ne-Yo, Nayer","Happier Than Ever — Billie Eilish"] }
+    ]
+  },
+  { artist: "Buckley", songs: ["Hallelujah"] },
+  { artist: "Charli XCX", songs: ["360"] },
+  { artist: "Cole", songs: ["This Will Be An Everlasting Love"] },
+  { artist: "Clean Bandit", songs: ["360"] },
+  { artist: "Clarkson", songs: ["Since U Been Gone"] },
+  { artist: "Carpenter", songs: ["Espresso"] },
+  { artist: "Coldplay", songs: ["Clocks","Shiver","Speed Of Sound","Trouble","Fix You","Paradise","Something Just Like This","Yellow","My Universe","The Scientist","Sky Full Of Stars","Viva La Vida"] },
+  { artist: "Deep Purple", songs: ["Smoke On the Water"] },
+  { artist: "Des'ree", songs: ["Kissing You (from Romeo and Juliet)"] },
+  { artist: "Demi Lovato", songs: ["Confident"] },
+  { artist: "Dr Dre", songs: ["Still D.R.E."] },
+  { artist: "Denver", songs: ["Take Me Home, Country Roads"] },
+  { artist: "Dion", songs: ["All By Myself","Alone","Beauty and the Beast","Because You Loved Me","My Heart Will Go On (Titanic)","That's the Way It Is","The Power of Love","The Prayer","Where Does My Heart Beat Now"] },
+  { artist: "Elton John", songs: ["Rocket Man"] },
+  { artist: "Edith Piaf", songs: ["Sous le Ciel de Paris","Les Amants de Paris","C'est à Hambourg","L'Accordéoniste","T'es Beau, Tu Sais","La Foule","Mon Manège à Moi","Milord","Hymne à l'Amour","La Vie en Rose","Padam, Padam...","Non, Je Ne Regrette Rien"] },
+  { artist: "Foo Fighters", songs: ["Everlong"] },
+  { artist: "Florence and the Machine", songs: ["You Got The Love"] },
+  {
+    artist: "Films & Séries", subsections: [
+      { title: "Film & TV Soundtracks", songs: ["Game of Thrones — Theme","Ghostbusters / S.O.S. Fantômes","La La Land — Mia & Sebastian's Theme","Halloween — La Nuit des Masques","Indiana Jones — Theme","Jurassic Park — Theme","Psycho — Prelude","Stranger Things — Theme","The Addams Family — Theme","The Exorcist — Tubular Bells","The Nightmare Before Christmas — This is Halloween","The Rocky Horror Picture Show — Time Warp","Un Monstre à Paris — La Seine","Sparkle — Your Name","Unwritten","Love at First Sight","Married Life (Up)","Arrival of the Birds"] }
+    ]
+  },
+  { artist: "Franklin", songs: ["I Say a Little Prayer"] },
+  { artist: "Gaga", songs: ["Bad Romance","Poker Face","Rain on Me"] },
+  { artist: "Gainsbourg", songs: ["Je t'aime… moi non plus","La Javanaise"] },
+  { artist: "Gaye", songs: ["Ain't No Mountain High Enough"] },
+  { artist: "Goldman", songs: ["Aïcha","Au Bout de mes Rêves","Comme Toi","Envoie-Moi","Famille","Il Changeait la Vie","Je te Donne","Là-bas","Né en 17 à Leidenstadt","On ira","Pas Toi","Puisque tu Pars","Quand la Musique est Bonne","Quatre Mots sur un Piano","Veiller Tard"] },
+  { artist: "Good Good Dolls", songs: ["Iris"] },
+  { artist: "Good Neighbours", songs: ["Home"] },
+  { artist: "Grande", songs: ["Thank U, Next","Rain on Me","Positions"] },
+  { artist: "Harry Styles", songs: ["Watermelon Sugar"] },
+  { artist: "Hisaishi", songs: ["A Journey (A Dream of Flight)","Always With Me (Spirited Away)","Chihiro's Waltz (Spirited Away)","Ponyo on the Cliff","Name of Life (Spirited Away)","Nausicaa of the Valley of the Wind","Path of the Wind (My Neighbour Totoro)","Summer","Carrying You (Castle in the Sky)","Merry Go Round of Life (Howl's Moving Castle)","Princess Mononoke","Tabidachi (Kiki's Delivery Service)","Tonari no Totoro (My Neighbour Totoro)","A Town with an Ocean View (Kiki's Delivery Service)","When I Remember This Life (The Tale of Princess Kaguya)"] },
+  { artist: "Israel", songs: ["Somewhere Over The Rainbow"] },
+  { artist: "Imagine Dragons", songs: ["Bad Liar","Believer","Bones","Demons","Enemy","Eyes Closed","Follow You","Natural","Next to Me","Nice to Meet You","On Top of the World","Radioactive","Sharks","Sucker for Pain","Thunder","Warriors","Whatever It Takes"] },
+  { artist: "Jackson", songs: ["Thriller"] },
+  { artist: "John (Elton)", songs: ["Can You Feel The Love Tonight"] },
+  { artist: "King, Ben E.", songs: ["Stand By Me"] },
+  { artist: "King, Carole", songs: ["Where You Lead"] },
+  { artist: "Kate Bush", songs: ["Running Up That Hill"] },
+  { artist: "Kravitz", songs: ["Fly Away"] },
+  { artist: "Lana Del Rey", songs: ["Summertime Sadness","Young and Beautiful"] },
+  { artist: "Lady Gaga", songs: ["Shallow"] },
+  { artist: "Led Zeppelin", songs: ["Kashmir"] },
+  { artist: "Léon", songs: ["I Believe in Us"] },
+  { artist: "Madonna", songs: ["Material Girl"] },
+  { artist: "Mars (Bruno)", songs: ["Marry You"] },
+  { artist: "Maroon 5", songs: ["Girls Like You"] },
+  { artist: "Metallica", songs: ["Enter Sandman","Nothing Else Matters"] },
+  { artist: "Mraz", songs: ["I'm Yours"] },
+  { artist: "Munsick", songs: ["Long Haul"] },
+  { artist: "Neil Young", songs: ["Harvest Moon"] },
+  { artist: "Nirvana", songs: ["Smells Like Teen Spirit"] },
+  { artist: "No Doubt", songs: ["Don't Speak"] },
+  { artist: "Oasis", songs: ["Wonderwall"] },
+  { artist: "Olivia Rodrigo", songs: ["Bad Idea Right?"] },
+  { artist: "Olivia Dean", songs: ["Man I Need"] },
+  { artist: "Pachelbel", songs: ["Canon in D"] },
+  { artist: "Parton", songs: ["Jolene"] },
+  { artist: "Pink", songs: ["What About Us"] },
+  { artist: "Pink Floyd", songs: ["Another Brick In The Wall","Shine On You Crazy Diamond","Hey You","Breathe (In The Air)","On The Run","Time","The Great Gig In The Sky","Money","Us And Them","Comfortably Numb","Wish You Were Here","Brain Damage"] },
+  { artist: "Presley", songs: ["Can't Help Falling in Love"] },
+  { artist: "Pulp Fiction", songs: ["Misirlou"] },
+  { artist: "Prince", songs: ["Purple Rain"] },
+  { artist: "Queen", songs: ["I Want To Break Free","We Will Rock You","Somebody To Love","Radio Ga Ga","Don't Stop Me Now","Killer Queen","Crazy Little Thing Called Love","Who Wants To Live Forever","Bohemian Rhapsody","Love Of My Life","We Are The Champions","Another One Bites The Dust"] },
+  { artist: "Radiohead", songs: ["High and Dry"] },
+  { artist: "Red Hot Chili Peppers", songs: ["Under the Bridge"] },
+  { artist: "Richter", songs: ["Spring / Printemps"] },
+  { artist: "Righteous Brothers", songs: ["Unchained Melody"] },
+  { artist: "Robyn", songs: ["Dancing on My Own"] },
+  { artist: "Rodgers", songs: ["The Gambler","Islands in the Stream"] },
+  { artist: "Ros (Sigur)", songs: ["Hoppipolla"] },
+  { artist: "Schubert", songs: ["Ave Maria"] },
+  { artist: "Selena", songs: ["Dreaming of You"] },
+  { artist: "Sia", songs: ["Cheap Thrills"] },
+  { artist: "Sinatra", songs: ["Fly Me to the Moon","Moon River","New York, New York","Strangers in the Night"] },
+  { artist: "Sleeping at Last", songs: ["Turning Page"] },
+  { artist: "Taylor Swift", songs: ["Shake It Off","Cardigan","Love Story","Enchanted","We Are Never Ever Getting Back Together","Invisible String","All Too Well","Wildest Dreams","Lavender Haze","Snow on the Beach","Cruel Summer","Lover","I Knew You Were Trouble","You Belong With Me","New Romantics"] },
+  { artist: "The Cardigans", songs: ["Lovefool"] },
+  { artist: "The Verve", songs: ["Bittersweet Symphony"] },
+  { artist: "The Beach Boys", songs: ["God Only Knows"] },
+  { artist: "The Cranberries", songs: ["Zombie"] },
+  { artist: "The Killers", songs: ["Mr Brightside"] },
+  { artist: "The Temper Trap", songs: ["Sweet Disposition"] },
+  { artist: "The Weeknd", songs: ["I Feel It Coming"] },
+  { artist: "Titanic", songs: ["My Heart Will Go On"] },
+  { artist: "Trenet", songs: ["L'âme Des Poètes","La Mer"] },
+  { artist: "Usher", songs: ["Yeah!","DJ Got Us Fallin' in Love"] },
+  { artist: "U2", songs: ["All I Want Is You","Beautiful Day","I Still Haven't Found What I'm Looking For","Magnificent","Mysterious Ways","Sunday Bloody Sunday","One","Sweetest Thing","With or Without You","New Year's Day","Pride","Where The Streets Have No Name"] },
+  { artist: "Valli", songs: ["Can't Take My Eyes Off You"] },
+  { artist: "Vivaldi", songs: ["The Four Seasons (Les Quatre Saisons)"] },
+  { artist: "Woods (Harry)", songs: ["So This is Love (Cinderella)"] },
+  { artist: "Walk the Moon", songs: ["Shut Up and Dance"] },
+  { artist: "Zimmer (Hans)", songs: ["Can You Feel The Love Tonight","Cornfield Chase","Pirates of the Caribbean","Red Warrior","Time (Inception)","Top Gun","Wonder Woman"] },
+];
+
+const selected = new Map();
+
+function key(artist, song) { return `${artist}||${song}`; }
+
+function getAllSongs(block) {
+  if (block.songs) return block.songs;
+  if (block.subsections) return block.subsections.flatMap(s => s.songs);
+  return [];
+}
+
+function render() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  let anyVisible = false;
+
+  for (const block of DATA) {
+    const allSongs = getAllSongs(block);
+    const artistMatch = block.artist.toLowerCase().includes(q);
+
+    let filteredBlock = { ...block };
+    if (block.subsections) {
+      filteredBlock.subsections = block.subsections.map(sub => ({
+        ...sub,
+        songs: artistMatch ? sub.songs : sub.songs.filter(s => s.toLowerCase().includes(q))
+      })).filter(sub => sub.songs.length > 0);
+    } else {
+      filteredBlock.songs = artistMatch ? allSongs : allSongs.filter(s => s.toLowerCase().includes(q));
+    }
+
+    const visibleSongs = getAllSongs(filteredBlock);
+    if (visibleSongs.length === 0) continue;
+
+    anyVisible = true;
+    const div = document.createElement('div');
+    div.className = 'artist-block';
+
+    const selCount = allSongs.filter(s => selected.get(key(block.artist, s))).length;
+    const checkState = selCount === 0 ? '' : selCount === allSongs.length ? 'full' : 'partial';
+
+    const header = document.createElement('div');
+    header.className = 'artist-header';
+    header.innerHTML = `
+      <div class="artist-check ${checkState}"></div>
+      <span class="artist-name">${block.artist}</span>
+      <span class="artist-count">${selCount > 0 ? selCount + ' / ' : ''}${allSongs.length}</span>
+    `;
+    header.addEventListener('click', () => toggleArtist(block.artist, allSongs));
+    div.appendChild(header);
+
+    if (filteredBlock.songs) {
+      for (const song of filteredBlock.songs) {
+        div.appendChild(makeSongRow(block.artist, song));
+      }
+    } else if (filteredBlock.subsections) {
+      for (const sub of filteredBlock.subsections) {
+        const stitle = document.createElement('div');
+        stitle.className = 'subsection-title';
+        stitle.textContent = sub.title;
+        div.appendChild(stitle);
+        for (const song of sub.songs) {
+          div.appendChild(makeSongRow(block.artist, song));
+        }
+      }
+    }
+
+    main.appendChild(div);
+  }
+
+  if (!anyVisible) {
+    main.innerHTML = '<div class="no-results">No results for « ' + q + ' »</div>';
+  }
+
+  updateCount();
+}
+
+function makeSongRow(artist, song) {
+  const row = document.createElement('div');
+  const isSelected = selected.get(key(artist, song));
+  row.className = 'song-row' + (isSelected ? ' selected' : '');
+  row.innerHTML = `<div class="song-check"></div><span class="song-title">${song}</span>`;
+  row.addEventListener('click', () => toggleSong(artist, song));
+  return row;
+}
+
+function toggleSong(artist, song) {
+  const k = key(artist, song);
+  selected.set(k, !selected.get(k));
+  render();
+}
+
+function toggleArtist(artist, songs) {
+  const selCount = songs.filter(s => selected.get(key(artist, s))).length;
+  const newVal = selCount < songs.length;
+  songs.forEach(s => selected.set(key(artist, s), newVal));
+  render();
+}
+
+function clearAll() {
+  selected.clear();
+  render();
+}
+
+function updateCount() {
+  let c = 0;
+  selected.forEach(v => { if (v) c++; });
+  document.getElementById('count').textContent = c;
+}
+
+function filterList() { render(); }
+
+function openExport() {
+  const grouped = {};
+  for (const block of DATA) {
+    const songs = getAllSongs(block).filter(s => selected.get(key(block.artist, s)));
+    if (songs.length > 0) grouped[block.artist] = songs;
+  }
+  const keys = Object.keys(grouped);
+  if (keys.length === 0) {
+    document.getElementById('export-content').textContent = 'No songs selected.';
+  } else {
+    document.getElementById('export-content').textContent =
+      keys.map(a => `${a}\n${grouped[a].map(s => '  • ' + s).join('\n')}`).join('\n\n');
+  }
+  document.getElementById('export-panel').classList.add('open');
+}
+
+function closeExport() {
+  document.getElementById('export-panel').classList.remove('open');
+}
+
+function copySelection() {
+  const text = document.getElementById('export-content').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+render();
+</script>
+</body>
+</html>
