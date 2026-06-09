@@ -10,10 +10,10 @@
 
 export type Lang = "fr" | "en";
 /** Logical page, shared across languages. */
-export type Page = "home" | "services" | "musiqueMariage" | "media" | "contact" | "legal";
+export type Page = "home" | "services" | "musiqueMariage" | "media" | "contact" | "legal" | "repertoire";
 /** A concrete route = one page in one language. Must mirror `src/router.ts`. */
 export type RouteName =
-    | "home" | "services" | "musiqueMariage" | "media" | "contact" | "legal"
+    | "home" | "services" | "musiqueMariage" | "media" | "contact" | "legal" | "repertoire"
     | "homeEn" | "servicesEn" | "musiqueMariageEn" | "mediaEn" | "contactEn";
 
 /** Canonical host. Must match `public/CNAME` (www) and `.env`'s VITE_SITE_URL. */
@@ -57,6 +57,13 @@ export type RouteMeta = {
     page: Page;
     /** RouteName of the same page in the other language (drives hreflang). */
     alternate?: RouteName;
+    /**
+     * Whether the post-build prerenderer should snapshot this route. Defaults
+     * to true. Set false for routes that aren't real React pages (e.g. a route
+     * that immediately redirects to a standalone static HTML file), since the
+     * prerenderer's "wait for #root to fill" step can never resolve for them.
+     */
+    prerender?: boolean;
 };
 
 /**
@@ -73,6 +80,7 @@ export const ROUTE_META: Record<RouteName, RouteMeta> = {
     "media":      { "path": "/en-images",   "file": "en-images.html",   "index": true,  "lang": "fr", "page": "media",    "alternate": "mediaEn" },
     "contact":    { "path": "/contact",     "file": "contact.html",     "index": true,  "lang": "fr", "page": "contact",  "alternate": "contactEn" },
     "legal":      { "path": "/legal",       "file": "legal.html",       "index": false, "lang": "fr", "page": "legal" },
+    "repertoire": { "path": "/repertoire",  "file": "repertoire.html",  "index": false, "lang": "fr", "page": "repertoire", "prerender": false },
     "homeEn":     { "path": "/en",          "file": "en.html",          "index": true,  "lang": "en", "page": "home",     "alternate": "home" },
     "servicesEn": { "path": "/en/services", "file": "en/services.html", "index": true,  "lang": "en", "page": "services", "alternate": "services" },
     "musiqueMariageEn": { "path": "/en/wedding-music", "file": "en/wedding-music.html", "index": true, "lang": "en", "page": "musiqueMariage", "alternate": "musiqueMariage" },
@@ -150,6 +158,16 @@ export const SEO_BY_ROUTE: Record<Page, Record<Lang, { title: string; descriptio
         "en": {
             "title": "Legal Notice – Récital Production",
             "description": "Legal notice for the Récital Production website."
+        }
+    },
+    "repertoire": {
+        "fr": {
+            "title": "Répertoire mariage – Récital Production",
+            "description": ""
+        },
+        "en": {
+            "title": "Wedding Repertoire – Récital Production",
+            "description": ""
         }
     }
 };

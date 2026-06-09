@@ -16,6 +16,7 @@ export const routeDefs = {
     "media": defineRoute(publicUrl + "en-images"),
     "contact": defineRoute(publicUrl + "contact"),
 	"legal": defineRoute(publicUrl + "legal"),
+    "repertoire": defineRoute(publicUrl + "repertoire"),
     // English (path-prefixed) mirror routes. Language is derived from the route
     // (see src/seo/localized.ts); the page→component mapping lives in Body.tsx.
     // home-en is "/en" (no trailing slash) to stay aligned with the emitted

@@ -41,6 +41,14 @@ export function Body() {
 
     const page = pageOf(route.name);
 
+    // The repertoire page is a standalone static HTML tool — redirect to it
+    // directly so it renders without the React shell (no header/footer).
+    useEffect(() => {
+        if (page === "repertoire") {
+            window.location.replace(import.meta.env.BASE_URL + "repertoire-mariage.html");
+        }
+    }, [page]);
+
     useEffect(() => {
         initGA(); // Start GA4
 

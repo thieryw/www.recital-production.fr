@@ -215,7 +215,11 @@ async function main(): Promise<void> {
         await page.setViewport({ width: 1366, height: 900 });
 
         for (const name of Object.keys(ROUTE_META) as RouteName[]) {
-            const { path, file } = ROUTE_META[name];
+            const { path, file, prerender } = ROUTE_META[name];
+            if (prerender === false) {
+                console.log(`[prerender] skip ${name}: prerender disabled`);
+                continue;
+            }
             const target = join(DIST, file);
             if (!existsSync(target)) {
                 console.warn(`[prerender] skip ${name}: ${target} not found`);
