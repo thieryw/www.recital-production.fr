@@ -30,6 +30,7 @@ export const Header = memo(() => {
         return [
             { "label": t("link0"), ...linkTo("home", lang), "routeName": routeNameForPage("home", lang), "page": "home" },
             { "label": t("link1"), ...linkTo("services", lang), "routeName": routeNameForPage("services", lang), "page": "services" },
+            { "label": t("link4"), ...linkTo("musiqueMariage", lang), "routeName": routeNameForPage("musiqueMariage", lang), "page": "musiqueMariage" },
             { "label": t("link2"), ...linkTo("media", lang), "routeName": routeNameForPage("media", lang), "page": "media" },
             { "label": t("link3"), ...linkTo("contact", lang), "routeName": routeNameForPage("contact", lang), "page": "contact" },
         ]
@@ -37,12 +38,11 @@ export const Header = memo(() => {
     }, [lang, t])
 
 
-    const { classes, windowInnerWidth, theme } = useStyles();
+    const { classes } = useStyles();
 
     return <HeaderComponent
         activeLinkLabel={links.find(({ routeName }) => routeName === route.name)?.label}
-        links={windowInnerWidth >= theme.breakpoints.values.sm ? links.filter((link) => link.page !== "home") : links}
-        logo={<a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={currentPage === "home" ? logoDarkSvg : logoSvg} /></a>}
+        links={links}
         isDark={currentPage === "home"}
         mobile={{
             "logoOpen": <a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={logoDarkSvg} /></a>,
@@ -117,6 +117,7 @@ export const { i18n } = declareComponentKeys<
     | "link1"
     | "link2"
     | "link3"
+    | "link4"
     | "legalLinkLabel"
     | "copyRight"
     | "designed"

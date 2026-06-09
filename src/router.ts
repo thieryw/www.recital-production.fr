@@ -12,6 +12,7 @@ const publicUrl = import.meta.env.BASE_URL;
 export const routeDefs = {
 	"home": defineRoute(publicUrl),
     "services": defineRoute(publicUrl + "prestations"),
+    "musiqueMariage": defineRoute(publicUrl + "musique-mariage"),
     "media": defineRoute(publicUrl + "en-images"),
     "contact": defineRoute(publicUrl + "contact"),
 	"legal": defineRoute(publicUrl + "legal"),
@@ -21,6 +22,7 @@ export const routeDefs = {
     // file "en.html" — see the note in src/seo/seoData.ts.
     "homeEn": defineRoute(publicUrl + "en"),
     "servicesEn": defineRoute(publicUrl + "en/services"),
+    "musiqueMariageEn": defineRoute(publicUrl + "en/wedding-music"),
     "mediaEn": defineRoute(publicUrl + "en/gallery"),
     "contactEn": defineRoute(publicUrl + "en/contact"),
 };

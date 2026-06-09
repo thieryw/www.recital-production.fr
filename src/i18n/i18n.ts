@@ -11,6 +11,9 @@ import { translation as homeFr } from "./resources/fr/home";
 import type { ComponentKeyServices } from "./types"
 import { translation as servicesEn } from "./resources/en/services";
 import { translation as servicesFr } from "./resources/fr/services";
+import type { ComponentKeyMusiqueMariage } from "./types"
+import { translation as musiqueMariageEn } from "./resources/en/musiqueMariage";
+import { translation as musiqueMariageFr } from "./resources/fr/musiqueMariage";
 import type { ComponentKeyMedia } from "./types"
 import { translation as mediaEn } from "./resources/en/media";
 import { translation as mediaFr } from "./resources/fr/media";
@@ -44,6 +47,7 @@ export const {
 	ComponentKeyFooter |
 	ComponentKeyHome |
 	ComponentKeyServices |
+	ComponentKeyMusiqueMariage |
 	ComponentKeyMedia |
 	ComponentKeyContact
 
@@ -58,6 +62,7 @@ export const {
 			"Footer": footerFr.Footer,
 			"Home": homeFr.Home,
 			"Services": servicesFr.Services,
+			"MusiqueMariage": musiqueMariageFr.MusiqueMariage,
 			"Media": mediaFr.Media,
 			"Contact": contactFr.Contact
 
@@ -67,6 +72,7 @@ export const {
 			"Footer": footerEn.Footer,
 			"Home": homeEn.Home,
 			"Services": servicesEn.Services,
+			"MusiqueMariage": musiqueMariageEn.MusiqueMariage,
 			"Media": mediaEn.Media,
 			"Contact": contactEn.Contact
 
