@@ -26,6 +26,7 @@ export const Footer = memo(() => {
         return [
             { "label": t("link0"), ...linkTo("home", lang), "routeName": routeNameForPage("home", lang) },
             { "label": t("link1"), ...linkTo("services", lang), "routeName": routeNameForPage("services", lang) },
+            { "label": t("link4"), ...linkTo("musiqueMariage", lang), "routeName": routeNameForPage("musiqueMariage", lang) },
             { "label": t("link2"), ...linkTo("media", lang), "routeName": routeNameForPage("media", lang) },
             { "label": t("link3"), ...linkTo("contact", lang), "routeName": routeNameForPage("contact", lang) },
         ]
@@ -135,6 +136,7 @@ export const { i18n } = declareComponentKeys<
     | "link1"
     | "link2"
     | "link3"
+    | "link4"
     | "legalLinkLabel"
     | "copyRight"
     | "designed"

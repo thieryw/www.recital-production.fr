@@ -5,6 +5,7 @@ import { tss } from "tss";
 import { useRoute } from "router";
 import { langOf, linkTo } from "seo/localized";
 import { LinkButton } from "components/LinkButton";
+import { Reveal } from "components/Reveal";
 import { Reviews } from "pages/home/Reviews";
 
 import heroJpg from "assets/jpg/services/img-1.jpg";
@@ -66,71 +67,97 @@ export const MusiqueMariage = memo(() => {
     return (
         <div className={classes.root}>
 
-            <section className={classes.hero}>
-                <Typo variant="h1">{t("heroTitle")}</Typo>
-                <Typo className={classes.lead} variant="body1">{t("heroParagraph")}</Typo>
-                <LinkButton label={t("heroCta")} {...contactLink} />
-            </section>
+            <Reveal className={classes.revealWrap} duration={0.9}>
+                <section className={classes.hero}>
+                    <Typo variant="h1">{t("heroTitle")}</Typo>
+                    <Typo className={classes.lead} variant="body1">{t("heroParagraph")}</Typo>
+                    <LinkButton label={t("heroCta")} {...contactLink} />
+                </section>
+            </Reveal>
 
-            <div className={classes.banner}>
-                <Img picture={{ "jpg": heroJpg, "webp": heroWebp, "alt": t("heroAlt") }} className={classes.bannerImage} />
-            </div>
-
-            <section className={classes.intro}>
-                <Typo className={classes.introParagraph} variant="body1">{t("introParagraph")}</Typo>
-            </section>
-
-            <section className={classes.block}>
-                <Typo className={classes.blockTitle} variant="h2">{t("whyTitle")}</Typo>
-                <div className={classes.cards}>
-                    {why.map(({ title, text, jpg, webp, alt }) => (
-                        <div className={classes.card} key={title}>
-                            <Img picture={{ jpg, webp, alt }} className={classes.cardImage} />
-                            <Typo className={classes.cardTitle} variant="h3">{title}</Typo>
-                            <Typo variant="body1">{text}</Typo>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            <section className={classes.block}>
-                <Typo className={classes.blockTitle} variant="h2">{t("formatsTitle")}</Typo>
-                <div className={classes.cards}>
-                    {formats.map(({ title, text, jpg, webp, alt }) => (
-                        <div className={classes.card} key={title}>
-                            <Img picture={{ jpg, webp, alt }} className={classes.cardImage} />
-                            <Typo className={classes.cardTitle} variant="h3">{title}</Typo>
-                            <Typo variant="body1">{text}</Typo>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            <section className={classes.block}>
-                <Typo className={classes.blockTitle} variant="h2">{t("areaTitle")}</Typo>
-                <Typo className={classes.introParagraph} variant="body1">{t("areaParagraph")}</Typo>
+            <Reveal className={classes.revealWrap} delay={0.15}>
                 <div className={classes.banner}>
-                    <Img picture={{ "jpg": areaJpg, "webp": areaWebp, "alt": t("areaAlt") }} className={classes.bannerImage} />
+                    <Img picture={{ "jpg": heroJpg, "webp": heroWebp, "alt": t("heroAlt") }} className={classes.bannerImage} />
                 </div>
-            </section>
+            </Reveal>
+
+            <Reveal className={classes.revealWrap}>
+                <section className={classes.intro}>
+                    <Typo className={classes.introParagraph} variant="body1">{t("introParagraph")}</Typo>
+                </section>
+            </Reveal>
 
             <section className={classes.block}>
-                <Typo className={classes.blockTitle} variant="h2">{t("faqTitle")}</Typo>
-                <div className={classes.faq}>
-                    {faq.map(({ q, a }) => (
-                        <div className={classes.faqItem} key={q}>
-                            <Typo className={classes.cardTitle} variant="h3">{q}</Typo>
-                            <Typo variant="body1">{a}</Typo>
-                        </div>
+                <Reveal className={classes.revealWrap}>
+                    <Typo className={classes.blockTitle} variant="h2">{t("whyTitle")}</Typo>
+                </Reveal>
+                <div className={classes.cards}>
+                    {why.map(({ title, text, jpg, webp, alt }, index) => (
+                        <Reveal className={classes.cardReveal} delay={index * 0.12} key={title}>
+                            <div className={classes.card}>
+                                <Img picture={{ jpg, webp, alt }} className={classes.cardImage} />
+                                <Typo className={classes.cardTitle} variant="h3">{title}</Typo>
+                                <Typo variant="body1">{text}</Typo>
+                            </div>
+                        </Reveal>
                     ))}
                 </div>
             </section>
 
-            <section className={classes.cta}>
-                <Typo className={classes.blockTitle} variant="h2">{t("ctaTitle")}</Typo>
-                <Typo className={classes.introParagraph} variant="body1">{t("ctaParagraph")}</Typo>
-                <LinkButton label={t("ctaButton")} {...contactLink} />
+            <section className={classes.block}>
+                <Reveal className={classes.revealWrap}>
+                    <Typo className={classes.blockTitle} variant="h2">{t("formatsTitle")}</Typo>
+                </Reveal>
+                <div className={classes.cards}>
+                    {formats.map(({ title, text, jpg, webp, alt }, index) => (
+                        <Reveal className={classes.cardReveal} delay={index * 0.12} key={title}>
+                            <div className={classes.card}>
+                                <Img picture={{ jpg, webp, alt }} className={classes.cardImage} />
+                                <Typo className={classes.cardTitle} variant="h3">{title}</Typo>
+                                <Typo variant="body1">{text}</Typo>
+                            </div>
+                        </Reveal>
+                    ))}
+                </div>
             </section>
+
+            <section className={classes.block}>
+                <Reveal className={classes.revealWrap}>
+                    <Typo className={classes.blockTitle} variant="h2">{t("areaTitle")}</Typo>
+                </Reveal>
+                <Reveal className={classes.revealWrap}>
+                    <Typo className={classes.introParagraph} variant="body1">{t("areaParagraph")}</Typo>
+                </Reveal>
+                <Reveal className={classes.revealWrap} delay={0.15}>
+                    <div className={classes.banner}>
+                        <Img picture={{ "jpg": areaJpg, "webp": areaWebp, "alt": t("areaAlt") }} className={classes.bannerImage} />
+                    </div>
+                </Reveal>
+            </section>
+
+            <section className={classes.block}>
+                <Reveal className={classes.revealWrap}>
+                    <Typo className={classes.blockTitle} variant="h2">{t("faqTitle")}</Typo>
+                </Reveal>
+                <div className={classes.faq}>
+                    {faq.map(({ q, a }, index) => (
+                        <Reveal delay={index * 0.1} key={q}>
+                            <div className={classes.faqItem}>
+                                <Typo className={classes.cardTitle} variant="h3">{q}</Typo>
+                                <Typo variant="body1">{a}</Typo>
+                            </div>
+                        </Reveal>
+                    ))}
+                </div>
+            </section>
+
+            <Reveal className={classes.revealWrap}>
+                <section className={classes.cta}>
+                    <Typo className={classes.blockTitle} variant="h2">{t("ctaTitle")}</Typo>
+                    <Typo className={classes.introParagraph} variant="body1">{t("ctaParagraph")}</Typo>
+                    <LinkButton label={t("ctaButton")} {...contactLink} />
+                </section>
+            </Reveal>
 
             <div className={classes.reviews}>
                 <Reviews />
@@ -147,6 +174,16 @@ const useStyles = tss.create(({ theme }) => ({
         "alignItems": "center",
         "paddingLeft": theme.spacing(4),
         "paddingRight": theme.spacing(4)
+    },
+    "revealWrap": {
+        "width": "100%",
+        "display": "flex",
+        "flexDirection": "column",
+        "alignItems": "center"
+    },
+    "cardReveal": {
+        "width": "100%",
+        "height": "100%"
     },
     "hero": {
         "display": "flex",

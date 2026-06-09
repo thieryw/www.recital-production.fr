@@ -38,12 +38,11 @@ export const Header = memo(() => {
     }, [lang, t])
 
 
-    const { classes, windowInnerWidth, theme } = useStyles();
+    const { classes } = useStyles();
 
     return <HeaderComponent
         activeLinkLabel={links.find(({ routeName }) => routeName === route.name)?.label}
-        links={windowInnerWidth >= theme.breakpoints.values.sm ? links.filter((link) => link.page !== "home") : links}
-        logo={<a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={currentPage === "home" ? logoDarkSvg : logoSvg} /></a>}
+        links={links}
         isDark={currentPage === "home"}
         mobile={{
             "logoOpen": <a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={logoDarkSvg} /></a>,

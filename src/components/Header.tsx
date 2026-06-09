@@ -14,7 +14,6 @@ import backgroundSvg from "assets/svg/marble-mobile.svg"
 
 export type HeaderProps = {
     className?: string;
-    logo: ReactNode;
     links: Link[];
     isDark?: boolean;
     mobile?: {
@@ -31,12 +30,12 @@ export type HeaderProps = {
 
 
 export const Header = memo((props: HeaderProps) => {
-    const { links, logo, mobile, className, isDark, activeLinkLabel } = props;
+    const { links, mobile, className, isDark, activeLinkLabel } = props;
     const { lang } = useLang();
     const route = useRoute();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const ref = useRef(null);
-    const { windowInnerWidth, theme, cx, classes } = useStyles({
+    const { cx, classes } = useStyles({
         isMobileMenuOpen
 
     });
@@ -75,52 +74,29 @@ export const Header = memo((props: HeaderProps) => {
 
     }, [isMobileMenuOpen])
 
-    useEffect(()=>{
-        if(windowInnerWidth < theme.breakpoints.values.sm){
-            return;
-        }
-        if(!isMobileMenuOpen){
+    useEffect(() => {
+        if (!isMobileMenuOpen) {
             return;
         }
 
-        setIsMobileMenuOpen(false);
+        function handleEscape(e: KeyboardEvent) {
+            if (e.code !== "Escape") {
+                return;
+            }
 
-    }, [windowInnerWidth])
+            setIsMobileMenuOpen(false);
+        }
+
+        window.addEventListener("keydown", handleEscape);
+
+        return () => window.removeEventListener("keydown", handleEscape);
+
+    }, [isMobileMenuOpen])
 
     return (
         <header ref={ref} className={cx(classes.root, className)}>
             {
-                (() => {
-                    if (windowInnerWidth >= theme.breakpoints.values.sm) {
-                        return <div className={classes.desktopWrapper}>
-                            {logo}
-                            <div className={classes.linkWrapper}>
-                                {
-                                    links.map(({ label, href, onClick }) => <RouteLink
-                                        variant="desktop"
-                                        key={label}
-                                        isActive={label === activeLinkLabel}
-                                        isDark={isDark ?? false}
-                                        href={href}
-                                        onClick={onClick}
-                                        label={label}
-                                        className={classes.link}
-
-                                    />)
-                                }
-
-                            </div>
-                            <SquareButton
-                                variant={isDark ? "gold" : "darkGold"}
-                                label={lang === "fr" ? "FR" : "EN"}
-                                onClick={toggleLang}
-                            />
-
-                        </div>
-                    }
-
-                    return (
-                        mobile !== undefined &&
+                mobile !== undefined &&
                         <div className={classes.mobileWrapper}>
                             <div className={classes.mobileTop}>
                                 <div className={classes.mobileLogoWrapper}>
@@ -181,8 +157,7 @@ export const Header = memo((props: HeaderProps) => {
                                 </div>
                             </div>
 
-                        </div>)
-                })()
+                        </div>
             }
 
         </header>
@@ -198,51 +173,17 @@ const useStyles = tss
                 "width": "100vw",
                 "display": "flex",
                 "justifyContent": "center",
-                "paddingTop": theme.spacing(5),
-                [theme.breakpoints.down("sm")]: {
-                    "paddingTop": 0
-                },
+                "paddingTop": 0,
                 "position": "absolute",
                 "zIndex": 2
 
 
             },
-            "desktopWrapper": {
-                "maxWidth": theme.breakpoints.values.xl,
-                "display": "flex",
-                "alignItems": "center"
-            },
-            "linkWrapper": {
-                "display": "flex",
-                ...(() => {
-                    const value = theme.spacing(25);
-                    const mdValue = theme.spacing(5);
-                    return {
-                        "marginRight": value,
-                        "marginLeft": value,
-                        [theme.breakpoints.down("md")]: {
-                            "marginRight": mdValue,
-                            "marginLeft": mdValue,
-
-                        }
-                    }
-                })()
-            },
             "link": {
-                ...(() => {
-                    const value = theme.spacing(3);
-                    const valueMobile = theme.spacing(1);
-                    return {
-                        "marginRight": value,
-                        "marginLeft": value,
-                        [theme.breakpoints.down("sm")]: {
-                            "marginTop": valueMobile,
-                            "marginBottom": valueMobile,
-                            "marginRight": 0,
-                            "marginLeft": 0
-                        }
-                    }
-                })()
+                "marginTop": theme.spacing(1),
+                "marginBottom": theme.spacing(1),
+                "marginRight": 0,
+                "marginLeft": 0
             },
             "mobileWrapper": {
                 "width": "100%",

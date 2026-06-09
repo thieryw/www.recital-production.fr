@@ -6,6 +6,7 @@ export const translation: TranslationFooter<"fr"> = {
         "link1": "Prestations",
         "link2": "Médias",
         "link3": "Contact",
+        "link4": "Mariages",
         "legalLinkLabel": "Mentions légales",
         "copyRight": "Copyright 2024 Récital Production",
         "designed": "Designed by",
