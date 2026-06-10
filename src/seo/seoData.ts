@@ -10,11 +10,11 @@
 
 export type Lang = "fr" | "en";
 /** Logical page, shared across languages. */
-export type Page = "home" | "services" | "musiqueMariage" | "media" | "contact" | "legal" | "repertoire";
+export type Page = "home" | "services" | "musiqueMariage" | "bordeaux" | "media" | "contact" | "legal" | "repertoire";
 /** A concrete route = one page in one language. Must mirror `src/router.ts`. */
 export type RouteName =
-    | "home" | "services" | "musiqueMariage" | "media" | "contact" | "legal" | "repertoire"
-    | "homeEn" | "servicesEn" | "musiqueMariageEn" | "mediaEn" | "contactEn";
+    | "home" | "services" | "musiqueMariage" | "bordeaux" | "media" | "contact" | "legal" | "repertoire"
+    | "homeEn" | "servicesEn" | "musiqueMariageEn" | "bordeauxEn" | "mediaEn" | "contactEn";
 
 /** Canonical host. Must match `public/CNAME` (www) and `.env`'s VITE_SITE_URL. */
 export const SITE_URL = "https://www.recital-production.fr";
@@ -77,6 +77,7 @@ export const ROUTE_META: Record<RouteName, RouteMeta> = {
     "home":       { "path": "/",            "file": "index.html",       "index": true,  "lang": "fr", "page": "home",     "alternate": "homeEn" },
     "services":   { "path": "/prestations", "file": "prestations.html", "index": true,  "lang": "fr", "page": "services", "alternate": "servicesEn" },
     "musiqueMariage":   { "path": "/musique-mariage", "file": "musique-mariage.html", "index": true, "lang": "fr", "page": "musiqueMariage", "alternate": "musiqueMariageEn" },
+    "bordeaux":         { "path": "/musique-mariage/bordeaux", "file": "musique-mariage/bordeaux.html", "index": true, "lang": "fr", "page": "bordeaux", "alternate": "bordeauxEn" },
     "media":      { "path": "/en-images",   "file": "en-images.html",   "index": true,  "lang": "fr", "page": "media",    "alternate": "mediaEn" },
     "contact":    { "path": "/contact",     "file": "contact.html",     "index": true,  "lang": "fr", "page": "contact",  "alternate": "contactEn" },
     "legal":      { "path": "/legal",       "file": "legal.html",       "index": false, "lang": "fr", "page": "legal" },
@@ -84,6 +85,7 @@ export const ROUTE_META: Record<RouteName, RouteMeta> = {
     "homeEn":     { "path": "/en",          "file": "en.html",          "index": true,  "lang": "en", "page": "home",     "alternate": "home" },
     "servicesEn": { "path": "/en/services", "file": "en/services.html", "index": true,  "lang": "en", "page": "services", "alternate": "services" },
     "musiqueMariageEn": { "path": "/en/wedding-music", "file": "en/wedding-music.html", "index": true, "lang": "en", "page": "musiqueMariage", "alternate": "musiqueMariage" },
+    "bordeauxEn":       { "path": "/en/wedding-music/bordeaux", "file": "en/wedding-music/bordeaux.html", "index": true, "lang": "en", "page": "bordeaux", "alternate": "bordeaux" },
     "mediaEn":    { "path": "/en/gallery",  "file": "en/gallery.html",  "index": true,  "lang": "en", "page": "media",    "alternate": "media" },
     "contactEn":  { "path": "/en/contact",  "file": "en/contact.html",  "index": true,  "lang": "en", "page": "contact",  "alternate": "contact" }
 };
@@ -124,6 +126,18 @@ export const SEO_BY_ROUTE: Record<Page, Record<Lang, { title: string; descriptio
             "title": "Wedding Music in Bordeaux & South-West France | Récital Production",
             "description":
                 "Conservatoire-trained wedding musicians — string quartet, duos and soloists for your ceremony and cocktail hour in Bordeaux, Cap-Ferret, Arcachon and the Dordogne."
+        }
+    },
+    "bordeaux": {
+        "fr": {
+            "title": "Musique de mariage à Bordeaux – Quatuor à cordes & musiciens | Récital Production",
+            "description":
+                "Musiciens de mariage à Bordeaux formés au Conservatoire : quatuor à cordes, duo ou soliste pour votre cérémonie et votre cocktail, des châteaux viticoles du Médoc à Saint-Émilion."
+        },
+        "en": {
+            "title": "Wedding Music in Bordeaux – String Quartet & Musicians | Récital Production",
+            "description":
+                "Conservatoire-trained wedding musicians in Bordeaux: string quartet, duo or soloist for your ceremony and cocktail hour, from Médoc vineyard châteaux to Saint-Émilion."
         }
     },
     "media": {
@@ -252,6 +266,44 @@ export const WEDDING_FAQ: Record<Lang, { question: string; answer: string }[]> =
     ]
 };
 
+/** Bordeaux geo-page FAQ, used to emit FAQPage structured data. Keep in sync with the bordeaux i18n resources. */
+export const BORDEAUX_FAQ: Record<Lang, { question: string; answer: string }[]> = {
+    "fr": [
+        {
+            "question": "Vous déplacez-vous dans les châteaux autour de Bordeaux ?",
+            "answer":
+                "Oui. Nous jouons régulièrement dans les domaines du Médoc, de Saint-Émilion, de Pessac-Léognan et de l'Entre-deux-Mers, ainsi que dans les lieux de réception du centre de Bordeaux."
+        },
+        {
+            "question": "Quelle formation choisir pour une cérémonie à Bordeaux ?",
+            "answer":
+                "Le quatuor à cordes reste le choix le plus prisé pour une cérémonie en château ; un violon ou un violoncelle solo convient parfaitement aux lieux plus intimes. Nous vous conseillons selon votre lieu et le nombre d'invités."
+        },
+        {
+            "question": "Prenez-vous en charge la sonorisation en extérieur ?",
+            "answer":
+                "Oui. Pour les cérémonies en plein air ou les grands espaces, nous apportons une sonorisation discrète adaptée au lieu."
+        }
+    ],
+    "en": [
+        {
+            "question": "Do you travel to the châteaux around Bordeaux?",
+            "answer":
+                "Yes. We perform regularly at estates in the Médoc, Saint-Émilion, Pessac-Léognan and the Entre-deux-Mers, as well as at venues in central Bordeaux."
+        },
+        {
+            "question": "Which line-up should I choose for a Bordeaux ceremony?",
+            "answer":
+                "A string quartet remains the most popular choice for a château ceremony; a solo violin or cello is perfect for more intimate settings. We'll advise you based on your venue and guest count."
+        },
+        {
+            "question": "Do you provide sound equipment for outdoor settings?",
+            "answer":
+                "Yes. For open-air ceremonies and larger spaces, we bring discreet sound reinforcement suited to the venue."
+        }
+    ]
+};
+
 /* ------------------------------------------------------------------ */
 /* Helpers                                                            */
 /* ------------------------------------------------------------------ */
@@ -342,6 +394,18 @@ export function buildJsonLd(routeName: RouteName): object {
             "@type": "FAQPage",
             "@id": `${absUrl(meta.path)}#faq`,
             "mainEntity": WEDDING_FAQ[lang].map(({ question, answer }) => ({
+                "@type": "Question",
+                "name": question,
+                "acceptedAnswer": { "@type": "Answer", "text": answer }
+            }))
+        });
+    }
+
+    if (page === "bordeaux") {
+        graph.push({
+            "@type": "FAQPage",
+            "@id": `${absUrl(meta.path)}#faq`,
+            "mainEntity": BORDEAUX_FAQ[lang].map(({ question, answer }) => ({
                 "@type": "Question",
                 "name": question,
                 "acceptedAnswer": { "@type": "Answer", "text": answer }

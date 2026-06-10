@@ -13,6 +13,7 @@ export const routeDefs = {
 	"home": defineRoute(publicUrl),
     "services": defineRoute(publicUrl + "prestations"),
     "musiqueMariage": defineRoute(publicUrl + "musique-mariage"),
+    "bordeaux": defineRoute(publicUrl + "musique-mariage/bordeaux"),
     "media": defineRoute(publicUrl + "en-images"),
     "contact": defineRoute(publicUrl + "contact"),
 	"legal": defineRoute(publicUrl + "legal"),
@@ -24,6 +25,7 @@ export const routeDefs = {
     "homeEn": defineRoute(publicUrl + "en"),
     "servicesEn": defineRoute(publicUrl + "en/services"),
     "musiqueMariageEn": defineRoute(publicUrl + "en/wedding-music"),
+    "bordeauxEn": defineRoute(publicUrl + "en/wedding-music/bordeaux"),
     "mediaEn": defineRoute(publicUrl + "en/gallery"),
     "contactEn": defineRoute(publicUrl + "en/contact"),
 };

@@ -14,6 +14,9 @@ import { translation as servicesFr } from "./resources/fr/services";
 import type { ComponentKeyMusiqueMariage } from "./types"
 import { translation as musiqueMariageEn } from "./resources/en/musiqueMariage";
 import { translation as musiqueMariageFr } from "./resources/fr/musiqueMariage";
+import type { ComponentKeyBordeaux } from "./types"
+import { translation as bordeauxEn } from "./resources/en/bordeaux";
+import { translation as bordeauxFr } from "./resources/fr/bordeaux";
 import type { ComponentKeyMedia } from "./types"
 import { translation as mediaEn } from "./resources/en/media";
 import { translation as mediaFr } from "./resources/fr/media";
@@ -48,6 +51,7 @@ export const {
 	ComponentKeyHome |
 	ComponentKeyServices |
 	ComponentKeyMusiqueMariage |
+	ComponentKeyBordeaux |
 	ComponentKeyMedia |
 	ComponentKeyContact
 
@@ -63,6 +67,7 @@ export const {
 			"Home": homeFr.Home,
 			"Services": servicesFr.Services,
 			"MusiqueMariage": musiqueMariageFr.MusiqueMariage,
+			"Bordeaux": bordeauxFr.Bordeaux,
 			"Media": mediaFr.Media,
 			"Contact": contactFr.Contact
 
@@ -73,6 +78,7 @@ export const {
 			"Home": homeEn.Home,
 			"Services": servicesEn.Services,
 			"MusiqueMariage": musiqueMariageEn.MusiqueMariage,
+			"Bordeaux": bordeauxEn.Bordeaux,
 			"Media": mediaEn.Media,
 			"Contact": contactEn.Contact
 
