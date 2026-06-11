@@ -44,6 +44,7 @@ export const Header = memo(() => {
         activeLinkLabel={links.find(({ routeName }) => routeName === route.name)?.label}
         links={links}
         isDark={currentPage === "home"}
+        langSwitchLabel={t("langSwitchLabel")}
         mobile={{
             "logoOpen": <a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={logoDarkSvg} /></a>,
             "logoClosed": <a className={classes.logoWrapper} {...linkTo("home", lang)}><ReactSVG className={classes.logo} src={currentPage === "home" ? logoDarkSvg : logoSvg} /></a>,
@@ -54,7 +55,7 @@ export const Header = memo(() => {
                 },
                 {
                     "iconUrl": ytSvg,
-                    "href": ""
+                    "href": "https://www.youtube.com/@recitalproduction"
                 }
             ],
             "bottomDiv": <div className={classes.bottomDiv}>
@@ -122,6 +123,7 @@ export const { i18n } = declareComponentKeys<
     | "copyRight"
     | "designed"
     | "designer"
+    | "langSwitchLabel"
 >()({ Header })
 
 export type I18n = typeof i18n

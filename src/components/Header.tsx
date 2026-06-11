@@ -2,10 +2,7 @@ import { memo, useState, type ReactNode, useEffect, useRef } from "react";
 import { tss } from "tss";
 import { type Link } from "tools/link";
 import Typo from "@mui/material/Typography";
-import { SquareButton } from "./SquareButton";
-import { useLang } from "i18n";
-import { useRoute } from "router";
-import { pushToAlternateLang } from "seo/localized";
+import { LangToggle } from "./LangToggle";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { ReactSVG } from "react-svg";
 import { getScrollableParent } from "powerhooks/getScrollableParent";
@@ -26,24 +23,17 @@ export type HeaderProps = {
         bottomDiv?: ReactNode;
     };
     activeLinkLabel?: string;
+    langSwitchLabel: string;
 }
 
 
 export const Header = memo((props: HeaderProps) => {
-    const { links, mobile, className, isDark, activeLinkLabel } = props;
-    const { lang } = useLang();
-    const route = useRoute();
+    const { links, mobile, className, isDark, activeLinkLabel, langSwitchLabel } = props;
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const ref = useRef(null);
     const { cx, classes } = useStyles({
         isMobileMenuOpen
 
-    });
-
-    // Switch language by navigating to the same page's other-language URL.
-    // i18nifty's language then follows the route (see Body.tsx).
-    const toggleLang = useConstCallback(() => {
-        pushToAlternateLang(route.name);
     });
 
     const toggleMobileMenu = useConstCallback(() => {
@@ -95,6 +85,30 @@ export const Header = memo((props: HeaderProps) => {
 
     return (
         <header ref={ref} className={cx(classes.root, className)}>
+            <div className={classes.desktopBar}>
+                <div className={classes.desktopLogo}>
+                    {mobile?.logoClosed}
+                </div>
+                <nav className={classes.desktopNav} aria-label="Primary">
+                    {
+                        links.map(({ label, href, onClick }) => <RouteLink
+                            key={label}
+                            variant="desktop"
+                            isActive={label === activeLinkLabel}
+                            isDark={isDark ?? false}
+                            href={href}
+                            onClick={onClick}
+                            label={label}
+                            className={classes.desktopLink}
+                        />)
+                    }
+                </nav>
+                <LangToggle
+                    className={classes.desktopLang}
+                    isDark={isDark ?? false}
+                    ariaLabel={langSwitchLabel}
+                />
+            </div>
             {
                 mobile !== undefined &&
                         <div className={classes.mobileWrapper}>
@@ -116,10 +130,9 @@ export const Header = memo((props: HeaderProps) => {
                                         mobile.logoOpen
                                     }
                                     <img src={backgroundSvg} alt="Header background svg" className={classes.backgroundSvg} />
-                                    <SquareButton
-                                        variant={isDark ? "gold" : "gold"}
-                                        label={lang === "fr" ? "FR" : "EN"}
-                                        onClick={toggleLang}
+                                    <LangToggle
+                                        isDark={true}
+                                        ariaLabel={langSwitchLabel}
                                         className={classes.mobileLanguageButton}
                                     />
 
@@ -179,6 +192,38 @@ const useStyles = tss
 
 
             },
+            "desktopBar": {
+                "display": "none",
+                [theme.breakpoints.up("md")]: {
+                    "display": "grid",
+                    "gridTemplateColumns": "1fr auto 1fr",
+                    "alignItems": "center",
+                    "width": "100%",
+                    "boxSizing": "border-box",
+                    "paddingLeft": theme.spacing(8),
+                    "paddingRight": theme.spacing(8),
+                    "paddingTop": theme.spacing(4),
+                    "paddingBottom": theme.spacing(4)
+                }
+            },
+            "desktopLogo": {
+                "justifySelf": "start",
+                "display": "flex",
+                "alignItems": "center",
+                "& a": {
+                    "display": "inline-flex"
+                }
+            },
+            "desktopNav": {
+                "justifySelf": "center",
+                "display": "flex",
+                "alignItems": "center",
+                "gap": theme.spacing(5)
+            },
+            "desktopLink": {},
+            "desktopLang": {
+                "justifySelf": "end"
+            },
             "link": {
                 "marginTop": theme.spacing(1),
                 "marginBottom": theme.spacing(1),
@@ -188,6 +233,9 @@ const useStyles = tss
             "mobileWrapper": {
                 "width": "100%",
                 "position": "relative",
+                [theme.breakpoints.up("md")]: {
+                    "display": "none"
+                }
             },
             "mobileTop": {
                 "position": "absolute",
@@ -295,7 +343,7 @@ export const { RouteLink } = (() => {
         });
         return (
             <div className={cx(classes.root, className)}>
-                <a className={classes.link} onClick={onClick} href={href}><Typo className={classes.linkText} variant={variant === "desktop" ? "button" : typo ?? "h2"}>{label}</Typo></a>
+                <a className={classes.link} onClick={onClick} href={href} aria-current={isActive ? "page" : undefined}><Typo className={classes.linkText} variant={variant === "desktop" ? "button" : typo ?? "h2"}>{label}</Typo></a>
                 {
                     variant === "desktop" &&
                     <div className={classes.underline}>
@@ -328,7 +376,11 @@ export const { RouteLink } = (() => {
                     "transition": "width 500ms"
                 },
                 "link": {
-                    "textDecoration": "none"
+                    "textDecoration": "none",
+                    ":focus-visible": {
+                        "outline": `2px solid ${isDark ? theme.palette.gold2.main : theme.palette.gold1.main}`,
+                        "outlineOffset": 4
+                    }
                 },
                 "linkText": {
                     //"color": isActive ? theme.palette.gold1.main : isDark || variant === "mobile" ? "white" : undefined,

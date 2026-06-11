@@ -8,7 +8,7 @@ import instaSvg from "assets/svg/Insta.svg";
 import ytSvg from "assets/svg/YT.svg";
 import Typo from "@mui/material/Typography";
 import logoSvg from "assets/svg/footerLogo.svg";
-import legalPdf from "assets/pdf/mentions-legales-recital-production.pdf";
+import { EMAIL } from "seo/seoData";
 
 
 export const Footer = memo(() => {
@@ -40,6 +40,8 @@ export const Footer = memo(() => {
         className={classes.root}
         links={links}
         logo={logoSvg}
+        langSwitchLabel={t("langSwitchLabel")}
+        brandLine={t("brandLine")}
         activeLinkLabel={links.find(({ routeName }) => routeName === route.name)?.label}
         socialLinks={[
             {
@@ -52,7 +54,9 @@ export const Footer = memo(() => {
             }
         ]}
         bottomDiv={<div className={classes.bottomDiv}>
-            <a className={classes.bdLine} href={legalPdf} target="_blank"><Typo className={cx(classes.linkLabel, classes.text)} variant="body2">{t("legalLinkLabel")}</Typo></a>
+            <a className={classes.bdLine} href={`mailto:${EMAIL}`}><Typo className={cx(classes.linkLabel, classes.text, classes.email)} variant="body2">{EMAIL}</Typo></a>
+            <Typo className={classes.divider} variant="body2">/</Typo>
+            <a className={classes.bdLine} {...linkTo("legal", lang)}><Typo className={cx(classes.linkLabel, classes.text)} variant="body2">{t("legalLinkLabel")}</Typo></a>
             <Typo className={classes.divider} variant="body2">/</Typo>
             <Typo className={cx(classes.bdLine, classes.text)} variant="body2">{t("copyRight")}</Typo>
             <Typo className={classes.divider} variant="body2">/</Typo>
@@ -81,10 +85,15 @@ const useStyles = tss.create(({ theme }) => {
                 "textDecoration": "none"
             },
             "opacity": 0.5,
+            "minWidth": 0,
+            "maxWidth": "100%",
             [theme.breakpoints.down("lg")]: {
                 "flexDirection": "column",
 
             }
+        },
+        "email": {
+            "overflowWrap": "anywhere"
         },
         "designer": {
             "display": "flex",
@@ -141,6 +150,8 @@ export const { i18n } = declareComponentKeys<
     | "copyRight"
     | "designed"
     | "designer"
+    | "langSwitchLabel"
+    | "brandLine"
 >()({ Footer })
 
 export type I18n = typeof i18n
