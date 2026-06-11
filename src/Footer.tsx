@@ -8,7 +8,7 @@ import instaSvg from "assets/svg/Insta.svg";
 import ytSvg from "assets/svg/YT.svg";
 import Typo from "@mui/material/Typography";
 import logoSvg from "assets/svg/footerLogo.svg";
-import { EMAIL } from "seo/seoData";
+import { EMAIL, MINUTE_CONCERTS_URL } from "seo/seoData";
 
 
 export const Footer = memo(() => {
@@ -21,12 +21,14 @@ export const Footer = memo(() => {
         href: string;
         onClick?: () => void;
         label: string;
-        routeName: string;
+        routeName?: string;
+        isSpecial?: boolean;
     }[] => {
         return [
             { "label": t("link0"), ...linkTo("home", lang), "routeName": routeNameForPage("home", lang) },
             { "label": t("link1"), ...linkTo("services", lang), "routeName": routeNameForPage("services", lang) },
             { "label": t("link4"), ...linkTo("musiqueMariage", lang), "routeName": routeNameForPage("musiqueMariage", lang) },
+            { "label": t("linkMinuteConcerts"), "href": lang === "en" ? `${MINUTE_CONCERTS_URL}/en.html` : `${MINUTE_CONCERTS_URL}/`, "isSpecial": true },
             { "label": t("link2"), ...linkTo("media", lang), "routeName": routeNameForPage("media", lang) },
             { "label": t("link3"), ...linkTo("contact", lang), "routeName": routeNameForPage("contact", lang) },
         ]
@@ -146,6 +148,7 @@ export const { i18n } = declareComponentKeys<
     | "link2"
     | "link3"
     | "link4"
+    | "linkMinuteConcerts"
     | "legalLinkLabel"
     | "copyRight"
     | "designed"

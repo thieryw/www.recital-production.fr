@@ -10,7 +10,7 @@ import backgroundSmallSvg from "assets/svg/marble-mobile.svg";
 
 export type FooterProps = {
     className?: string;
-    links: Link[];
+    links: (Link & { isSpecial?: boolean })[];
     logo: string;
     socialLinks: {
         iconUrl: string;
@@ -56,7 +56,7 @@ export const Footer = memo((props: FooterProps) => {
                 <div className={classes.links}>
                     {
 
-                        links.map(({ label, href, onClick }, index) => <div className={classes.linkWrapper} key={label}>
+                        links.map(({ label, href, onClick, isSpecial }, index) => <div className={classes.linkWrapper} key={label}>
                             <RouteLink
                                 variant="mobile"
                                 isActive={label === activeLinkLabel}
@@ -64,6 +64,7 @@ export const Footer = memo((props: FooterProps) => {
                                 href={href}
                                 onClick={onClick}
                                 label={label}
+                                isSpecial={isSpecial}
                                 className={classes.link}
                                 typo="h4"
 

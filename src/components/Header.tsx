@@ -11,7 +11,7 @@ import backgroundSvg from "assets/svg/marble-mobile.svg"
 
 export type HeaderProps = {
     className?: string;
-    links: Link[];
+    links: (Link & { isSpecial?: boolean })[];
     isDark?: boolean;
     mobile?: {
         logoOpen?: ReactNode;
@@ -91,7 +91,7 @@ export const Header = memo((props: HeaderProps) => {
                 </div>
                 <nav className={classes.desktopNav} aria-label="Primary">
                     {
-                        links.map(({ label, href, onClick }) => <RouteLink
+                        links.map(({ label, href, onClick, isSpecial }) => <RouteLink
                             key={label}
                             variant="desktop"
                             isActive={label === activeLinkLabel}
@@ -99,6 +99,7 @@ export const Header = memo((props: HeaderProps) => {
                             href={href}
                             onClick={onClick}
                             label={label}
+                            isSpecial={isSpecial}
                             className={classes.desktopLink}
                         />)
                     }
@@ -138,13 +139,14 @@ export const Header = memo((props: HeaderProps) => {
 
                                     <div className={classes.mobileLinks}>
                                         {
-                                            links.map(({ label, href, onClick }) => <div onClick={handleClick} key={label}><RouteLink
+                                            links.map(({ label, href, onClick, isSpecial }) => <div onClick={handleClick} key={label}><RouteLink
                                                 variant="mobile"
                                                 isActive={label === activeLinkLabel}
                                                 isDark={isDark ?? false}
                                                 href={href}
                                                 onClick={onClick}
                                                 label={label}
+                                                isSpecial={isSpecial}
                                                 className={classes.link}
 
                                             /></div>)
@@ -331,21 +333,26 @@ export const { RouteLink } = (() => {
         isDark: boolean;
         className?: string;
         variant: "desktop" | "mobile";
-        typo?: "h2" | "h4"
+        typo?: "h2" | "h4";
+        isSpecial?: boolean;
 
     }) => {
-        const { href, label, onClick, isActive, className, isDark, variant, typo } = props;
+        const { href, label, onClick, isActive, className, isDark, variant, typo, isSpecial = false } = props;
 
         const { classes, cx } = useStyles({
             isActive,
             isDark,
-            variant
+            variant,
+            isSpecial
         });
         return (
             <div className={cx(classes.root, className)}>
-                <a className={classes.link} onClick={onClick} href={href} aria-current={isActive ? "page" : undefined}><Typo className={classes.linkText} variant={variant === "desktop" ? "button" : typo ?? "h2"}>{label}</Typo></a>
+                <a className={cx(classes.link, isSpecial && classes.specialLink)} onClick={onClick} href={href} aria-current={isActive ? "page" : undefined}>
+                    {isSpecial && <span className={classes.sparkle} aria-hidden="true">✦</span>}
+                    <Typo className={classes.linkText} variant={variant === "desktop" ? "button" : typo ?? "h2"}>{label}</Typo>
+                </a>
                 {
-                    variant === "desktop" &&
+                    variant === "desktop" && !isSpecial &&
                     <div className={classes.underline}>
 
                     </div>
@@ -358,8 +365,9 @@ export const { RouteLink } = (() => {
     const useStyles = tss
         .withName("Link")
         .withNestedSelectors<"underline">()
-        .withParams<{ isActive: boolean; isDark: boolean; variant: "desktop" | "mobile" }>()
-        .create(({ theme, classes, isActive, isDark, variant }) => {
+        .withParams<{ isActive: boolean; isDark: boolean; variant: "desktop" | "mobile"; isSpecial: boolean }>()
+        .create(({ theme, classes, isActive, isDark, variant, isSpecial }) => {
+            const accentColor = isDark || variant === "mobile" ? theme.palette.gold2.main : theme.palette.gold1.main;
             return ({
                 "root": {
                     "position": "relative",
@@ -382,9 +390,32 @@ export const { RouteLink } = (() => {
                         "outlineOffset": 4
                     }
                 },
+                "specialLink": {
+                    "display": "inline-flex",
+                    "alignItems": "center",
+                    "gap": variant === "mobile" ? 8 : 6,
+                    "border": `1px solid ${accentColor}`,
+                    "borderRadius": 999,
+                    "paddingTop": variant === "mobile" ? 6 : 5,
+                    "paddingBottom": variant === "mobile" ? 6 : 5,
+                    "paddingLeft": variant === "mobile" ? 16 : 14,
+                    "paddingRight": variant === "mobile" ? 16 : 14,
+                    "transition": "background-color 300ms",
+                    ":hover": {
+                        "backgroundColor": isDark || variant === "mobile" ? "rgba(255,231,171,0.12)" : "rgba(189,166,107,0.12)"
+                    }
+                },
+                "sparkle": {
+                    "fontSize": "0.85em",
+                    "lineHeight": 1,
+                    "color": accentColor
+                },
                 "linkText": {
                     //"color": isActive ? theme.palette.gold1.main : isDark || variant === "mobile" ? "white" : undefined,
                     "color": (() => {
+                        if (isSpecial) {
+                            return accentColor;
+                        }
                         if (isActive) {
                             switch (variant) {
                                 case "desktop": return isDark ? theme.palette.gold2.main : theme.palette.gold1.main
@@ -397,6 +428,7 @@ export const { RouteLink } = (() => {
                         }
                         return "white"
                     })(),
+                    "fontWeight": isSpecial ? "bold" : undefined,
                     "transition": "color 500ms",
                     ":hover": {
                         "color": variant === "mobile" ? undefined : !isDark ? theme.palette.gold1.main : theme.palette.gold2.main
