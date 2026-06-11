@@ -3,6 +3,7 @@ import { tss } from "tss";
 import type { Link } from "tools/link";
 import { ReactSVG } from "react-svg";
 import { RouteLink } from "./Header";
+import { LangToggle } from "./LangToggle";
 import Typo from "@mui/material/Typography";
 import backgroundSvg from "assets/svg/marble-long-2.svg";
 import backgroundSmallSvg from "assets/svg/marble-mobile.svg";
@@ -18,11 +19,13 @@ export type FooterProps = {
     }[];
     bottomDiv?: ReactNode;
     activeLinkLabel?: string;
+    langSwitchLabel: string;
+    brandLine?: ReactNode;
 
 };
 
 export const Footer = memo((props: FooterProps) => {
-    const { links, logo, socialLinks, bottomDiv, className, activeLinkLabel } = props;
+    const { links, logo, socialLinks, bottomDiv, className, activeLinkLabel, langSwitchLabel, brandLine } = props;
     const { classes, cx, windowInnerWidth, theme } = useStyles();
     return (
         <footer className={cx(classes.root, className)}>
@@ -46,14 +49,14 @@ export const Footer = memo((props: FooterProps) => {
 
             <ReactSVG className={classes.siteLogo} src={logo} />
             <div className={classes.content}>
+                {
+                    brandLine !== undefined &&
+                    <Typo className={classes.brandLine} variant="body2">{brandLine}</Typo>
+                }
                 <div className={classes.links}>
                     {
 
                         links.map(({ label, href, onClick }, index) => <div className={classes.linkWrapper} key={label}>
-                            {
-                                index !== 0 &&
-                                <Typo className={classes.linkDivider} variant="h4">/</Typo>
-                            }
                             <RouteLink
                                 variant="mobile"
                                 isActive={label === activeLinkLabel}
@@ -65,10 +68,19 @@ export const Footer = memo((props: FooterProps) => {
                                 typo="h4"
 
                             />
+                            {
+                                index !== links.length - 1 &&
+                                <Typo className={classes.linkDivider} variant="h4">/</Typo>
+                            }
                         </div>)
                     }
 
                 </div>
+                <LangToggle
+                    className={classes.langToggle}
+                    isDark={true}
+                    ariaLabel={langSwitchLabel}
+                />
                 {
                     windowInnerWidth < theme.breakpoints.values.sm &&
                     <div className={classes.mobileSocial}>
@@ -112,6 +124,8 @@ const useStyles = tss.withName("Footer").create(({ theme }) => {
             "display": "flex",
             "justifyContent": "center",
             "alignItems": "center",
+            "width": "100%",
+            "boxSizing": "border-box",
             ...(() => {
                 const topBottom = theme.spacing(10);
                 const leftRight = theme.spacing(4);
@@ -137,6 +151,9 @@ const useStyles = tss.withName("Footer").create(({ theme }) => {
         },
         "desktopSocial": {
             "marginRight": theme.spacing(16),
+            [theme.breakpoints.down("md")]: {
+                "marginRight": theme.spacing(6)
+            }
         },
         "socialLinkWrapper": {
             "position": "relative",
@@ -166,6 +183,9 @@ const useStyles = tss.withName("Footer").create(({ theme }) => {
                 "height": 121
             },
             "marginRight": theme.spacing(18),
+            [theme.breakpoints.down("md")]: {
+                "marginRight": theme.spacing(8)
+            },
             [theme.breakpoints.down("sm")]: {
                 "marginRight": 0,
                 "position": "relative",
@@ -173,6 +193,8 @@ const useStyles = tss.withName("Footer").create(({ theme }) => {
             }
         },
         "content": {
+            "minWidth": 0,
+            "maxWidth": "100%",
             [theme.breakpoints.down("sm")]: {
                 "display": "flex",
                 "flexDirection": "column",
@@ -182,6 +204,12 @@ const useStyles = tss.withName("Footer").create(({ theme }) => {
         },
         "links": {
             "display": "flex",
+            [theme.breakpoints.up("mdPlus")]: {
+                "flexWrap": "wrap",
+                "justifyContent": "center",
+                "alignItems": "center",
+                "rowGap": theme.spacing(2)
+            },
             [theme.breakpoints.down("mdPlus")]: {
                 "flexDirection": "column"
             },
@@ -212,6 +240,21 @@ const useStyles = tss.withName("Footer").create(({ theme }) => {
 
         },
         "link": {},
+        "brandLine": {
+            "color": theme.palette.white.main,
+            "opacity": 0.7,
+            "maxWidth": "100%",
+            "marginBottom": theme.spacing(4),
+            [theme.breakpoints.down("sm")]: {
+                "textAlign": "center"
+            }
+        },
+        "langToggle": {
+            "marginTop": theme.spacing(5),
+            [theme.breakpoints.down("sm")]: {
+                "justifyContent": "center"
+            }
+        },
         "mobileSocial": {
             "display": "flex",
             "marginBottom": theme.spacing(10)

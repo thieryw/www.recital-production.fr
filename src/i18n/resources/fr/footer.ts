@@ -10,6 +10,8 @@ export const translation: TranslationFooter<"fr"> = {
         "legalLinkLabel": "Mentions légales",
         "copyRight": "Copyright 2024 Récital Production",
         "designed": "Designed by",
-        "designer": "IdeaArt"
+        "designer": "IdeaArt",
+        "langSwitchLabel": "Changer de langue",
+        "brandLine": "Musique live pour mariages & événements — Bordeaux & Sud-Ouest"
     }
 }

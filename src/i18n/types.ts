@@ -17,6 +17,9 @@ export type ComponentKeyServices =
 export type ComponentKeyMusiqueMariage =
     | import("pages/musique-mariage").I18n
 
+export type ComponentKeyBordeaux =
+    | import("pages/musique-mariage/bordeaux").I18n
+
 export type ComponentKeyMedia =
     | import("pages/Media").I18n
 
@@ -54,6 +57,13 @@ export type TranslationServices<L extends Language> = GenericTranslations<
 
 export type TranslationMusiqueMariage<L extends Language> = GenericTranslations<
     ComponentKeyMusiqueMariage,
+    Language,
+    typeof fallbackLanguage,
+    L
+>
+
+export type TranslationBordeaux<L extends Language> = GenericTranslations<
+    ComponentKeyBordeaux,
     Language,
     typeof fallbackLanguage,
     L

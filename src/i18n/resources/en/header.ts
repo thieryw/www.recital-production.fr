@@ -11,6 +11,7 @@ export const translation: TranslationHeader<"en"> = {
         "legalLinkLabel": "Legal notice",
         "copyRight": "Copyright 2024 Récital Production",
         "designed": "Designed by",
-        "designer": "IdeaArt"
+        "designer": "IdeaArt",
+        "langSwitchLabel": "Switch language"
     }
 }

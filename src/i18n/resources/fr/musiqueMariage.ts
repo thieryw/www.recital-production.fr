@@ -36,8 +36,10 @@ export const translation: TranslationMusiqueMariage<"fr"> = {
             "De la cérémonie au dîner et jusqu'au bout de la soirée, un parcours musical continu, avec des formations qui évoluent au fil de la journée.",
         "format3Alt": "Formation musicale au fil d'une journée de mariage",
         "areaTitle": "Nos musiciens dans tout le Sud-Ouest",
-        "areaParagraph":
-            "Nous intervenons à Bordeaux, en Dordogne, au Cap-Ferret et à Arcachon. Des châteaux viticoles aux villas en bord de Bassin, chaque prestation s'adapte à votre lieu.",
+        "areaParagraphLead": "Nous intervenons à ",
+        "areaBordeaux": "Bordeaux",
+        "areaParagraphRest":
+            ", en Dordogne, au Cap-Ferret et à Arcachon. Des châteaux viticoles aux villas en bord de Bassin, chaque prestation s'adapte à votre lieu.",
         "areaAlt": "Prestation de musique live lors d'un mariage en Gironde",
         "faqTitle": "Questions fréquentes",
         "faq1": "Pouvons-nous choisir nos morceaux ?",

@@ -36,8 +36,10 @@ export const translation: TranslationMusiqueMariage<"en"> = {
             "From the ceremony to dinner and on into the night, a seamless musical journey with line-ups that evolve through the day.",
         "format3Alt": "Musical ensemble throughout a wedding day",
         "areaTitle": "Across the South-West",
-        "areaParagraph":
-            "We perform across the South-West — in Bordeaux, the Dordogne, Cap-Ferret and Arcachon. From vineyard châteaux to villas on the Bassin, every performance is tailored to your venue.",
+        "areaParagraphLead": "We perform across the South-West — in ",
+        "areaBordeaux": "Bordeaux",
+        "areaParagraphRest":
+            ", the Dordogne, Cap-Ferret and Arcachon. From vineyard châteaux to villas on the Bassin, every performance is tailored to your venue.",
         "areaAlt": "Live wedding music performance in the Gironde",
         "faqTitle": "Frequently asked questions",
         "faq1": "Can we choose our own music?",
