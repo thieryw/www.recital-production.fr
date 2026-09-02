@@ -4,7 +4,6 @@ import { Header as HeaderComponent } from "components/Header";
 import { useRoute } from "router";
 import { linkTo, langOf, pageOf, routeNameForPage } from "seo/localized";
 import type { Page } from "seo/seoData";
-import { MINUTE_CONCERTS_URL } from "seo/seoData";
 import logoSvg from "assets/svg/logoHeader.svg";
 import logoDarkSvg from "assets/svg/logoHeaderDark.svg";
 import { ReactSVG } from "react-svg";
@@ -33,7 +32,6 @@ export const Header = memo(() => {
             { "label": t("link0"), ...linkTo("home", lang), "routeName": routeNameForPage("home", lang), "page": "home" },
             { "label": t("link1"), ...linkTo("services", lang), "routeName": routeNameForPage("services", lang), "page": "services" },
             { "label": t("link4"), ...linkTo("musiqueMariage", lang), "routeName": routeNameForPage("musiqueMariage", lang), "page": "musiqueMariage" },
-            { "label": t("linkMinuteConcerts"), "href": lang === "en" ? `${MINUTE_CONCERTS_URL}/en.html` : `${MINUTE_CONCERTS_URL}/`, "isSpecial": true },
             { "label": t("link2"), ...linkTo("media", lang), "routeName": routeNameForPage("media", lang), "page": "media" },
             { "label": t("link3"), ...linkTo("contact", lang), "routeName": routeNameForPage("contact", lang), "page": "contact" },
         ]
@@ -122,7 +120,6 @@ export const { i18n } = declareComponentKeys<
     | "link2"
     | "link3"
     | "link4"
-    | "linkMinuteConcerts"
     | "legalLinkLabel"
     | "copyRight"
     | "designed"

@@ -22,10 +22,6 @@ export const SITE_NAME = "Récital Production";
 export const OG_IMAGE_PATH = "/preview.jpg";
 export const EMAIL = "recitalproduction@gmail.com";
 
-/** Sister-site: the "Minute Concerts" event series, hosted on its own subdomain.
- * Root serves the French page; the English page lives at /en.html. */
-export const MINUTE_CONCERTS_URL = "https://minute-concerts.recital-production.fr";
-
 export const SOCIAL_LINKS = [
     "https://www.instagram.com/recital_production/",
     "https://www.youtube.com/@recitalproduction"
