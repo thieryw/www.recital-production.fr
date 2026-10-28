@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Répertoire — Duo Violon & Violoncelle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+Garamond:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #16213e;
+    --navy-soft: #2b3a63;
+    --gold: #b8944f;
+    --gold-soft: #d8cfa8;
+    --cream: #faf8f3;
+    --muted: #8a8060;
+    --card: #ffffff;
+  }
+
+  * { box-sizing: border-box; }
+
+  .rp-widget {
+    font-family: 'EB Garamond', Garamond, serif;
+    color: var(--navy);
+    background: var(--cream);
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .rp-header {
+    text-align: center;
+    margin-bottom: 2.4rem;
+  }
+
+  .rp-staff {
+    width: 140px;
+    margin: 0 auto 1.4rem;
+    opacity: 0.75;
+  }
+
+  .rp-header .rp-eyebrow {
+    letter-spacing: 4px;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .rp-header h1 {
+    font-family: 'Cormorant Garamond', 'EB Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    letter-spacing: 1px;
+    margin: 0 0 0.5rem;
+    color: var(--navy);
+  }
+
+  .rp-header p {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .rp-controls {
+    max-width: 480px;
+    margin: 2.2rem auto 0.6rem;
+    position: relative;
+  }
+
+  .rp-controls input {
+    width: 100%;
+    font-family: 'EB Garamond', serif;
+    font-size: 1.05rem;
+    padding: 0.75rem 1rem 0.75rem 2.6rem;
+    border: 1px solid var(--gold-soft);
+    border-radius: 2px;
+    background: var(--card);
+    color: var(--navy);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .rp-controls input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184, 148, 79, 0.15);
+  }
+
+  .rp-controls input::placeholder {
+    color: #b5b0a0;
+    font-style: italic;
+  }
+
+  .rp-search-icon {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    stroke: var(--gold);
+    pointer-events: none;
+  }
+
+  .rp-count {
+    text-align: center;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--muted);
+    margin: 0.9rem 0 2.2rem;
+    letter-spacing: 0.3px;
+  }
+
+  .rp-count strong {
+    color: var(--navy);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .rp-grid {
+    column-count: 3;
+    column-gap: 2.2rem;
+  }
+
+  @media (max-width: 860px) {
+    .rp-grid { column-count: 2; }
+  }
+  @media (max-width: 560px) {
+    .rp-grid { column-count: 1; }
+    .rp-widget { padding: 2rem 1.1rem 3rem; }
+  }
+
+  .rp-artist {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+
+  .rp-artist h3 {
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 0.35rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--gold-soft);
+  }
+
+  .rp-artist ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .rp-artist li {
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: var(--navy);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .rp-artist li input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    margin-top: 0.28rem;
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    background: var(--card);
+    cursor: pointer;
+    position: relative;
+  }
+
+  .rp-artist li input[type="checkbox"]:checked {
+    background: var(--gold);
+  }
+
+  .rp-artist li input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 0px;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 1.5px 1.5px 0;
+    transform: rotate(45deg);
+  }
+
+  .rp-artist li span {
+    flex: 1;
+  }
+
+  .rp-artist li.rp-checked span {
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--gold-soft);
+  }
+
+  .rp-artist li mark, .rp-artist h3 mark {
+    background: rgba(184, 148, 79, 0.22);
+    color: inherit;
+    padding: 0 1px;
+    border-radius: 2px;
+  }
+
+  .rp-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted);
+    font-style: italic;
+    display: none;
+  }
+
+  .rp-footer {
+    text-align: center;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 3rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--gold-soft);
+  }
+
+  .rp-selection-bar {
+    position: fixed;
+    left: 50%;
+    bottom: 1.4rem;
+    transform: translate(-50%, 140%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    background: var(--navy);
+    color: var(--cream);
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    padding: 0.7rem 0.6rem 0.7rem 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    box-shadow: 0 8px 24px rgba(22, 33, 62, 0.28);
+    z-index: 50;
+    font-family: 'EB Garamond', serif;
+    max-width: calc(100% - 2rem);
+  }
+
+  .rp-selection-bar.rp-visible {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .rp-selection-count {
+    font-size: 0.92rem;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+  }
+
+  .rp-selection-count strong {
+    color: var(--gold-soft);
+    font-weight: 600;
+  }
+
+  .rp-selection-bar button {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+    border: none;
+    border-radius: 999px;
+    padding: 0.5rem 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .rp-copy-btn {
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  .rp-copy-btn:hover { background: var(--gold-soft); }
+
+  .rp-copy-btn:disabled {
+    opacity: 0.75;
+    cursor: default;
+  }
+
+  .rp-clear-btn {
+    background: transparent;
+    color: var(--cream);
+    text-decoration: underline;
+    text-decoration-color: rgba(250, 248, 243, 0.35);
+    padding: 0.5rem 0.4rem;
+  }
+
+  .rp-clear-btn:hover { color: var(--gold-soft); }
+
+  @media (max-width: 560px) {
+    .rp-selection-bar {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0.8rem 1rem;
+      bottom: 0.8rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="rp-widget">
+  <div class="rp-header">
+    <svg class="rp-staff" viewBox="0 0 140 24" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="2" x2="140" y2="2" stroke="#b8944f" stroke-width="0.6"/>
+      <line x1="0" y1="7" x2="140" y2="7" stroke="#b8944f" stroke-width="0.6"/>
+      <line x1="0" y1="12" x2="140" y2="12" stroke="#b8944f" stroke-width="0.6"/>
+      <line x1="0" y1="17" x2="140" y2="17" stroke="#b8944f" stroke-width="0.6"/>
+      <line x1="0" y1="22" x2="140" y2="22" stroke="#b8944f" stroke-width="0.6"/>
+    </svg>
+    <div class="rp-eyebrow">Répertoire · Duo mariage</div>
+    <h1>Violon &amp; Violoncelle</h1>
+    <p>Recherchez un artiste ou un titre parmi notre répertoire</p>
+  </div>
+
+  <div class="rp-controls">
+    <svg class="rp-search-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="7"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <input type="text" id="rp-search" placeholder="Ex. Queen, Bach, Taylor Swift..." autocomplete="off">
+  </div>
+
+  <div class="rp-count" id="rp-count"></div>
+
+  <div class="rp-grid" id="rp-grid"></div>
+  <div class="rp-empty" id="rp-empty">Aucun résultat. Essayez un autre mot-clé, ou contactez-nous pour une demande spéciale.</div>
+
+  <div class="rp-footer">Cette sélection évolue au fil des mariages — toute suggestion de morceau est la bienvenue.</div>
+</div>
+
+<div class="rp-selection-bar" id="rp-selection-bar" role="status" aria-live="polite">
+  <span class="rp-selection-count" id="rp-selection-count"></span>
+  <button type="button" class="rp-copy-btn" id="rp-copy-btn">Copier la sélection</button>
+  <button type="button" class="rp-clear-btn" id="rp-clear-btn">Effacer</button>
+</div>
+
+<script>
+(function() {
+  var DATA = [["ABBA", ["Gimme! Gimme! Gimme! (A Man After Midnight)", "Knowing Me, Knowing You", "Mamma Mia", "Money, Money, Money"]], ["ADELE", ["Make You Feel My Love", "Skyfall"]], ["ALAN MENKEN", ["La Belle et la Bête"]], ["BACH", ["Air (Suite n° 3)", "Variations Goldberg – Aria", "Variations Goldberg – Variation 1"]], ["BESAME MUCHO", ["Besame Mucho"]], ["BRIDGERTON", ["Thème"]], ["CELINE DION", ["My Heart Will Go On (Titanic)"]], ["COLDPLAY", ["Viva la Vida"]], ["DELIBES", ["Duo des fleurs (Lakmé)"]], ["DVOŘÁK", ["Humoresque"]], ["ÉDITH PIAF", ["Hymne à l'amour"]], ["ELVIS PRESLEY", ["Can't Help Falling in Love"]], ["ENNIO MORRICONE", ["Gabriel's Oboe (The Mission)"]], ["HAENDEL", ["Hornpipe (Water Music)", "La Paix (Music for the Royal Fireworks)"]], ["HANS ZIMMER", ["He's a Pirate (Pirates des Caraïbes)"]], ["HAYDN", ["Trois Duos"]], ["JOHANN STRAUSS", ["Valse de l'Empereur"]], ["JOHN LEGEND", ["All of Me"]], ["KATY PERRY", ["Firework"]], ["LUIS FONSI", ["Despacito"]], ["MADONNA", ["Material Girl"]], ["MASSENET", ["Méditation de Thaïs"]], ["MOURET", ["Rondeau"]], ["MOZART", ["Duo n° 2"]], ["PITBULL", ["Give Me Everything"]], ["QUEEN", ["Don't Stop Me Now", "Love of My Life"]], ["RANDY NEWMAN", ["You've Got a Friend in Me (Toy Story)"]], ["ROBYN", ["Dancing on My Own"]], ["SCARLATTI", ["Sonate K. 466"]], ["SIA", ["Cheap Thrills"]], ["STEVIE WONDER", ["Isn't She Lovely"]], ["TAYLOR SWIFT", ["Cruel Summer", "Invisible String", "Love Story", "Lover", "Shake It Off", "Snow on the Beach", "Wildest Dreams", "You Belong With Me"]], ["TCHAÏKOVSKI", ["Barcarolle « Juin » op. 37"]], ["TRADITIONNEL", ["Scarborough Fair"]], ["THE TURTLES", ["Happy Together"]], ["VILLOLDO", ["Tangos argentins"]]];
+  var TOTAL_ARTISTS = DATA.length;
+  var TOTAL_SONGS = DATA.reduce(function(n, e) { return n + e[1].length; }, 0);
+
+  var grid = document.getElementById('rp-grid');
+  var empty = document.getElementById('rp-empty');
+  var count = document.getElementById('rp-count');
+  var search = document.getElementById('rp-search');
+  var selectionBar = document.getElementById('rp-selection-bar');
+  var selectionCount = document.getElementById('rp-selection-count');
+  var copyBtn = document.getElementById('rp-copy-btn');
+  var clearBtn = document.getElementById('rp-clear-btn');
+  var checkedSongs = {};
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function highlight(text, query) {
+    if (!query) return escapeHtml(text);
+    var idx = text.toLowerCase().indexOf(query.toLowerCase());
+    if (idx === -1) return escapeHtml(text);
+    return escapeHtml(text.slice(0, idx)) + '<mark>' + escapeHtml(text.slice(idx, idx + query.length)) + '</mark>' + escapeHtml(text.slice(idx + query.length));
+  }
+
+  function render(query) {
+    var q = (query || '').trim().toLowerCase();
+    var html = '';
+    var artistCount = 0;
+    var songCount = 0;
+
+    DATA.forEach(function(entry) {
+      var artist = entry[0];
+      var songs = entry[1];
+      var artistMatches = artist.toLowerCase().indexOf(q) !== -1;
+      var matchedSongs = [];
+
+      songs.forEach(function(song) {
+        if (!q || artistMatches || song.toLowerCase().indexOf(q) !== -1) {
+          matchedSongs.push(song);
+        }
+      });
+
+      if (matchedSongs.length === 0) return;
+
+      artistCount++;
+      songCount += matchedSongs.length;
+
+      html += '<div class="rp-artist"><h3>' + highlight(artist, artistMatches ? q : '') + '</h3><ul>';
+      matchedSongs.forEach(function(song) {
+        var songId = (artist + '::' + song).replace(/[^a-zA-Z0-9]/g, '');
+        var isChecked = checkedSongs[songId] ? ' checked' : '';
+        var checkedClass = checkedSongs[songId] ? ' rp-checked' : '';
+        html += '<li class="' + checkedClass.trim() + '"><input type="checkbox" data-id="' + songId + '"' + isChecked + '><span>' + highlight(song, q) + '</span></li>';
+      });
+      html += '</ul></div>';
+    });
+
+    grid.innerHTML = html;
+
+    grid.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
+      cb.addEventListener('change', function(e) {
+        var id = e.target.getAttribute('data-id');
+        checkedSongs[id] = e.target.checked;
+        e.target.closest('li').classList.toggle('rp-checked', e.target.checked);
+        updateSelectionBar();
+      });
+    });
+
+    if (artistCount === 0) {
+      grid.style.display = 'none';
+      empty.style.display = 'block';
+    } else {
+      grid.style.display = '';
+      empty.style.display = 'none';
+    }
+
+    if (!q) {
+      count.textContent = TOTAL_ARTISTS + ' artistes · ' + TOTAL_SONGS + ' morceaux';
+    } else {
+      count.innerHTML = '<strong>' + songCount + '</strong> morceau' + (songCount > 1 ? 'x' : '') + ' trouvé' + (songCount > 1 ? 's' : '') + ' parmi <strong>' + artistCount + '</strong> artiste' + (artistCount > 1 ? 's' : '');
+    }
+  }
+
+  function selectedCount() {
+    var n = 0;
+    for (var id in checkedSongs) {
+      if (checkedSongs[id]) n++;
+    }
+    return n;
+  }
+
+  function updateSelectionBar() {
+    var n = selectedCount();
+    if (n > 0) {
+      selectionBar.classList.add('rp-visible');
+      selectionCount.innerHTML = '<strong>' + n + '</strong> morceau' + (n > 1 ? 'x' : '') + ' sélectionné' + (n > 1 ? 's' : '');
+    } else {
+      selectionBar.classList.remove('rp-visible');
+    }
+  }
+
+  function buildSelectionText() {
+    var lines = [];
+    DATA.forEach(function(entry) {
+      var artist = entry[0];
+      var songs = entry[1];
+      var chosen = [];
+      songs.forEach(function(song) {
+        var songId = (artist + '::' + song).replace(/[^a-zA-Z0-9]/g, '');
+        if (checkedSongs[songId]) chosen.push(song);
+      });
+      if (chosen.length === 0) return;
+      lines.push(artist);
+      chosen.forEach(function(song) {
+        lines.push('  - ' + song);
+      });
+      lines.push('');
+    });
+    return lines.join('\n').trim();
+  }
+
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-9999px';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    try { document.execCommand('copy'); } catch (err) {}
+    document.body.removeChild(ta);
+  }
+
+  function copyToClipboard(text, done) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, function() {
+        legacyCopy(text);
+        done();
+      });
+    } else {
+      legacyCopy(text);
+      done();
+    }
+  }
+
+  copyBtn.addEventListener('click', function() {
+    var text = buildSelectionText();
+    if (!text) return;
+    copyToClipboard(text, function() {
+      var original = copyBtn.textContent;
+      copyBtn.textContent = 'Copié ✓';
+      copyBtn.disabled = true;
+      setTimeout(function() {
+        copyBtn.textContent = original;
+        copyBtn.disabled = false;
+      }, 1600);
+    });
+  });
+
+  clearBtn.addEventListener('click', function() {
+    checkedSongs = {};
+    render(search.value);
+    updateSelectionBar();
+  });
+
+  search.addEventListener('input', function(e) {
+    render(e.target.value);
+  });
+
+  render('');
+  updateSelectionBar();
+})();
+</script>
+
+</body>
+</html>
