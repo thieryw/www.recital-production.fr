@@ -46,7 +46,7 @@ export function Body() {
     // directly so it renders without the React shell (no header/footer).
     useEffect(() => {
         if (page === "repertoire") {
-            window.location.replace(import.meta.env.BASE_URL + "repertoire-mariage.html");
+            window.location.replace(import.meta.env.BASE_URL + "repertoire.html");
         }
     }, [page]);
 
