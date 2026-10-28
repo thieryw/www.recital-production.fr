@@ -20,7 +20,7 @@ export type RouteName =
 export const SITE_URL = "https://www.recital-production.fr";
 export const SITE_NAME = "Récital Production";
 export const OG_IMAGE_PATH = "/preview.jpg";
-export const EMAIL = "recitalproduction@gmail.com";
+export const EMAIL = "contact@recital-production.fr";
 
 export const SOCIAL_LINKS = [
     "https://www.instagram.com/recital_production/",
